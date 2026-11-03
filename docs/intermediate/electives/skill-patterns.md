@@ -1,6 +1,6 @@
 # Skill patterns: live data, supporting files and a context of its own
 
-<sub>**Intermediate** · Elective · about 20 minutes · Needs: [Turn a repeated workflow into a skill](../01-first-skill.md) · Verified against Claude Code v2.1.292 (stable) on 2026-10-15</sub>
+<sub>**Intermediate** · Elective · about 20 minutes · Needs: [Turn a repeated workflow into a skill](../01-first-skill.md) · Verified against Claude Code v2.1.309 (stable) on 2026-11-02</sub>
 
 ## Goal
 
@@ -55,14 +55,13 @@ Keep `SKILL.md` short: once a skill runs, its whole text stays in the conversati
    ```
 
 3. Make a small change in a source file, start `claude` and run `/changes-review`. Claude Code runs `git diff HEAD` and puts its output in the skill, then starts a subagent with it. The subagent reads the checklist, and its report arrives in your conversation when it finishes. The `allowed-tools` rule pre-approves `git diff` commands. `git diff HEAD` is read-only and would run without it, but outside auto mode an injected command your permission rules don't allow stops the skill.
-4. For another skill that pre-approves tools, read this guide's [`claude-md-review`](../../../.claude/skills/claude-md-review/SKILL.md). Its `allowed-tools: Read, Glob, Grep` lets it read files without prompts; it doesn't stop Claude from using other tools ([Pre-approve tools for a skill](https://code.claude.com/docs/en/skills#pre-approve-tools-for-a-skill)).
 
 ## Your turn
 
 Make the review take a focus:
 
 1. Add `arguments: [focus]` to the frontmatter of `changes-review`.
-2. Change the task to put the review's focus first: `Review the changes above against checklist.md, looking hardest at $focus.`
+2. Change the task to put the review's focus first: `Review the changes above against [checklist.md](checklist.md), looking hardest at $focus.`
 3. Run `/changes-review tests`, then `/changes-review secrets`, and compare the two reports.
 
 ## Check

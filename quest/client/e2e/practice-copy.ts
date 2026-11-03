@@ -1,0 +1,272 @@
+// A fresh Practice copy in a temporary folder, built from practice-template/
+// with the built server bundle in its learn/, and the app run there the way
+// `npm run learn` runs it. The copy is a git repository committed by "Ali
+// Learner", under a HOME of its own, so the developer's global git config
+// never reaches it. A stub `claude` on the server's PATH prints a version, as
+// checks/test/ladders/b-1.mjs does, unless QUEST_E2E_REAL_CLAUDE=1 asks for
+// the installed one. With `through`, the Reference solutions are replayed
+// into it (quest/release/src/replay.mjs), Lesson by Lesson, through that one.
+import { spawn, spawnSync, type ChildProcess } from "node:child_process";
+import {
+  chmodSync,
+  cpSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  realpathSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
+import { tmpdir } from "node:os";
+import { delimiter, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { applyLesson, lessonOrder } from "../../release/src/replay.mjs";
+
+const repo = fileURLToPath(new URL("../../../", import.meta.url));
+/** The repository's root: course/, practice-template/ and solutions/. */
+export const repoRoot = repo;
+const TEMPLATE = join(repo, "practice-template");
+const BUNDLE = join(repo, "quest/server/dist/learn");
+
+/** The version the stub prints: the CHANGELOG baseline the course is stamped at. */
+export const STUB_VERSION = "2.1.308 (Claude Code)";
+export const LEARNER = { name: "Ali Learner", email: "ali@example.com" };
+
+const START_MS = 15_000;
+const STOP_MS = 10_000;
+
+export interface PracticeCopy {
+  /** The copy's folder. */
+  dir: string;
+  /** The HOME the app runs under. */
+  home: string;
+  /** The app's address, once started. */
+  url: string;
+  port: number;
+  /** Everything the app printed to stdout and stderr. */
+  output: () => string;
+  start: () => Promise<void>;
+  /** SIGTERM, then exit 0 and the stop line. */
+  stop: () => Promise<void>;
+  /** Stops the app, then starts it again on the same port. */
+  restart: () => Promise<void>;
+  /** The saved progress, root `.practice/learn.json`, or null. */
+  saved: () => unknown;
+  /** Writes a file in the copy, by its path relative to the copy. */
+  write: (path: string, text: string) => void;
+  /**
+   * A git repository at `<home>/<name>`, one commit, ignoring `.practice/`
+   * unless `ignorePractice` is false; returns its path.
+   */
+  repo: (name: string, options?: { ignorePractice?: boolean }) => string;
+  /** A new copy of the template at `<home>/<name>`, as a repository; returns its path. */
+  templateCopy: (name: string) => string;
+  /** Replays Lesson `id`'s Reference solution into the copy's project/. */
+  apply: (id: string) => void;
+  /** Runs git in the copy's project/ as the Learner; returns its stdout. */
+  git: (...args: string[]) => string;
+  /** Stops the app if it runs and removes the folder. */
+  dispose: () => Promise<void>;
+}
+
+export interface PracticeCopyOptions {
+  /** The copy at `<home>/copy`, inside HOME, rather than beside it. */
+  inHome?: boolean;
+  /** Arguments after `learn/app.mjs`, as `npm run learn -- ...` passes them. */
+  argv?: string[];
+  /**
+   * Replays the Reference solutions in course order through this Lesson,
+   * inclusive, after the first commit. The save is left to the caller.
+   */
+  through?: string;
+}
+
+function git(dir: string, env: NodeJS.ProcessEnv, ...args: string[]) {
+  const run = spawnSync("git", args, { cwd: dir, env, encoding: "utf8" });
+  if (run.status !== 0)
+    throw new Error(`git ${args.join(" ")} failed: ${run.stderr}`);
+  return run.stdout;
+}
+
+export function practiceCopy({
+  inHome = false,
+  argv = [],
+  through,
+}: PracticeCopyOptions = {}): PracticeCopy {
+  if (!existsSync(join(BUNDLE, "app.mjs")))
+    throw new Error(
+      `No server bundle at ${BUNDLE}/app.mjs: run npm run build first.`,
+    );
+  const tmp = realpathSync(mkdtempSync(join(tmpdir(), "quest-e2e-")));
+  const home = join(tmp, "home");
+  const dir = inHome ? join(home, "copy") : join(tmp, "copy");
+  const bin = join(tmp, "bin");
+  cpSync(TEMPLATE, dir, { recursive: true });
+  cpSync(BUNDLE, join(dir, "learn"), { recursive: true });
+  // Root .practice/ is the host's to make on its first start (ticket 277).
+  mkdirSync(home, { recursive: true });
+  writeFileSync(
+    join(home, ".gitconfig"),
+    `[user]\n\tname = ${LEARNER.name}\n\temail = ${LEARNER.email}\n[init]\n\tdefaultBranch = main\n`,
+  );
+  mkdirSync(bin);
+  writeFileSync(
+    join(bin, "claude"),
+    `#!/bin/sh\nprintf '%s\\n' '${STUB_VERSION}'\n`,
+  );
+  chmodSync(join(bin, "claude"), 0o755);
+
+  const env: NodeJS.ProcessEnv = {
+    ...process.env,
+    HOME: home,
+    GIT_CONFIG_NOSYSTEM: "1",
+    PATH:
+      process.env.QUEST_E2E_REAL_CLAUDE === "1"
+        ? process.env.PATH
+        : `${bin}${delimiter}${process.env.PATH ?? ""}`,
+  };
+  delete env.GIT_CONFIG_GLOBAL;
+  git(dir, env, "init", "-q");
+  // Stands in for the release's root .gitignore, which carries the line
+  // (ticket 225 D4; the template itself has none).
+  writeFileSync(join(dir, ".git/info/exclude"), ".practice/\n");
+  git(dir, env, "add", "-A");
+  git(dir, env, "commit", "-q", "-m", "Practice copy");
+  if (through !== undefined) {
+    const order = lessonOrder(repo);
+    const last = order.indexOf(through);
+    if (last < 0) throw new Error(`no lesson "${through}" in the course`);
+    // applyLesson runs git under its own environment (replay.mjs gitEnv):
+    // no global or system config, a fixed author.
+    for (const id of order.slice(0, last + 1))
+      applyLesson({ repoRoot: repo, copy: dir, id });
+  }
+
+  let child: ChildProcess | null = null;
+  let exited: Promise<number | null> = Promise.resolve(null);
+  let printed = "";
+  // A folder under HOME made a repository with one commit.
+  const commitAll = (path: string, message: string) => {
+    git(path, env, "init", "-q");
+    git(path, env, "add", "-A");
+    git(path, env, "commit", "-q", "--allow-empty", "-m", message);
+    return path;
+  };
+  const copy: PracticeCopy = {
+    dir,
+    home,
+    url: "",
+    port: 0,
+    output: () => printed,
+    async start() {
+      const base = copy.port;
+      // Only this run's address: a restart's output follows the last run's.
+      const from = printed.length;
+      const run = spawn(process.execPath, ["learn/app.mjs", ...argv], {
+        cwd: dir,
+        // npm run learn in the copy: a relative --dir is from there.
+        env: { ...env, INIT_CWD: dir, QUEST_BASE_PORT: String(base) },
+        stdio: ["ignore", "pipe", "pipe"],
+      });
+      child = run;
+      exited = new Promise((done) => {
+        run.on("exit", (code) => {
+          done(code);
+        });
+      });
+      run.stderr.on("data", (chunk: Buffer) => (printed += String(chunk)));
+      const address = await new Promise<string>((resolve, reject) => {
+        const timer = setTimeout(() => {
+          reject(
+            new Error(`No address within ${String(START_MS)} ms:\n${printed}`),
+          );
+        }, START_MS);
+        run.stdout.on("data", (chunk: Buffer) => {
+          printed += String(chunk);
+          const match = /http:\/\/127\.0\.0\.1:(\d+)/.exec(printed.slice(from));
+          if (match) {
+            clearTimeout(timer);
+            resolve(match[0]);
+          }
+        });
+        void exited.then((code) => {
+          clearTimeout(timer);
+          reject(
+            new Error(`Exited ${String(code)} before listening:\n${printed}`),
+          );
+        });
+      });
+      const port = Number(new URL(address).port);
+      // A restart must come back where the page looks for it.
+      if (base !== 0 && port !== base)
+        throw new Error(
+          `Port ${String(base)} was taken: the app moved to ${String(port)}.`,
+        );
+      copy.port = port;
+      copy.url = address;
+    },
+    async stop() {
+      const run = child;
+      if (run === null) return;
+      child = null;
+      run.kill("SIGTERM");
+      const code = await Promise.race([
+        exited,
+        new Promise<"late">((done) => {
+          setTimeout(() => {
+            done("late");
+          }, STOP_MS);
+        }),
+      ]);
+      if (code !== 0) {
+        run.kill("SIGKILL");
+        throw new Error(`Exit ${String(code)} after SIGTERM:\n${printed}`);
+      }
+      const line = `Claude Code Quest stopped. To start it again, run npm run learn in ${dir}.`;
+      if (!printed.includes(line)) throw new Error(`No stop line:\n${printed}`);
+    },
+    async restart() {
+      await copy.stop();
+      await copy.start();
+    },
+    saved() {
+      const file = join(dir, ".practice/learn.json");
+      return existsSync(file)
+        ? (JSON.parse(readFileSync(file, "utf8")) as unknown)
+        : null;
+    },
+    write(path, text) {
+      const file = join(dir, path);
+      mkdirSync(join(file, ".."), { recursive: true });
+      writeFileSync(file, text);
+    },
+    repo(name, { ignorePractice = true } = {}) {
+      const path = join(home, name);
+      mkdirSync(path, { recursive: true });
+      writeFileSync(join(path, "README.md"), `# ${name}\n`);
+      if (ignorePractice)
+        writeFileSync(join(path, ".gitignore"), ".practice/\n");
+      return commitAll(path, "First commit");
+    },
+    templateCopy(name) {
+      const path = join(home, name);
+      cpSync(TEMPLATE, path, { recursive: true });
+      writeFileSync(join(path, ".gitignore"), ".practice/\n");
+      return commitAll(path, "New copy");
+    },
+    apply(id) {
+      applyLesson({ repoRoot: repo, copy: dir, id });
+    },
+    git: (...args) => git(join(dir, "project"), env, ...args),
+    async dispose() {
+      if (child !== null) {
+        child.kill("SIGKILL");
+        child = null;
+        await exited;
+      }
+      rmSync(tmp, { recursive: true, force: true });
+    },
+  };
+  return copy;
+}

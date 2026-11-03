@@ -1,0 +1,8 @@
+{
+  "expect": "pass",
+  "about": "The manifest lists a Level index that no warm-up quotes.",
+  "problems": [],
+  "compared": {
+    "from": 0
+  }
+}
