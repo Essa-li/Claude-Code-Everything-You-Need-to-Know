@@ -1,0 +1,437 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Claude Code 最短学习路线</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* 版式：顶部结论卡 → 三段路线（时间轴）→ 业务落地 → 速查。单列阅读流，卡片只用在课程上。 */
+:root {
+  --navy: #1E3E70;
+  --navy-ink: #13294d;
+  --yellow: #F2B705;
+  --bg: #f6f7fa;
+  --surface: #ffffff;
+  --fg: #1b2433;
+  --muted: #5d6879;
+  --line: #dde2ea;
+  --soft: #e9eef6;
+  --ok: #2e7d4f;
+  --ok-soft: #e3f2e8;
+  --skip: #8a93a3;
+  --on-navy: #ffffff;
+  --font-cn: "Noto Sans SC", "Source Han Sans CN", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-en: "Inter", "Noto Sans SC", "PingFang SC", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --navy: #8fb0e6; --navy-ink: #0f1d36; --yellow: #f5c542;
+    --bg: #0f1520; --surface: #172030; --fg: #e6ebf3; --muted: #9aa6b8;
+    --line: #2a3546; --soft: #1d2a3f; --ok: #6fcf97; --ok-soft: #173326; --skip: #7d8798; --on-navy: #0f1520;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --navy: #8fb0e6; --navy-ink: #0f1d36; --yellow: #f5c542;
+  --bg: #0f1520; --surface: #172030; --fg: #e6ebf3; --muted: #9aa6b8;
+  --line: #2a3546; --soft: #1d2a3f; --ok: #6fcf97; --ok-soft: #173326; --skip: #7d8798; --on-navy: #0f1520;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font-family: var(--font-cn); font-size: 15px; line-height: 1.7;
+}
+.wrap {
+  max-width: 920px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 32px 64px;
+  display: flex; flex-direction: column; gap: 48px;
+}
+h1, h2, h3 { text-wrap: balance; line-height: 1.3; margin: 0; }
+h1 { font-size: clamp(26px, 5vw, 36px); font-weight: 900; letter-spacing: 0.01em; }
+h2 { font-size: 22px; font-weight: 700; color: var(--navy); }
+h3 { font-size: 16px; font-weight: 700; }
+p { margin: 0; }
+a { color: var(--navy); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
+code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
+.en { font-family: var(--font-en); }
+.eyebrow { font-family: var(--font-en); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+section { display: flex; flex-direction: column; gap: 18px; }
+.lead { color: var(--muted); max-width: 65ch; }
+
+/* 结论卡 */
+.verdict {
+  background: var(--navy); color: var(--on-navy); border-radius: 14px;
+  padding: 28px clamp(18px, 4vw, 36px); display: flex; flex-direction: column; gap: 20px;
+}
+.verdict .eyebrow { color: inherit; opacity: 0.75; }
+.verdict p { max-width: 62ch; opacity: 0.92; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.stat { border-top: 2px solid var(--yellow); padding-top: 10px; }
+.stat b { display: block; font-family: var(--font-en); font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.stat span { font-size: 13px; opacity: 0.85; }
+
+/* 进度条 */
+.progress { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--muted); }
+.bar { flex: 1; height: 8px; background: var(--soft); border-radius: 99px; overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; background: var(--ok); transition: width .3s; }
+@media (prefers-reduced-motion: reduce) { .bar i { transition: none; } }
+
+/* 阶段与时间轴 */
+.stage { display: flex; flex-direction: column; gap: 14px; }
+.stage-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
+.stage-head .time { font-family: var(--font-en); font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tag { font-size: 12px; font-weight: 700; padding: 2px 10px; border-radius: 99px; background: var(--soft); color: var(--navy); }
+.tag.must { background: var(--navy); color: var(--on-navy); }
+.timeline { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.lesson {
+  display: grid; grid-template-columns: auto 1fr; gap: 4px 14px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px;
+}
+.lesson.done { border-color: var(--ok); background: var(--ok-soft); }
+.lesson input { width: 20px; height: 20px; margin-top: 3px; accent-color: var(--ok); cursor: pointer; }
+.lesson .body { min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.lesson .top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.lesson .id { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+.lesson .orig { font-family: var(--font-en); font-size: 13px; color: var(--muted); }
+.lesson .meta { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; color: var(--muted); }
+.lesson .why { font-size: 14px; }
+.lesson .why b { color: var(--navy); }
+.lesson .note { font-size: 13px; color: var(--muted); border-left: 3px solid var(--yellow); padding-left: 10px; }
+
+/* 跳过清单 */
+.skip-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+.skip-item { border: 1px dashed var(--line); border-radius: 10px; padding: 12px 14px; font-size: 14px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.skip-item b { color: var(--fg); }
+.skip-item span { color: var(--muted); font-size: 13px; }
+
+/* 业务落地 */
+.usecases { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.uc { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.uc .feat { font-size: 12px; font-weight: 700; color: var(--navy); }
+.uc ol { margin: 0; padding-left: 20px; font-size: 14px; }
+.uc .risk { font-size: 13px; color: var(--muted); }
+
+/* 速查表 */
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 12px; color: var(--muted); font-weight: 600; letter-spacing: 0.04em; background: var(--soft); }
+tr:last-child td { border-bottom: 0; }
+td code { white-space: nowrap; color: var(--navy); }
+.copy { font: inherit; font-size: 12px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); border-radius: 6px; padding: 1px 8px; cursor: pointer; margin-left: 6px; }
+.copy:hover { color: var(--navy); border-color: var(--navy); }
+
+/* 前置条件 & 术语 */
+.checklist { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+dl.glossary { margin: 0; display: grid; grid-template-columns: minmax(110px, max-content) 1fr; gap: 10px 18px; font-size: 14px; }
+dl.glossary dt { font-family: var(--font-en); font-weight: 600; color: var(--navy); }
+dl.glossary dd { margin: 0; min-width: 0; }
+@media (max-width: 480px) { dl.glossary { grid-template-columns: 1fr; gap: 2px; } dl.glossary dd { margin-bottom: 10px; } }
+footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 18px; display: flex; flex-direction: column; gap: 6px; }
+</style>
+
+<div class="wrap">
+
+  <header style="display:flex;flex-direction:column;gap:10px">
+    <span class="eyebrow">Claude Code · 个人学习路线</span>
+    <h1>Claude Code 最短学习路线</h1>
+    <p class="lead">从本仓库 20 节正课里挑出 8 节，目标只有一个：能让 Claude Code 帮你处理询盘、背调、报告这类重复工作，并且不越权。其余课程写明了跳过原因和回来学的时机。</p>
+  </header>
+
+  <!-- 结论卡 -->
+  <section class="verdict" aria-label="结论">
+    <span class="eyebrow">结论</span>
+    <h2 style="color:inherit">先学 8 课，约 2 小时 40 分钟，分两个晚上就能学完</h2>
+    <p>第一晚学初级 4 课（会用、会控权限、会提交改动、会写项目记忆），第二晚学中级 4 课（把重复工作做成技能、整理记忆、管住权限、接外部工具）。学完就可以开始搭第一个“询盘分级”技能。</p>
+    <div class="stats">
+      <div class="stat"><b>8</b><span>必修课（共 20 节正课）</span></div>
+      <div class="stat"><b>≈160 分钟</b><span>按各课页面标注的时长相加</span></div>
+      <div class="stat"><b>3</b><span>推荐加修（时间够再学）</span></div>
+      <div class="stat"><b>v2.1.292</b><span>课程核对所用的 Claude Code 版本</span></div>
+    </div>
+  </section>
+
+  <!-- 开始前 -->
+  <section aria-labelledby="pre">
+    <h2 id="pre">开始前准备</h2>
+    <ol class="checklist">
+      <li>付费 Claude 套餐（Pro、Max、Team 或 Enterprise），或 Claude Console 账号。免费版不含 Claude Code。</li>
+      <li>电脑上装好 Node.js LTS 和 git，能打开终端。不熟终端先看官方 <a href="https://code.claude.com/docs/en/terminal-guide" target="_blank" rel="noopener">Terminal guide</a>。</li>
+      <li>在 GitHub 打开 <a href="https://github.com/wesammustafa/claude-code-practice" target="_blank" rel="noopener">claude-code-practice</a>，点 <b>Use this template</b> 建一个自己的练习仓库并克隆。所有练习都在那里做，不碰你的真实资料。</li>
+      <li>开两个终端窗口：一个运行 <code>npm run learn</code>（逐步带练、自动检查），另一个运行 <code>claude</code>。</li>
+    </ol>
+  </section>
+
+  <!-- 进度 -->
+  <div class="progress" aria-live="polite">
+    <span id="progress-text">已完成 0 / 8 节必修</span>
+    <div class="bar" aria-hidden="true"><i id="progress-bar"></i></div>
+  </div>
+
+  <!-- 路线 -->
+  <section aria-labelledby="route">
+    <h2 id="route">学习路线</h2>
+    <p class="lead">按顺序学。每课结束在练习仓库里运行页面上的检查命令，全部显示 <code>PASS</code> 再进下一课。勾选框只记在你这台浏览器里。</p>
+    <div id="stages"></div>
+  </section>
+
+  <!-- 跳过 -->
+  <section aria-labelledby="skipped">
+    <h2 id="skipped">先跳过的内容，以及何时回来学</h2>
+    <div class="skip-list" id="skip-list"></div>
+  </section>
+
+  <!-- 业务落地 -->
+  <section aria-labelledby="use">
+    <h2 id="use">学完后可以练手的业务场景</h2>
+    <p class="lead">以下是练习方向，不是现成功能。先用脱敏的样例数据在练习仓库里做，确认结果可靠后再接真实资料。</p>
+    <div class="usecases">
+      <article class="uc">
+        <span class="feat">项目记忆 CLAUDE.md · 初级第 5 课</span>
+        <h3>写一份“公司与产品画像”</h3>
+        <ol>
+          <li>写清 AICRANE 与 AIMIX 的产品范围、达曼办公室的安装和备件能力。</li>
+          <li>写清客户评级标准 S/A/B/C 和输出格式。</li>
+          <li>新开会话验证 Claude 是否按画像回答。</li>
+        </ol>
+        <p class="risk">注意：不写银行、合同金额、私人联系方式。</p>
+      </article>
+      <article class="uc">
+        <span class="feat">技能 Skill · 中级第 1 课</span>
+        <h3>“询盘分级”技能</h3>
+        <ol>
+          <li>把每次分析询盘时重复的要求写成一个技能。</li>
+          <li>输出固定栏目：核心需求、紧迫度、决策链、产品匹配、风险、下一步、英文回复草稿。</li>
+          <li>输入一封询盘，输入技能名即可调用。</li>
+        </ol>
+        <p class="risk">注意：草稿只是草稿，发出前人工确认。</p>
+      </article>
+      <article class="uc">
+        <span class="feat">权限与沙箱 · 中级第 4 课</span>
+        <h3>给客户资料文件夹上锁</h3>
+        <ol>
+          <li>设置禁止读取 <code>.env</code> 等含账号密码的文件。</li>
+          <li>打开沙箱，限制命令只能写项目目录。</li>
+          <li>用 <code>/permissions</code> 确认规则已生效。</li>
+        </ol>
+        <p class="risk">注意：先在练习仓库试，再用到真实文件夹。</p>
+      </article>
+      <article class="uc">
+        <span class="feat">MCP 外部工具 · 中级第 7 课</span>
+        <h3>连接外部工具做背调</h3>
+        <ol>
+          <li>学会接入一个 MCP 服务器，并只给项目内使用。</li>
+          <li>之后可连接表格、邮箱等你已授权的工具，整理客户跟进台账。</li>
+        </ol>
+        <p class="risk">注意：连接即授权读取，对外发送、发布仍需你明确确认。</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- 速查 -->
+  <section aria-labelledby="cmds">
+    <h2 id="cmds">必修课用到的命令速查</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>命令 / 按键</th><th>作用</th><th>出处</th></tr></thead>
+        <tbody id="cmd-rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 术语 -->
+  <section aria-labelledby="terms">
+    <h2 id="terms">8 个术语</h2>
+    <dl class="glossary">
+      <dt>Session 会话</dt><dd>一次和 Claude Code 的对话。会话越长，上下文越满，需要清理或压缩。</dd>
+      <dt>Context 上下文</dt><dd>Claude 当前“记得”的内容总量，包括对话、读过的文件和加载的说明。</dd>
+      <dt>Permission mode</dt><dd>权限模式：决定 Claude 改文件、跑命令前是否要你批准。</dd>
+      <dt>Plan mode</dt><dd>计划模式：Claude 先出方案，你批准后才动手改文件。</dd>
+      <dt>CLAUDE.md</dt><dd>项目记忆文件。每次新会话都会读，适合放公司画像、规则和输出格式。</dd>
+      <dt>Skill 技能</dt><dd>把一套重复的工作说明存成文件，输入名字就调用，请求匹配时也会自动加载。</dd>
+      <dt>Sandbox 沙箱</dt><dd>限制 Claude 运行的命令只能写入项目目录、临时目录和你加进来的目录。</dd>
+      <dt>MCP</dt><dd>连接外部工具和数据的标准协议，例如浏览器、数据库或某个服务的接口。</dd>
+    </dl>
+  </section>
+
+  <footer>
+    <span>课程内容、时长和命令取自本仓库各课页面（核对版本 Claude Code v2.1.292 stable，2026-10-15）。路线取舍和业务场景是为你个人整理的建议，不属于原教程。</span>
+    <span>原教程：<a href="https://github.com/wesammustafa/Claude-Code-Everything-You-Need-to-Know" target="_blank" rel="noopener">wesammustafa/Claude-Code-Everything-You-Need-to-Know</a>，MIT 许可。</span>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var BASE = "https://github.com/Essa-li/Claude-Code-Everything-You-Need-to-Know/blob/main/";
+
+  var STAGES = [
+    {
+      name: "第一晚：初级必修", tag: "必修", must: true, time: "约 80 分钟",
+      lessons: [
+        { id: "b-1", cn: "安装、登录、熟悉界面", en: "Install, sign in and look around", min: 20, path: "docs/beginner/01-install-and-look-around.md",
+          learn: "装好 Claude Code，登录，在仓库里启动，看清当前版本、模型和账号。",
+          why: "确认用的是公司账号还是个人账号，避免用错额度。" },
+        { id: "b-2", cn: "权限模式与计划模式", en: "Permission modes and plan mode", min: 20, path: "docs/beginner/02-permission-modes-and-plan-mode.md",
+          learn: "选择 Claude 改文件前要不要问你；用计划模式先看方案再放行。",
+          why: "这是管住 AI 的第一道闸，处理客户资料前必须会。" },
+        { id: "b-3", cn: "第一次改动：从需求到提交", en: "Your first change, from request to commit", min: 20, path: "docs/beginner/03-first-change.md",
+          learn: "走完一遍完整流程：探索、计划、执行、测试、看改动、纠正、提交。",
+          why: "以后让 Claude 改报告模板、改表格脚本，都按这套流程验收。" },
+        { id: "b-5", cn: "用 CLAUDE.md 写项目记忆", en: "Project memory with CLAUDE.md", min: 20, path: "docs/beginner/05-project-memory.md",
+          learn: "创建项目 CLAUDE.md，验证新会话会遵守它。",
+          why: "把公司、产品、评级标准写进去，不用每次重新交代。",
+          note: "页面标注的前置课是第 3 课，第 4 课可以之后再补。" }
+      ]
+    },
+    {
+      name: "第二晚：中级必修", tag: "必修", must: true, time: "约 80 分钟",
+      lessons: [
+        { id: "i-1", cn: "把重复工作做成技能", en: "Turn a repeated workflow into a skill", min: 20, path: "docs/intermediate/01-first-skill.md",
+          learn: "把反复使用的工作流写成项目技能，输入名字调用，请求匹配时自动加载。",
+          why: "这一课对你最有价值：询盘分级、客户背调都可以做成技能。" },
+        { id: "i-2", cn: "整理项目记忆，查看加载了什么", en: "Organize project memory and see what loaded", min: 20, path: "docs/intermediate/02-organize-memory.md",
+          learn: "把说明拆成导入文件和分范围规则；Claude 不听话时查是哪份说明没加载。",
+          why: "第 4 课页面标注需要先学这一课，所以保留。" },
+        { id: "i-4", cn: "权限、设置范围与沙箱", en: "Permissions, settings scopes and the sandbox", min: 20, path: "docs/intermediate/04-permissions-and-sandbox.md",
+          learn: "把权限规则放进合适范围的设置文件，查看生效规则，打开沙箱。",
+          why: "接真实客户资料之前，把“能读什么、能写哪里”锁死。" },
+        { id: "i-7", cn: "用 MCP 连接外部工具", en: "Connect a tool with MCP", min: 20, path: "docs/intermediate/07-mcp.md",
+          learn: "先给自己接一个 MCP 服务器，再锁定版本、共享给整个项目。",
+          why: "以后连接表格、邮箱、浏览器等工具，靠的就是这一课。" }
+      ]
+    },
+    {
+      name: "推荐加修", tag: "时间够再学", must: false, time: "约 55 分钟",
+      lessons: [
+        { id: "b-4", cn: "让会话不跑偏", en: "Keep a session on track", min: 20, path: "docs/beginner/04-keep-a-session-on-track.md",
+          learn: "看上下文用量，清空或压缩会话，撤回改动，恢复之前的对话。",
+          why: "一次处理几十条询盘时，会话变长后结果会变差，这课教你怎么收拾。" },
+        { id: "i-3", cn: "选择模型与思考力度", en: "Pick the model and effort", min: 15, path: "docs/intermediate/03-model-and-effort.md",
+          learn: "按任务选模型和思考力度，判断结果不好时该加力度还是换模型。",
+          why: "简单翻译用小力度省时间，复杂背调再加力度。" },
+        { id: "i-8", cn: "安装和管理插件", en: "Install and manage plugins", min: 20, path: "docs/intermediate/08-plugins.md",
+          learn: "从 Anthropic 的插件市场安装插件，看它加了什么，停用、更新或卸载。",
+          why: "现成插件可能直接覆盖部分需求，省去自己写。",
+          note: "页面标注的前置课还包括钩子（第 5 课）和子代理（第 6 课），可先浏览这两课的开头。" }
+      ]
+    }
+  ];
+
+  var SKIPS = [
+    { t: "中级第 5、6 课：钩子、子代理", r: "偏开发流程。想让某条规则每次都强制执行，或把大任务分给专门助手时再学。" },
+    { t: "高级第 1–7 课", r: "并行会话、无人值守脚本、GitHub Actions、团队共享。准备让流程定时自动跑、或给团队统一配置时再学。" },
+    { t: "高级选修：/goal、/loop 和定时任务", r: "能让 Claude 按条件、按间隔或在云端按计划持续工作，适合“每周汇总跟进”。页面标注需先学完高级第 7 课。" },
+    { t: "三个级别的结业项目（Capstone）", r: "每个 30–60 分钟，综合练习。想检验自己是否真学会时再做。" },
+    { t: "各级选修课", r: "IDE 插件、截图、Chrome 浏览器、状态栏等，按需查。" }
+  ];
+
+  var CMDS = [
+    ["claude", "在当前文件夹启动 Claude Code", "b-1"],
+    ["claude --version", "查看已安装的版本", "b-1"],
+    ["/status", "查看当前会话的版本、模型和账号", "b-1"],
+    ["Shift+Tab", "切换权限模式", "b-2"],
+    ["/plan <任务>", "进入计划模式，先出方案", "b-2"],
+    ["/diff", "查看 Claude 做了哪些改动", "b-3"],
+    ["/context", "查看上下文用了多少", "b-4"],
+    ["/clear", "清空当前对话，重新开始", "b-4"],
+    ["/compact", "压缩对话，腾出上下文", "b-4"],
+    ["/rewind", "撤回到之前的某一步", "b-4"],
+    ["/resume", "恢复之前的对话", "b-4"],
+    ["/init", "生成项目 CLAUDE.md 初稿", "b-5"],
+    ["/memory", "打开和编辑记忆文件", "b-5"],
+    ["/skills", "查看可用技能", "i-1"],
+    ["/permissions", "查看和管理权限规则", "i-4"],
+    ["/sandbox", "设置沙箱", "i-4"],
+    ["/mcp", "查看和管理已连接的 MCP 服务器", "i-7"],
+    ["npm run check -- b-1", "在练习仓库检查某课作业（把 b-1 换成课号）", "各课"]
+  ];
+
+  var KEY = "cc-route-done-v1";
+  var done = {};
+  try { done = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { done = {}; }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(done)); } catch (e) {} }
+
+  function el(tag, cls, html) { var n = document.createElement(tag); if (cls) n.className = cls; if (html != null) n.innerHTML = html; return n; }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+
+  var MUST_IDS = [];
+  var stagesEl = document.getElementById("stages");
+  stagesEl.style.cssText = "display:flex;flex-direction:column;gap:32px";
+
+  STAGES.forEach(function (st, si) {
+    var s = el("div", "stage");
+    var head = el("div", "stage-head");
+    head.appendChild(el("h3", null, esc(st.name)));
+    head.appendChild(el("span", "tag" + (st.must ? " must" : ""), esc(st.tag)));
+    head.appendChild(el("span", "time", esc(st.time)));
+    s.appendChild(head);
+    var ol = el("ol", "timeline");
+    st.lessons.forEach(function (l) {
+      if (st.must) MUST_IDS.push(l.id);
+      var li = el("li", "lesson" + (done[l.id] ? " done" : ""));
+      var cb = document.createElement("input");
+      cb.type = "checkbox"; cb.id = "done-" + l.id; cb.checked = !!done[l.id];
+      cb.setAttribute("aria-label", "标记 " + l.cn + " 已完成");
+      cb.addEventListener("change", function () {
+        done[l.id] = cb.checked; save();
+        li.classList.toggle("done", cb.checked); update();
+      });
+      li.appendChild(cb);
+      var b = el("div", "body");
+      b.appendChild(el("div", "top",
+        '<span class="id">' + esc(l.id) + '</span>' +
+        '<h3><label for="done-' + esc(l.id) + '">' + esc(l.cn) + '</label></h3>' +
+        '<span class="orig">' + esc(l.en) + '</span>'));
+      b.appendChild(el("p", null, esc(l.learn)));
+      b.appendChild(el("p", "why", "<b>对你的用处：</b>" + esc(l.why)));
+      if (l.note) b.appendChild(el("p", "note", esc(l.note)));
+      b.appendChild(el("div", "meta",
+        '<span>约 ' + l.min + ' 分钟</span>' +
+        '<span>检查：<code>npm run check -- ' + esc(l.id) + '</code></span>' +
+        '<a href="' + BASE + l.path + '" target="_blank" rel="noopener">打开课程页（英文）</a>'));
+      li.appendChild(b);
+      ol.appendChild(li);
+    });
+    s.appendChild(ol);
+    stagesEl.appendChild(s);
+  });
+
+  var skipEl = document.getElementById("skip-list");
+  SKIPS.forEach(function (k) {
+    skipEl.appendChild(el("div", "skip-item", "<b>" + esc(k.t) + "</b><span>" + esc(k.r) + "</span>"));
+  });
+
+  var rows = document.getElementById("cmd-rows");
+  CMDS.forEach(function (c) {
+    var tr = document.createElement("tr");
+    tr.innerHTML = '<td><code>' + esc(c[0]) + '</code><button class="copy" type="button">复制</button></td><td>' + esc(c[1]) + '</td><td class="mono">' + esc(c[2]) + '</td>';
+    var btn = tr.querySelector("button");
+    btn.addEventListener("click", function () {
+      var code = tr.querySelector("code");
+      function ok() { btn.textContent = "已复制"; setTimeout(function () { btn.textContent = "复制"; }, 1500); }
+      function fallback() {
+        var r = document.createRange(); r.selectNodeContents(code);
+        var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+        btn.textContent = "已选中";
+      }
+      try { navigator.clipboard.writeText(c[0]).then(ok, fallback); } catch (e) { fallback(); }
+    });
+    rows.appendChild(tr);
+  });
+
+  function update() {
+    var n = MUST_IDS.filter(function (id) { return done[id]; }).length;
+    document.getElementById("progress-text").textContent = "已完成 " + n + " / " + MUST_IDS.length + " 节必修";
+    document.getElementById("progress-bar").style.width = (n / MUST_IDS.length * 100) + "%";
+  }
+  update();
+})();
+</script>
