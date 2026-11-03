@@ -1,26 +1,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Claude Code 最短学习路线</title>
+<title>Claude Code 带练课</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-/* 版式：顶部结论卡 → 三段路线（时间轴）→ 业务落地 → 速查。单列阅读流，卡片只用在课程上。 */
+/* 版式：顶部导航 + 单视图（路线地图 / 单课带练 / 复习 / 速查）。课内为“先搞懂 → 跟着做 → 自己练 → 检查 → 过关小测”的线性流程。 */
 :root {
-  --navy: #1E3E70;
-  --navy-ink: #13294d;
-  --yellow: #F2B705;
-  --bg: #f6f7fa;
-  --surface: #ffffff;
-  --fg: #1b2433;
-  --muted: #5d6879;
-  --line: #dde2ea;
-  --soft: #e9eef6;
-  --ok: #2e7d4f;
-  --ok-soft: #e3f2e8;
-  --skip: #8a93a3;
+  --navy: #1E3E70; --yellow: #F2B705;
+  --bg: #f6f7fa; --surface: #ffffff; --fg: #1b2433; --muted: #5d6879;
+  --line: #dde2ea; --soft: #e9eef6; --code-bg: #f1f4f9;
+  --ok: #2e7d4f; --ok-soft: #e3f2e8; --bad: #b3372b; --bad-soft: #fbe9e7;
   --on-navy: #ffffff;
+  --w-term: #6b4fa0; --w-claude: #1E3E70; --w-edit: #8a5a12; --w-look: #5d6879;
   --font-cn: "Noto Sans SC", "Source Han Sans CN", "PingFang SC", "Microsoft YaHei", sans-serif;
   --font-en: "Inter", "Noto Sans SC", "PingFang SC", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
@@ -28,410 +21,1396 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --navy: #8fb0e6; --navy-ink: #0f1d36; --yellow: #f5c542;
+    --navy: #8fb0e6; --yellow: #f5c542;
     --bg: #0f1520; --surface: #172030; --fg: #e6ebf3; --muted: #9aa6b8;
-    --line: #2a3546; --soft: #1d2a3f; --ok: #6fcf97; --ok-soft: #173326; --skip: #7d8798; --on-navy: #0f1520;
+    --line: #2a3546; --soft: #1d2a3f; --code-bg: #111a28;
+    --ok: #6fcf97; --ok-soft: #173326; --bad: #f08a7e; --bad-soft: #3a1d1a; --on-navy: #0f1520;
+    --w-term: #b9a2e8; --w-claude: #8fb0e6; --w-edit: #e0b56a; --w-look: #9aa6b8;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --navy: #8fb0e6; --navy-ink: #0f1d36; --yellow: #f5c542;
+  --navy: #8fb0e6; --yellow: #f5c542;
   --bg: #0f1520; --surface: #172030; --fg: #e6ebf3; --muted: #9aa6b8;
-  --line: #2a3546; --soft: #1d2a3f; --ok: #6fcf97; --ok-soft: #173326; --skip: #7d8798; --on-navy: #0f1520;
+  --line: #2a3546; --soft: #1d2a3f; --code-bg: #111a28;
+  --ok: #6fcf97; --ok-soft: #173326; --bad: #f08a7e; --bad-soft: #3a1d1a; --on-navy: #0f1520;
+  --w-term: #b9a2e8; --w-claude: #8fb0e6; --w-edit: #e0b56a; --w-look: #9aa6b8;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { -webkit-text-size-adjust: 100%; }
-body {
-  margin: 0; background: var(--bg); color: var(--fg);
-  font-family: var(--font-cn); font-size: 15px; line-height: 1.7;
-}
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-cn); font-size: 15px; line-height: 1.75; }
 .wrap {
-  max-width: 920px; margin: 0 auto;
+  max-width: 860px; margin: 0 auto;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: 32px 64px;
-  display: flex; flex-direction: column; gap: 48px;
 }
-h1, h2, h3 { text-wrap: balance; line-height: 1.3; margin: 0; }
-h1 { font-size: clamp(26px, 5vw, 36px); font-weight: 900; letter-spacing: 0.01em; }
-h2 { font-size: 22px; font-weight: 700; color: var(--navy); }
-h3 { font-size: 16px; font-weight: 700; }
+h1, h2, h3, h4 { text-wrap: balance; line-height: 1.35; margin: 0; }
+h1 { font-size: clamp(26px, 5vw, 34px); font-weight: 900; }
+h2 { font-size: clamp(21px, 4vw, 26px); font-weight: 900; }
+h3 { font-size: 18px; font-weight: 700; color: var(--navy); }
+h4 { font-size: 15px; font-weight: 700; }
 p { margin: 0; }
 a { color: var(--navy); text-underline-offset: 3px; }
-a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
-code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
-.en { font-family: var(--font-en); }
-.eyebrow { font-family: var(--font-en); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
-section { display: flex; flex-direction: column; gap: 18px; }
-.lead { color: var(--muted); max-width: 65ch; }
+:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
+code { font-family: var(--font-mono); font-size: 0.86em; background: var(--code-bg); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+.eyebrow { font-family: var(--font-en); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+button { font: inherit; cursor: pointer; }
 
-/* 结论卡 */
-.verdict {
-  background: var(--navy); color: var(--on-navy); border-radius: 14px;
-  padding: 28px clamp(18px, 4vw, 36px); display: flex; flex-direction: column; gap: 20px;
-}
-.verdict .eyebrow { color: inherit; opacity: 0.75; }
-.verdict p { max-width: 62ch; opacity: 0.92; }
-.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
-.stat { border-top: 2px solid var(--yellow); padding-top: 10px; }
-.stat b { display: block; font-family: var(--font-en); font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.stat span { font-size: 13px; opacity: 0.85; }
+/* 顶部导航 */
+.topbar { background: var(--surface); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 4px; padding-block: 10px; }
+.brand { font-weight: 900; color: var(--navy); margin-right: auto; text-decoration: none; font-size: 15px; }
+.nav a { text-decoration: none; color: var(--muted); font-size: 14px; padding: 4px 10px; border-radius: 6px; }
+.nav a[aria-current="page"] { color: var(--navy); background: var(--soft); font-weight: 700; }
+.nav { display: flex; flex-wrap: wrap; gap: 2px; }
+.due-pill { display: inline-block; min-width: 18px; padding: 0 6px; border-radius: 99px; background: var(--yellow); color: #1b2433; font-size: 11px; font-weight: 700; text-align: center; margin-left: 4px; line-height: 18px; }
 
-/* 进度条 */
-.progress { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--muted); }
-.bar { flex: 1; height: 8px; background: var(--soft); border-radius: 99px; overflow: hidden; }
-.bar i { display: block; height: 100%; width: 0; background: var(--ok); transition: width .3s; }
-@media (prefers-reduced-motion: reduce) { .bar i { transition: none; } }
+main.wrap { padding-block: 28px 72px; }
+.view { display: flex; flex-direction: column; gap: 28px; }
 
-/* 阶段与时间轴 */
-.stage { display: flex; flex-direction: column; gap: 14px; }
-.stage-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
-.stage-head .time { font-family: var(--font-en); font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.tag { font-size: 12px; font-weight: 700; padding: 2px 10px; border-radius: 99px; background: var(--soft); color: var(--navy); }
-.tag.must { background: var(--navy); color: var(--on-navy); }
-.timeline { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
-.lesson {
-  display: grid; grid-template-columns: auto 1fr; gap: 4px 14px;
-  background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px;
-}
-.lesson.done { border-color: var(--ok); background: var(--ok-soft); }
-.lesson input { width: 20px; height: 20px; margin-top: 3px; accent-color: var(--ok); cursor: pointer; }
-.lesson .body { min-width: 0; display: flex; flex-direction: column; gap: 6px; }
-.lesson .top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
-.lesson .id { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
-.lesson .orig { font-family: var(--font-en); font-size: 13px; color: var(--muted); }
-.lesson .meta { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; color: var(--muted); }
-.lesson .why { font-size: 14px; }
-.lesson .why b { color: var(--navy); }
-.lesson .note { font-size: 13px; color: var(--muted); border-left: 3px solid var(--yellow); padding-left: 10px; }
+/* 通用块 */
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.hero { background: var(--navy); color: var(--on-navy); border-radius: 14px; padding: 26px clamp(18px, 4vw, 32px); display: flex; flex-direction: column; gap: 14px; }
+.hero .eyebrow { color: inherit; opacity: .75; }
+.hero p { max-width: 62ch; opacity: .93; }
+.btn { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--navy); background: var(--navy); color: var(--on-navy); border-radius: 8px; padding: 8px 16px; font-weight: 700; font-size: 14px; text-decoration: none; }
+.btn.ghost { background: transparent; color: var(--navy); }
+.hero .btn { background: var(--yellow); border-color: var(--yellow); color: #1b2433; align-self: flex-start; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+ul.plain, ol.plain { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
 
-/* 跳过清单 */
-.skip-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
-.skip-item { border: 1px dashed var(--line); border-radius: 10px; padding: 12px 14px; font-size: 14px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.skip-item b { color: var(--fg); }
-.skip-item span { color: var(--muted); font-size: 13px; }
+/* 窗口说明 */
+.windows { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+.win { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; background: var(--surface); }
+.w { display: inline-block; font-size: 12px; font-weight: 700; padding: 1px 9px; border-radius: 99px; border: 1px solid currentColor; white-space: nowrap; line-height: 1.6; }
+.w.term { color: var(--w-term); } .w.claude { color: var(--w-claude); } .w.edit { color: var(--w-edit); } .w.look { color: var(--w-look); }
 
-/* 业务落地 */
-.usecases { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
-.uc { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
-.uc .feat { font-size: 12px; font-weight: 700; color: var(--navy); }
-.uc ol { margin: 0; padding-left: 20px; font-size: 14px; }
-.uc .risk { font-size: 13px; color: var(--muted); }
+/* 路径输入 */
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field input { font: inherit; font-family: var(--font-mono); font-size: 14px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--fg); width: 100%; max-width: 420px; }
 
-/* 速查表 */
-.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+/* 掌握路径地图 */
+.map { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0; }
+.map li { display: grid; grid-template-columns: 34px 1fr; gap: 0 14px; }
+.map .rail { display: flex; flex-direction: column; align-items: center; }
+.map .dot { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--line); background: var(--surface); display: grid; place-items: center; font-size: 12px; font-weight: 700; color: var(--muted); font-family: var(--font-en); flex: none; }
+.map .line { flex: 1; width: 2px; background: var(--line); min-height: 16px; }
+.map li:last-child .line { display: none; }
+.map li.state-done .dot { background: var(--ok); border-color: var(--ok); color: var(--on-navy); }
+.map li.state-now .dot { border-color: var(--yellow); color: var(--fg); box-shadow: 0 0 0 4px color-mix(in srgb, var(--yellow) 30%, transparent); }
+.map .card { padding: 2px 0 20px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.map .card a { font-weight: 700; font-size: 16px; text-decoration: none; color: var(--fg); }
+.map .card a:hover { color: var(--navy); text-decoration: underline; }
+.map .meta { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 13px; color: var(--muted); }
+.chip { font-size: 12px; padding: 0 8px; border-radius: 99px; background: var(--soft); color: var(--muted); font-weight: 600; }
+.chip.ok { background: var(--ok-soft); color: var(--ok); }
+.chip.now { background: var(--yellow); color: #1b2433; }
+.night { font-size: 13px; font-weight: 700; color: var(--navy); padding: 4px 0 10px 48px; }
+.mini-bar { height: 4px; background: var(--soft); border-radius: 99px; overflow: hidden; max-width: 260px; }
+.mini-bar i { display: block; height: 100%; background: var(--ok); width: 0; }
+
+/* 单课 */
+.lhead { display: flex; flex-direction: column; gap: 8px; }
+.goal { font-size: 16px; border-left: 3px solid var(--yellow); padding-left: 12px; max-width: 65ch; }
+.lock { background: var(--soft); border-radius: 10px; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font-size: 14px; }
+.section-title { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.section-title .count { font-size: 13px; color: var(--muted); font-family: var(--font-en); font-variant-numeric: tabular-nums; }
+.idea { display: flex; flex-direction: column; gap: 10px; max-width: 70ch; }
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
 table { border-collapse: collapse; width: 100%; font-size: 14px; }
-th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
-th { font-size: 12px; color: var(--muted); font-weight: 600; letter-spacing: 0.04em; background: var(--soft); }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 12px; color: var(--muted); background: var(--soft); font-weight: 600; }
 tr:last-child td { border-bottom: 0; }
-td code { white-space: nowrap; color: var(--navy); }
-.copy { font: inherit; font-size: 12px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); border-radius: 6px; padding: 1px 8px; cursor: pointer; margin-left: 6px; }
-.copy:hover { color: var(--navy); border-color: var(--navy); }
 
-/* 前置条件 & 术语 */
-.checklist { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
-dl.glossary { margin: 0; display: grid; grid-template-columns: minmax(110px, max-content) 1fr; gap: 10px 18px; font-size: 14px; }
+ol.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; counter-reset: s; }
+ol.steps > li { counter-increment: s; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; grid-template-columns: auto 1fr; gap: 0 12px; }
+ol.steps > li.done { border-color: var(--ok); }
+ol.steps > li.done .sbody > *:not(.shead) { opacity: .62; }
+.tick { width: 22px; height: 22px; margin-top: 2px; accent-color: var(--ok); cursor: pointer; }
+.sbody { min-width: 0; display: flex; flex-direction: column; gap: 9px; }
+.shead { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.shead .n { font-family: var(--font-en); font-weight: 700; color: var(--muted); font-size: 13px; }
+.shead .n::before { content: "第 " counter(s) " 步"; }
+.sbody > p, .sbody li { max-width: 68ch; }
+.sbody ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; }
+.codebox { position: relative; background: var(--code-bg); border: 1px solid var(--line); border-radius: 8px; min-width: 0; }
+.codebox pre { margin: 0; padding: 30px 14px 12px; overflow-x: auto; font-family: var(--font-mono); font-size: 13px; line-height: 1.6; white-space: pre; }
+.codebox pre[data-lang="Claude"] { white-space: pre-wrap; overflow-wrap: anywhere; }
+.codebox pre code { background: none; padding: 0; font-size: inherit; }
+.codebox .copy { position: absolute; top: 6px; right: 6px; font-size: 12px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); border-radius: 6px; padding: 1px 9px; }
+.codebox .copy:hover { color: var(--navy); border-color: var(--navy); }
+.codebox .lang { position: absolute; top: -9px; left: 10px; font-size: 11px; background: var(--surface); padding: 0 6px; color: var(--muted); border-radius: 4px; border: 1px solid var(--line); line-height: 16px; }
+.tr { font-size: 13px; color: var(--muted); }
+.expect { font-size: 14px; background: var(--ok-soft); border-radius: 8px; padding: 8px 12px; }
+.expect::before { content: "应该看到："; font-weight: 700; color: var(--ok); }
+details.stuck { font-size: 14px; border: 1px dashed var(--line); border-radius: 8px; padding: 6px 12px; }
+details.stuck summary { cursor: pointer; color: var(--bad); font-weight: 600; }
+details.stuck[open] { padding-bottom: 10px; }
+details.stuck > *:not(summary) { margin-top: 6px; }
+.warnbox { background: var(--bad-soft); border-radius: 12px; padding: 14px 18px; display: flex; flex-direction: column; gap: 8px; }
+.warnbox h3 { color: var(--bad); }
+
+/* 小测 */
+.quiz { display: flex; flex-direction: column; gap: 14px; }
+.q { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--line); padding-top: 14px; }
+.q:first-of-type { border-top: 0; padding-top: 0; }
+.q .stem { font-weight: 700; }
+.opts { display: flex; flex-direction: column; gap: 6px; }
+.opt { text-align: left; border: 1px solid var(--line); background: var(--bg); color: var(--fg); border-radius: 8px; padding: 8px 12px; font-size: 14px; }
+.opt:hover:not([disabled]) { border-color: var(--navy); }
+.opt.right { border-color: var(--ok); background: var(--ok-soft); }
+.opt.wrong { border-color: var(--bad); background: var(--bad-soft); }
+.opt[disabled] { cursor: default; }
+.explain { font-size: 14px; color: var(--muted); }
+.result { font-weight: 700; padding: 10px 14px; border-radius: 8px; }
+.result.pass { background: var(--ok-soft); color: var(--ok); }
+.result.fail { background: var(--bad-soft); color: var(--bad); }
+
+.pager { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 18px; }
+
+/* 记忆卡 */
+.flash { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 28px 22px; min-height: 190px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; }
+.flash .front { font-family: var(--font-mono); font-size: clamp(18px, 4vw, 24px); color: var(--navy); overflow-wrap: anywhere; }
+.flash .back { font-size: 16px; max-width: 46ch; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
+.stat { border-top: 2px solid var(--yellow); padding-top: 8px; }
+.stat b { display: block; font-family: var(--font-en); font-size: 24px; font-variant-numeric: tabular-nums; }
+.stat span { font-size: 13px; color: var(--muted); }
+.hero .stat span { color: inherit; opacity: .85; }
+.wrong-item { border-left: 3px solid var(--bad); padding-left: 12px; display: flex; flex-direction: column; gap: 4px; font-size: 14px; }
+
+dl.glossary { margin: 0; display: grid; grid-template-columns: minmax(120px, max-content) 1fr; gap: 10px 18px; font-size: 14px; }
 dl.glossary dt { font-family: var(--font-en); font-weight: 600; color: var(--navy); }
 dl.glossary dd { margin: 0; min-width: 0; }
 @media (max-width: 480px) { dl.glossary { grid-template-columns: 1fr; gap: 2px; } dl.glossary dd { margin-bottom: 10px; } }
-footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 18px; display: flex; flex-direction: column; gap: 6px; }
+.usecases { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 16px; display: flex; flex-direction: column; gap: 6px; }
+@media (prefers-reduced-motion: no-preference) { .flash { transition: transform .15s; } }
 </style>
 
-<div class="wrap">
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#home">Claude Code 带练课</a>
+    <nav class="nav" aria-label="主导航">
+      <a href="#home" data-nav="home">路线</a>
+      <a href="#b-1" data-nav="lesson" id="nav-lesson">继续学习</a>
+      <a href="#review" data-nav="review">复习<span class="due-pill" id="due-pill" hidden></span></a>
+      <a href="#ref" data-nav="ref">速查</a>
+    </nav>
+  </div>
+</header>
 
-  <header style="display:flex;flex-direction:column;gap:10px">
-    <span class="eyebrow">Claude Code · 个人学习路线</span>
-    <h1>Claude Code 最短学习路线</h1>
-    <p class="lead">从本仓库 20 节正课里挑出 8 节，目标只有一个：能让 Claude Code 帮你处理询盘、背调、报告这类重复工作，并且不越权。其余课程写明了跳过原因和回来学的时机。</p>
-  </header>
+<main class="wrap" id="main">
 
-  <!-- 结论卡 -->
-  <section class="verdict" aria-label="结论">
-    <span class="eyebrow">结论</span>
-    <h2 style="color:inherit">先学 8 课，约 2 小时 40 分钟，分两个晚上就能学完</h2>
-    <p>第一晚学初级 4 课（会用、会控权限、会提交改动、会写项目记忆），第二晚学中级 4 课（把重复工作做成技能、整理记忆、管住权限、接外部工具）。学完就可以开始搭第一个“询盘分级”技能。</p>
-    <div class="stats">
-      <div class="stat"><b>8</b><span>必修课（共 20 节正课）</span></div>
-      <div class="stat"><b>≈160 分钟</b><span>按各课页面标注的时长相加</span></div>
-      <div class="stat"><b>3</b><span>推荐加修（时间够再学）</span></div>
-      <div class="stat"><b>v2.1.292</b><span>课程核对所用的 Claude Code 版本</span></div>
-    </div>
-  </section>
-
-  <!-- 开始前 -->
-  <section aria-labelledby="pre">
-    <h2 id="pre">开始前准备</h2>
-    <ol class="checklist">
-      <li>付费 Claude 套餐（Pro、Max、Team 或 Enterprise），或 Claude Console 账号。免费版不含 Claude Code。</li>
-      <li>电脑上装好 Node.js LTS 和 git，能打开终端。不熟终端先看官方 <a href="https://code.claude.com/docs/en/terminal-guide" target="_blank" rel="noopener">Terminal guide</a>。</li>
-      <li>在 GitHub 打开 <a href="https://github.com/wesammustafa/claude-code-practice" target="_blank" rel="noopener">claude-code-practice</a>，点 <b>Use this template</b> 建一个自己的练习仓库并克隆。所有练习都在那里做，不碰你的真实资料。</li>
-      <li>开两个终端窗口：一个运行 <code>npm run learn</code>（逐步带练、自动检查），另一个运行 <code>claude</code>。</li>
-    </ol>
-  </section>
-
-  <!-- 进度 -->
-  <div class="progress" aria-live="polite">
-    <span id="progress-text">已完成 0 / 8 节必修</span>
-    <div class="bar" aria-hidden="true"><i id="progress-bar"></i></div>
+<!-- ============ 首页：掌握路径 ============ -->
+<section class="view" id="v-home" data-view="home">
+  <div class="hero">
+    <span class="eyebrow">8 课 · 约 160 分钟 · 两个晚上</span>
+    <h1>跟着做，一步一步学会 Claude Code</h1>
+    <p>每课都按同一个流程走：先搞懂一个概念，跟着示例逐步操作，自己再练一遍，跑检查命令确认通过，最后做 3–4 道过关小测。小测通过后，地图上会亮起下一课。</p>
+    <div class="stats" id="home-stats"></div>
+    <a class="btn" id="start-btn" href="#b-1">开始第 1 课</a>
   </div>
 
-  <!-- 路线 -->
-  <section aria-labelledby="route">
-    <h2 id="route">学习路线</h2>
-    <p class="lead">按顺序学。每课结束在练习仓库里运行页面上的检查命令，全部显示 <code>PASS</code> 再进下一课。勾选框只记在你这台浏览器里。</p>
-    <div id="stages"></div>
-  </section>
-
-  <!-- 跳过 -->
-  <section aria-labelledby="skipped">
-    <h2 id="skipped">先跳过的内容，以及何时回来学</h2>
-    <div class="skip-list" id="skip-list"></div>
-  </section>
-
-  <!-- 业务落地 -->
-  <section aria-labelledby="use">
-    <h2 id="use">学完后可以练手的业务场景</h2>
-    <p class="lead">以下是练习方向，不是现成功能。先用脱敏的样例数据在练习仓库里做，确认结果可靠后再接真实资料。</p>
-    <div class="usecases">
-      <article class="uc">
-        <span class="feat">项目记忆 CLAUDE.md · 初级第 5 课</span>
-        <h3>写一份“公司与产品画像”</h3>
-        <ol>
-          <li>写清 AICRANE 与 AIMIX 的产品范围、达曼办公室的安装和备件能力。</li>
-          <li>写清客户评级标准 S/A/B/C 和输出格式。</li>
-          <li>新开会话验证 Claude 是否按画像回答。</li>
-        </ol>
-        <p class="risk">注意：不写银行、合同金额、私人联系方式。</p>
-      </article>
-      <article class="uc">
-        <span class="feat">技能 Skill · 中级第 1 课</span>
-        <h3>“询盘分级”技能</h3>
-        <ol>
-          <li>把每次分析询盘时重复的要求写成一个技能。</li>
-          <li>输出固定栏目：核心需求、紧迫度、决策链、产品匹配、风险、下一步、英文回复草稿。</li>
-          <li>输入一封询盘，输入技能名即可调用。</li>
-        </ol>
-        <p class="risk">注意：草稿只是草稿，发出前人工确认。</p>
-      </article>
-      <article class="uc">
-        <span class="feat">权限与沙箱 · 中级第 4 课</span>
-        <h3>给客户资料文件夹上锁</h3>
-        <ol>
-          <li>设置禁止读取 <code>.env</code> 等含账号密码的文件。</li>
-          <li>打开沙箱，限制命令只能写项目目录。</li>
-          <li>用 <code>/permissions</code> 确认规则已生效。</li>
-        </ol>
-        <p class="risk">注意：先在练习仓库试，再用到真实文件夹。</p>
-      </article>
-      <article class="uc">
-        <span class="feat">MCP 外部工具 · 中级第 7 课</span>
-        <h3>连接外部工具做背调</h3>
-        <ol>
-          <li>学会接入一个 MCP 服务器，并只给项目内使用。</li>
-          <li>之后可连接表格、邮箱等你已授权的工具，整理客户跟进台账。</li>
-        </ol>
-        <p class="risk">注意：连接即授权读取，对外发送、发布仍需你明确确认。</p>
-      </article>
+  <div class="panel">
+    <h3>开始前：开好两个终端窗口</h3>
+    <p>每一步开头都有一个标签，告诉你这一步在哪个窗口操作：</p>
+    <div class="windows">
+      <div class="win"><span class="w claude">窗口 A · Claude Code</span><span class="small muted">运行 <code>claude</code> 后的会话。在这里输入 <code>/status</code> 这类斜杠命令，以及要发给 Claude 的话。</span></div>
+      <div class="win"><span class="w term">窗口 B · 普通终端</span><span class="small muted">在练习仓库文件夹里运行 <code>git</code>、<code>npm</code>、<code>cat</code> 等命令。</span></div>
+      <div class="win"><span class="w edit">编辑器</span><span class="small muted">用来修改文件，例如 TextEdit、VS Code。</span></div>
+      <div class="win"><span class="w look">只看</span><span class="small muted">不用输入，看清楚屏幕上出现了什么。</span></div>
     </div>
-  </section>
+    <p class="small muted">本页按 Mac 编写。中级课程要求 Mac、Linux 或 WSL 2；如果用 Windows，请对照英文原课。</p>
+  </div>
 
-  <!-- 速查 -->
-  <section aria-labelledby="cmds">
-    <h2 id="cmds">必修课用到的命令速查</h2>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>命令 / 按键</th><th>作用</th><th>出处</th></tr></thead>
-        <tbody id="cmd-rows"></tbody>
-      </table>
+  <div class="panel">
+    <h3>准备清单</h3>
+    <ol class="plain">
+      <li>付费 Claude 套餐（Pro、Max、Team 或 Enterprise）或 Claude Console 账号。免费版不含 Claude Code。</li>
+      <li>Mac 上装好 git 和 Node.js LTS。终端里运行 <code>git --version</code> 和 <code>node --version</code> 都能打印出版本号即可。</li>
+      <li>打开 <a href="https://github.com/wesammustafa/claude-code-practice" target="_blank" rel="noopener">claude-code-practice</a>，点 <b>Use this template</b> → <b>Create a new repository</b>，建好你自己的练习仓库，再克隆到电脑上。所有练习都在这个仓库里做，不会碰到你的真实资料。</li>
+      <li>在下面填写练习仓库在电脑上的路径。之后每课的命令会自动换成这个路径。</li>
+    </ol>
+    <div class="field">
+      <label for="dir-input" class="small"><b>练习仓库路径</b></label>
+      <input id="dir-input" type="text" spellcheck="false" autocomplete="off" value="~/claude-code-practice">
     </div>
-  </section>
+  </div>
 
-  <!-- 术语 -->
-  <section aria-labelledby="terms">
-    <h2 id="terms">8 个术语</h2>
+  <div class="panel">
+    <div class="section-title"><h3>掌握路径</h3><span class="count" id="map-count"></span></div>
+    <div id="map"></div>
+  </div>
+
+  <p class="small muted">练习仓库里另有一个官方英文带练程序（在窗口 B 运行 <code>npm run learn</code>），内容和本页一致，可以对照使用。你的进度只保存在这台设备的浏览器里。</p>
+</section>
+
+<!-- ============ 第 1 课 ============ -->
+<section class="view lesson" id="v-b-1" data-view="b-1" hidden>
+  <div class="lhead">
+    <span class="eyebrow">第 1 课 / 共 8 课 · 初级 · 约 20 分钟</span>
+    <h2>安装、登录、熟悉界面</h2>
+    <p class="goal">学完这课，你能装好 Claude Code 并登录，在仓库里启动它，并且说得出当前会话用的是哪个版本、哪个模型、哪个账号。</p>
+  </div>
+  <div class="panel idea">
+    <h3>先搞懂</h3>
+    <p>Claude Code 是一个在终端里运行的程序，要在某个项目文件夹里启动。它会读这个文件夹里的文件来回答问题，后面几课还会修改这些文件。</p>
+    <p>在相信它给的答案之前，先确认三件事：</p>
+    <ul class="plain">
+      <li><b>版本</b>：不同版本的功能和默认设置不一样。</li>
+      <li><b>模型</b>：不同模型的能力不一样。</li>
+      <li><b>账号</b>：账号决定你能用哪些功能和模型。</li>
+    </ul>
+    <p>启动时顶部会显示版本和模型；输入 <code>/status</code> 能把三项一起看到。</p>
+  </div>
+  <div class="section-title"><h3>跟着做</h3><span class="count" data-count="main"></span></div>
+  <ol class="steps" data-part="main">
+    <li data-w="term">
+      <p>安装 Claude Code：</p>
+      <pre data-lang="终端">curl -fsSL https://claude.ai/install.sh | bash</pre>
+      <p>安装完成后，<b>关掉这个终端，新开一个终端窗口</b>。</p>
+    </li>
+    <li data-w="term">
+      <p>检查是否装好：</p>
+      <pre data-lang="终端">claude --version</pre>
+      <p class="expect">一个版本号，后面跟着 <code>(Claude Code)</code>。</p>
+      <details class="stuck"><summary>提示找不到 claude？</summary><p>说明安装目录还没加入 PATH。按官方 <a href="https://code.claude.com/docs/en/troubleshoot-install#command-not-found-claude-after-installation" target="_blank" rel="noopener">Troubleshoot installation</a> 处理好再继续。</p></details>
+    </li>
+    <li data-w="term">
+      <p>进入练习仓库，把版本号保存下来，后面检查要用：</p>
+      <pre data-lang="终端">cd {{DIR}}
+mkdir -p .practice
+claude --version &gt; .practice/version.txt</pre>
+      <p class="tr">路径中间有空格的话，要用引号括起来。</p>
+    </li>
+    <li data-w="term">
+      <p>在同一个文件夹里启动 Claude Code。从这一步起，这个窗口就是<b>窗口 A</b>：</p>
+      <pre data-lang="终端">claude</pre>
+      <ul>
+        <li><b>第一次会要求登录</b>：先选账号类型，再到浏览器里完成登录。如果浏览器显示一串代码、没有自动跳回终端，就把代码粘贴到终端的 <code>Paste code here if prompted</code> 提示处。</li>
+        <li><b>会弹出信任对话框</b>：默认高亮的是 <b>No, exit</b>，直接回车会退出。按下箭头选 <b>Yes, I trust this folder</b> 再回车。这个仓库是你自己建的，可以信任。</li>
+      </ul>
+      <p class="expect">输入框上方的顶部区域，显示版本、模型和当前文件夹。</p>
+    </li>
+    <li data-w="claude">
+      <p>查看会话状态：</p>
+      <pre data-lang="Claude">/status</pre>
+      <p class="expect"><b>Status</b> 标签页列出版本、模型和账号（<b>Login method</b>、<b>Email</b> 等行）。按 <code>Esc</code> 关闭。</p>
+      <p class="tr">你的版本可能比本教程核对时用的新：教程按 stable 发布通道核对，而 Claude Code 默认跟随 latest 通道。</p>
+    </li>
+    <li data-w="claude">
+      <p>就代码问它两个问题。可以直接复制英文，也可以改用中文问：</p>
+      <pre data-lang="Claude">what does this project do?</pre>
+      <pre data-lang="Claude">which file parses linkcheck.json, and how do I run the tests?</pre>
+      <p class="tr">意思：这个项目是做什么的？哪个文件解析 linkcheck.json？怎么运行测试？</p>
+      <p class="expect">回答里提到 <code>src/config.js</code> 和 <code>npm test</code>。具体措辞每次都不一样。</p>
+    </li>
+    <li data-w="claude">
+      <p>结束会话：</p>
+      <pre data-lang="Claude">/exit</pre>
+    </li>
+  </ol>
+  <div class="section-title"><h3>自己练一遍</h3><span class="count" data-count="turn"></span></div>
+  <ol class="steps" data-part="turn">
+    <li data-w="term"><p>还在练习仓库里，再保存一次版本号：<code>claude --version &gt; .practice/version.txt</code></p></li>
+    <li data-w="term"><p>运行 <code>claude</code> 启动会话。</p></li>
+    <li data-w="claude"><p>打开 <code>/status</code>，记下模型和账号。</p></li>
+    <li data-w="claude"><p>用自己的话问两个关于代码的问题，然后输入 <code>/exit</code> 结束。</p></li>
+  </ol>
+  <div class="section-title"><h3>检查过关</h3><span class="count" data-count="check"></span></div>
+  <ol class="steps" data-part="check">
+    <li data-w="term">
+      <p>确认版本号已保存：</p>
+      <pre data-lang="终端">cat .practice/version.txt</pre>
+      <p class="expect">类似 <code>X.Y.Z (Claude Code)</code> 的一行。</p>
+    </li>
+    <li data-w="term">
+      <p>运行本课检查：</p>
+      <pre data-lang="终端">npm run check -- b-1</pre>
+      <p class="expect">每一项都显示 <code>PASS</code>。</p>
+      <details class="stuck"><summary>出现 Could not read package.json 或 Missing script: "check"？</summary><p>说明你不在练习仓库里。先 <code>cd {{DIR}}</code>，再运行一次。</p><p>如果是第一项失败：单独运行 <code>claude --version</code>。它报错就回到第 2 步处理；它能打印版本，就在练习仓库里重新保存一次。</p></details>
+    </li>
+    <li data-w="look"><p>自查（检查程序不测这一项）：你能说出 <code>/status</code> 显示的是哪个模型、哪个账号。</p></li>
+  </ol>
+  <div class="warnbox">
+    <h3>容易踩的坑</h3>
+    <p>新会话默认可以不先问你，就修改大多数文件、运行大多数命令。这一课只提问就好，下一课会教你怎么控制它能做什么。</p>
+    <p>即使只是提问，Claude 也可能为了回答你去运行会写文件的命令（比如跑一遍测试）。所以会话结束后，在窗口 B 运行 <code>git status</code>：如果列出了文件，先提交或删掉，再开始第 2 课。</p>
+  </div>
+  <div class="panel"><div class="section-title"><h3>过关小测</h3><span class="count">全部答对才算过关</span></div><div class="quiz" data-quiz="b-1"></div></div>
+  <nav class="pager" aria-label="课程翻页"></nav>
+</section>
+
+<!-- ============ 第 2 课 ============ -->
+<section class="view lesson" id="v-b-2" data-view="b-2" hidden>
+  <div class="lhead">
+    <span class="eyebrow">第 2 课 / 共 8 课 · 初级 · 约 20 分钟</span>
+    <h2>权限模式与计划模式</h2>
+    <p class="goal">学完这课，你能为一个任务选合适的权限模式，在会话中途切换模式，并用计划模式先批准方案，再让 Claude 动你的文件。</p>
+  </div>
+  <div class="panel idea">
+    <h3>先搞懂</h3>
+    <p><b>权限模式</b>决定 Claude 哪些操作可以不先问你。按 <code>Shift+Tab</code> 切换模式，输入框下方的状态栏始终显示当前是哪个模式。现在需要掌握四种：</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>状态栏显示</th><th>模式</th><th>不问你就能做的事</th></tr></thead>
+      <tbody>
+        <tr><td><code>⏸ manual mode on</code></td><td>Manual 手动</td><td>只能读</td></tr>
+        <tr><td><code>⏵⏵ accept edits on</code></td><td>Accept edits</td><td>读、改文件、运行常见的文件命令</td></tr>
+        <tr><td><code>⏸ plan mode on</code></td><td>Plan 计划</td><td>读，再写出方案；你批准之前不能改文件</td></tr>
+        <tr><td><code>⏵⏵ auto mode on</code></td><td>Auto 自动</td><td>全部都能做，后台有安全检查</td></tr>
+      </tbody>
+    </table></div>
+    <p>敏感工作、不熟悉的代码用 Manual，每个动作你都亲自过目；长任务用 Auto，省得每一步都要批准。</p>
+    <p><b>最先要养成的习惯是用计划模式</b>：Claude 改任何文件之前，你先看到完整方案。</p>
+  </div>
+  <div class="section-title"><h3>跟着做</h3><span class="count" data-count="main"></span></div>
+  <ol class="steps" data-part="main">
+    <li data-w="term">
+      <p>开始前，确认练习仓库没有未提交的改动：</p>
+      <pre data-lang="终端">cd {{DIR}}
+git status</pre>
+      <p class="expect"><code>nothing to commit, working tree clean</code></p>
+    </li>
+    <li data-w="term"><p>运行 <code>claude</code>，看一下状态栏。新会话通常是自动模式。</p></li>
+    <li data-w="claude">
+      <p>反复按 <code>Shift+Tab</code>，直到状态栏显示 <code>⏸ plan mode on</code>。从自动模式开始，依次会切到 Manual、Accept edits、Plan。</p>
+    </li>
+    <li data-w="claude">
+      <p>提出改动要求：</p>
+      <pre data-lang="Claude">Make parseConfig in src/config.js reject an empty file with a clear error message, and add a test for it.</pre>
+      <p class="tr">意思：让 src/config.js 里的 parseConfig 遇到空文件时报一个清楚的错误，并为此加一个测试。</p>
+    </li>
+    <li data-w="look">
+      <p>Claude 会读文件，也可能运行命令来了解情况，但不会改你的文件。如果需要你先做决定，它会出一道选择题，选一项或自己输入回答即可。之后它给出方案，并提供三个选项：</p>
+      <ul>
+        <li><b>Yes, and use auto mode</b>（自动模式不可用时显示为 <b>Yes, auto-accept edits</b>）</li>
+        <li><b>Yes, manually approve edits</b></li>
+        <li>一个输入框：<b>Tell Claude what to change</b></li>
+      </ul>
+      <p>菜单打开时默认高亮第一项。你选择之前，会话一直停在计划模式。</p>
+    </li>
+    <li data-w="claude">
+      <p><b>先把方案退回一次</b>，就算它看起来没问题也退回，这是为了练习。按下箭头移到 <b>Tell Claude what to change</b>，在那一行输入下面这句修改意见，按 <code>Enter</code>：</p>
+      <pre data-lang="Claude">Keep the change to src/config.js and test/config.test.js. Don't add new files.</pre>
+      <p class="tr">意思：只改 src/config.js 和 test/config.test.js，不要新建文件。</p>
+      <p>一定要用 <code>Enter</code> 发送，不能按 <code>Shift+Tab</code>：在这个菜单上，<code>Shift+Tab</code> 会直接批准方案。</p>
+      <details class="stuck"><summary>还没输入就按了 Enter？</summary><p>屏幕会显示 <code>User rejected Claude's plan:</code>，会话仍在计划模式等你。在输入框里补上修改意见就行。</p></details>
+    </li>
+    <li data-w="term">
+      <p>修改后的方案没问题时，<b>先别批准，让它留在屏幕上</b>。在窗口 B 记录此刻 git 看到的状态，以及方案说要改的文件：</p>
+      <pre data-lang="终端">git status --porcelain &gt; .practice/b-2-before.txt
+printf '%s\n' src/config.js test/config.test.js &gt; .practice/b-2-plan.txt</pre>
+    </li>
+    <li data-w="claude">
+      <p>回到窗口 A，按下箭头移到 <b>Yes, manually approve edits</b>，按 <code>Enter</code>。注意不要在默认高亮的第一项上直接回车，那样 Claude 改文件就不会再问你了。</p>
+      <p>会话切到 Manual 模式，每次改文件、跑大多数命令前都会问你。每个请求都读一遍，回答最简单的 <b>Yes</b>。其他几个 Yes 选项会让它以后不再问这一类操作，或者把会话切到别的模式。如果某条命令超出了方案范围，就选 <b>No</b>，告诉它该怎么做。</p>
+    </li>
+    <li data-w="term">
+      <p>Claude 做完后，在窗口 B 再记录一次：</p>
+      <pre data-lang="终端">git status --porcelain &gt; .practice/b-2-after.txt</pre>
+    </li>
+    <li data-w="term">
+      <p>把示例的改动先存到一边，让“自己练”从干净状态开始。git 会忽略 <code>.practice/</code>，所以记录文件会保留：</p>
+      <pre data-lang="终端">git stash push --include-untracked -m b-2-example</pre>
+    </li>
+  </ol>
+  <div class="section-title"><h3>自己练一遍</h3><span class="count" data-count="turn"></span></div>
+  <ol class="steps" data-part="turn">
+    <li data-w="claude"><p>按 <code>Shift+Tab</code> 切到 <code>⏸ plan mode on</code>。</p></li>
+    <li data-w="claude"><p>提一个你自己想要的小改动，回答 Claude 提出的问题。</p></li>
+    <li data-w="claude"><p>在 <b>Tell Claude what to change</b> 里写一条修改意见，按 <code>Enter</code>，把方案退回一次。</p></li>
+    <li data-w="term"><p>最终方案留在屏幕上时，在窗口 B 运行跟着做第 7 步的两条命令，把 <code>printf</code> 那行换成你这个方案要改的文件，一行一个路径。</p></li>
+    <li data-w="claude"><p>选 <b>Yes, manually approve edits</b>，逐个读请求再批准。做完后在窗口 B 运行 <code>git status --porcelain &gt; .practice/b-2-after.txt</code>。</p></li>
+    <li data-w="look"><p>到这里停下，<b>不要提交</b>。下一课要从干净的状态开始，把一个新改动做到提交为止。</p></li>
+  </ol>
+  <div class="section-title"><h3>检查过关</h3><span class="count" data-count="check"></span></div>
+  <ol class="steps" data-part="check">
+    <li data-w="term">
+      <p>运行本课检查：</p>
+      <pre data-lang="终端">npm run check -- b-2</pre>
+      <p class="expect">全部 <code>PASS</code>：<code>b-2-before.txt</code> 是空的，<code>b-2-after.txt</code> 里的每个路径都出现在 <code>b-2-plan.txt</code> 里。</p>
+      <details class="stuck"><summary>b-2-before.txt 里列出了文件？</summary><p>有两种可能：开始时仓库本来就不干净（比如漏了跟着做的第 10 步），或者你批准之前 Claude 已经写了文件（检查一下发送要求时状态栏是不是 <code>⏸ plan mode on</code>）。</p><p>处理方法：运行 <code>git stash push --include-untracked</code>，再从“自己练”第 1 步重做一遍。</p></details>
+      <details class="stuck"><summary>某个改过的路径不在 b-2-plan.txt 里？</summary><p>确认路径的写法和 <code>git status</code> 显示的一样（从仓库根目录算起，用正斜杠）。然后对比你批准的方案和 Claude 实际改了什么。</p></details>
+    </li>
+    <li data-w="look"><p>自查：用一句话说出，什么时候你会选 Manual 而不是 Auto。</p></li>
+  </ol>
+  <div class="panel"><div class="section-title"><h3>过关小测</h3><span class="count">全部答对才算过关</span></div><div class="quiz" data-quiz="b-2"></div></div>
+  <nav class="pager" aria-label="课程翻页"></nav>
+</section>
+
+<!-- ============ 第 3 课 ============ -->
+<section class="view lesson" id="v-b-3" data-view="b-3" hidden>
+  <div class="lhead">
+    <span class="eyebrow">第 3 课 / 共 8 课 · 初级 · 约 20 分钟</span>
+    <h2>第一次改动：从需求到提交</h2>
+    <p class="goal">学完这课，你能把一个改动从提出到提交完整走一遍：探索、计划、执行、测试、看改动、纠正、提交。</p>
+  </div>
+  <div class="panel idea">
+    <h3>先搞懂</h3>
+    <p>提了要求就照单全收，是会话出问题最常见的原因。Anthropic 的最佳实践建议分四个阶段：探索、计划、执行、提交。本课在每一步都加了一道检查：</p>
+    <ol class="plain">
+      <li><b>探索</b>：在计划模式里进行，Claude 只读、只回答，不改任何东西。</li>
+      <li><b>计划</b>：方案符合你的要求再批准。</li>
+      <li><b>执行</b>：改动一个个批准。</li>
+      <li><b>测试</b>：能证明改动有效的是测试结果，不是 Claude 写的总结。</li>
+      <li><b>看改动</b>：逐行读 diff。</li>
+      <li><b>纠正</b>：不想要的地方，直接用大白话告诉它。</li>
+      <li><b>提交</b>：保存改动，以后想撤销也容易。</li>
+    </ol>
+    <p>示例任务：练习项目会检查 Markdown 里的链接，但会漏掉带标题的链接，比如 <code>[setup](setup.md "Setup guide")</code>。你要修好它。</p>
+  </div>
+  <div class="section-title"><h3>跟着做</h3><span class="count" data-count="main"></span></div>
+  <ol class="steps" data-part="main">
+    <li data-w="term">
+      <p>确认仓库干净。第 2 课的改动如果还在，先存到一边：</p>
+      <pre data-lang="终端">cd {{DIR}}
+git stash push --include-untracked -m b-2
+git status</pre>
+      <p class="expect"><code>nothing to commit, working tree clean</code></p>
+    </li>
+    <li data-w="claude">
+      <p><b>探索</b>。启动 <code>claude</code>，按 <code>Shift+Tab</code> 切到 <code>⏸ plan mode on</code>，然后问：</p>
+      <pre data-lang="Claude">How does this app find links in a Markdown file? Which kinds of links would it miss?</pre>
+      <p class="tr">意思：这个程序怎么在 Markdown 文件里找链接？哪些链接会被漏掉？</p>
+      <p class="expect">提到 <code>src/links.js</code>，并说到带标题的链接会被漏掉。</p>
+    </li>
+    <li data-w="claude">
+      <p><b>计划</b>：</p>
+      <pre data-lang="Claude">Plan a change so links with a title, like [setup](setup.md "Setup guide"), are checked too. Add a test for it to test/links.test.js.</pre>
+      <p class="tr">意思：规划一个改动，让带标题的链接也被检查到，并在 test/links.test.js 里加测试。</p>
+      <p>读方案。只涉及 <code>src/links.js</code> 和 <code>test/links.test.js</code> 时，选 <b>Yes, manually approve edits</b>。如果还涉及别的文件，像第 2 课那样在 <b>Tell Claude what to change</b> 里退回，要求只改这两个文件。</p>
+    </li>
+    <li data-w="claude">
+      <p><b>执行和测试</b>。逐个批准改动。运行测试等命令前它也会问你：命令确实是方案需要的就答 <b>Yes</b>；如果命令超出范围（比如要 stash、覆盖或移动文件），就答 <b>No</b> 并说明该怎么做。不要选 <b>Yes, and switch to auto mode</b>，否则本课剩下的步骤就改由后台安全检查替你审，而不是你自己审。</p>
+      <p>就算 Claude 已经跑过测试，也再要求一次，亲眼看结果：</p>
+      <pre data-lang="Claude">run the tests</pre>
+      <p>输出太长会被折叠，按 <code>Ctrl+O</code> 展开，找到最后的测试汇总，再按 <code>Esc</code> 返回。</p>
+      <p class="expect">测试汇总显示 <code>fail 0</code>。</p>
+    </li>
+    <li data-w="claude">
+      <p><b>看改动</b>。输入 <code>/diff</code>，会出现下面两种界面之一：</p>
+      <ul>
+        <li><b>对话旁边的面板</b>：列表默认不显示测试文件，要点一下统计测试文件的那一行（比如 <code>1 test/generated (show)</code>）。如果面板已经自动打开，就直接在里面看，因为再输入 <code>/diff</code> 会把它关掉。</li>
+        <li><b>输入框上方的列表</b>：用方向键选文件，<code>Enter</code> 查看，<code>Esc</code> 返回。</li>
+      </ul>
+      <p>每一行都要读，测试也要读。</p>
+      <details class="stuck"><summary>想在窗口 B 里看改动？</summary><p>运行 <code>git diff</code>。Claude 新建的文件要先运行 <code>git add -N 文件名</code> 才会出现在 diff 里。屏幕停在 <code>:</code> 提示符时，按 <code>q</code> 退出。</p></details>
+    </li>
+    <li data-w="claude">
+      <p><b>纠正</b>。读新加的测试。如果它只测了双引号的标题，就要求：</p>
+      <pre data-lang="Claude">The test covers only double-quoted titles. Add a case for a single-quoted title, like [faq](faq.md 'FAQ'), and run the tests again.</pre>
+      <p class="tr">意思：测试只覆盖了双引号标题，再加一个单引号标题的用例，然后重新跑测试。</p>
+      <p>如果它已经测了单引号，就换一个你想要的小改动，比如把每种标题拆成单独的测试。改完再看一次 diff。</p>
+    </li>
+    <li data-w="claude">
+      <p><b>提交</b>：</p>
+      <pre data-lang="Claude">commit this with a message that says what changed</pre>
+      <p class="tr">意思：提交这些改动，提交说明写清楚改了什么。</p>
+      <p>运行 commit 前它会问你。把整条命令读完再选 <b>Yes</b>。它如果顺便建了一个分支也没关系，检查在哪个分支上都能通过。</p>
+    </li>
+    <li data-w="term">
+      <p>记下这次提交，并确认没有遗留：</p>
+      <pre data-lang="终端">git rev-parse HEAD &gt; .practice/b-3-commit.txt
+git status</pre>
+      <p class="expect"><code>nothing to commit, working tree clean</code></p>
+    </li>
+  </ol>
+  <div class="section-title"><h3>自己练一遍</h3><span class="count" data-count="turn"></span></div>
+  <ol class="steps" data-part="turn">
+    <li data-w="look"><p>任务：修第二个漏洞。目标地址写在尖括号里的链接，比如 <code>[my notes](&lt;my notes.md&gt;)</code>，目前也会被漏掉。</p></li>
+    <li data-w="claude"><p>在计划模式里探索：问它这个程序怎么读取链接的目标地址。</p></li>
+    <li data-w="claude"><p>规划改动，要求在 <code>test/links.test.js</code> 里加测试。方案涉及别的文件就退回，没问题再选 <b>Yes, manually approve edits</b>。</p></li>
+    <li data-w="claude"><p>批准改动和测试命令，然后让 Claude 跑测试。</p></li>
+    <li data-w="claude"><p>用 <code>/diff</code> 把整个改动看一遍，测试文件也要看。</p></li>
+    <li data-w="claude"><p>提一个纠正要求，再小也可以，然后再看一次 diff。</p></li>
+    <li data-w="claude"><p>纠正完成后，让 Claude 把改动、测试和你的纠正一起提交。</p></li>
+    <li data-w="term"><p>运行 <code>git rev-parse HEAD &gt; .practice/b-3-commit.txt</code></p></li>
+  </ol>
+  <div class="section-title"><h3>检查过关</h3><span class="count" data-count="check"></span></div>
+  <ol class="steps" data-part="check">
+    <li data-w="term">
+      <pre data-lang="终端">npm test
+git status --porcelain
+npm run check -- b-3</pre>
+      <p class="expect"><code>npm test</code> 显示 <code>fail 0</code>，<code>git status --porcelain</code> 没有任何输出，检查全部 <code>PASS</code>。</p>
+      <details class="stuck"><summary>提交里没有测试文件，或者只有测试文件？</summary><p>说明代码和测试没有放进同一次提交。如果还没推送，可以让 Claude 用 <code>git commit --amend</code> 补上缺的部分，或者把最后两次提交合并成一次，然后重新保存 <code>git rev-parse HEAD &gt; .practice/b-3-commit.txt</code>。</p></details>
+      <details class="stuck"><summary>测试没通过？</summary><p>读第一条失败信息，让 Claude 改代码，不要让它改测试。</p></details>
+    </li>
+    <li data-w="look"><p>自查：提交前你把整个 diff 读完了，并且至少让 Claude 纠正过一次。</p></li>
+  </ol>
+  <div class="panel"><div class="section-title"><h3>过关小测</h3><span class="count">全部答对才算过关</span></div><div class="quiz" data-quiz="b-3"></div></div>
+  <nav class="pager" aria-label="课程翻页"></nav>
+</section>
+
+<!-- ============ 第 4 课 = 初级第 5 课 ============ -->
+<section class="view lesson" id="v-b-5" data-view="b-5" hidden>
+  <div class="lhead">
+    <span class="eyebrow">第 4 课 / 共 8 课 · 初级 · 约 20 分钟</span>
+    <h2>用 CLAUDE.md 写项目记忆</h2>
+    <p class="goal">学完这课，你能写一份项目 CLAUDE.md，并证明新会话会遵守它。</p>
+  </div>
+  <div class="panel idea">
+    <h3>先搞懂</h3>
+    <p>每个会话都从空白的上下文开始，所以同样的交代你可能要说一遍又一遍。项目根目录放一个 <code>CLAUDE.md</code> 就能解决：每次会话开始时，Claude Code 都会读它。</p>
+    <ul class="plain">
+      <li>里面放每个会话都该知道的内容：构建和测试命令、约定、项目结构、“总是要做 X”这类规则。要写得短，官方建议不超过 200 行。</li>
+      <li>把它提交进仓库，这样所有人拿到的都是同一套说明。</li>
+      <li><code>/init</code> 会根据代码自动写出第一版。</li>
+      <li>Claude 把 CLAUDE.md 当作参考信息，不是必须执行的配置。绝对不能违反的规则要靠<b>钩子（hook）</b>来强制。</li>
+    </ul>
+    <p>CLAUDE.md 只在会话开始时读取。改完以后，要开一个新会话才能确定它用上了新内容。</p>
+    <p class="small muted">本页把官方初级第 4 课（让会话不跑偏）放进了推荐加修，所以这里直接从第 5 课接上；第 5 课只要求先学完第 3 课。</p>
+  </div>
+  <div class="section-title"><h3>跟着做</h3><span class="count" data-count="main"></span></div>
+  <ol class="steps" data-part="main">
+    <li data-w="claude">
+      <p>在练习仓库里启动 <code>claude</code>，运行：</p>
+      <pre data-lang="Claude">/init</pre>
+      <p>Claude 会读代码，把找到的命令和约定写进 <code>CLAUDE.md</code>。如果它请求批准，就批准。然后在窗口 B 用 <code>cat CLAUDE.md</code> 读一遍。</p>
+    </li>
+    <li data-w="edit">
+      <p>用编辑器打开 <code>CLAUDE.md</code>。也可以在窗口 A 输入 <code>/memory</code>，选 <b>Project instructions</b>，也就是本文件夹里的 <code>./CLAUDE.md</code>。<b>不要选</b> <code>~/.claude/</code> 下面的用户文件，那个会作用于你所有的项目。</p>
+      <p>在练习仓库里，<code>/init</code> 可能还写了课程自带的文件：<code>checks/</code>、<code>learn/</code>、<code>capstone/</code>、<code>.github/</code>。把这些内容删掉，关于 <code>npm run check</code>、<code>npm run learn</code>、<code>npm run test:checks</code> 的内容也删掉。如果有“不要在 main 上工作”这类规则，同样删掉：那是给模板仓库用的，不适用于你的副本。<code>npm test</code> 这些其他命令要保留。</p>
+    </li>
+    <li data-w="edit">
+      <p>加一条从文件内容上就能看出有没有被遵守的规则。放在 <code>## Conventions</code> 标题下面；如果没有这个标题，就在文件末尾加上：</p>
+      <pre data-lang="Markdown">## Conventions
+
+- Every new source file starts with the line `// Part of linkcheck.`</pre>
+      <p class="tr">意思：每个新建的源代码文件，第一行都写 // Part of linkcheck.</p>
+    </li>
+    <li data-w="term">
+      <p>保存规则原文，后面检查要用；然后提交 CLAUDE.md：</p>
+      <pre data-lang="终端">echo '// Part of linkcheck.' &gt; .practice/b-5-rule.txt
+git add CLAUDE.md
+git commit -m "Add project instructions for Claude Code"</pre>
+    </li>
+    <li data-w="claude">
+      <p>输入 <code>/exit</code>，再运行 <code>claude</code> 开一个<b>新会话</b>，然后：</p>
+      <pre data-lang="Claude">/context all</pre>
+      <p class="expect"><b>Memory files</b> 下面列出了 <code>CLAUDE.md</code>，说明新会话已经加载了它。只输入 <code>/context</code> 时这个列表可能会被折叠。</p>
+    </li>
+    <li data-w="claude">
+      <p>要求一个会新建文件的改动：</p>
+      <pre data-lang="Claude">Add src/stats.js with a function countLinks(markdown) that returns how many links findLinks finds. Add a test in test/stats.test.js, run the tests and commit.</pre>
+      <p class="tr">意思：新建 src/stats.js，写一个 countLinks 函数，返回 findLinks 找到的链接数；在 test/stats.test.js 加测试，跑测试并提交。</p>
+      <p>出现权限请求就批准。如果是自动模式，可能一个请求都不会出现。</p>
+    </li>
+    <li data-w="term">
+      <p>验证规则有没有生效：</p>
+      <pre data-lang="终端">head -1 src/stats.js
+git rev-parse HEAD &gt; .practice/b-5-commit.txt
+git status</pre>
+      <p class="expect">第一行是 <code>// Part of linkcheck.</code>，虽然这次会话里你根本没提过这个要求；<code>git status</code> 显示 <code>nothing to commit, working tree clean</code>。</p>
+      <details class="stuck"><summary>git status 列出了 src/stats.js？</summary><p>说明 Claude 还没提交。让它提交，然后重新保存一次 commit。</p></details>
+    </li>
+  </ol>
+  <div class="section-title"><h3>自己练一遍</h3><span class="count" data-count="turn"></span></div>
+  <ol class="steps" data-part="turn">
+    <li data-w="edit"><p>打开 <code>CLAUDE.md</code>（这次不用再运行 <code>/init</code>），把示例那条规则换成新规则：</p>
+      <pre data-lang="Markdown">- Every new source file starts with the line `// linkcheck source.`</pre></li>
+    <li data-w="term"><p>保存新规则原文，再提交 CLAUDE.md：</p>
+      <pre data-lang="终端">echo '// linkcheck source.' &gt; .practice/b-5-rule.txt
+git add CLAUDE.md
+git commit -m "Change the source file header rule"</pre></li>
+    <li data-w="claude"><p>退出，开新会话，确认 <code>/context all</code> 的 <b>Memory files</b> 下有 <code>CLAUDE.md</code>。</p></li>
+    <li data-w="claude"><p>要求新建一个文件及其测试，并让 Claude 提交：</p>
+      <pre data-lang="Claude">Add src/external.js with a function countExternal(markdown) that returns how many of the links findLinks finds are external, according to isExternal. Add a test in test/external.test.js, run the tests and commit.</pre></li>
+    <li data-w="term"><p>像示例第 7 步那样，查看 <code>src/external.js</code> 的第一行，把 commit 保存到 <code>.practice/b-5-commit.txt</code>，再运行 <code>git status</code>。</p></li>
+  </ol>
+  <div class="section-title"><h3>检查过关</h3><span class="count" data-count="check"></span></div>
+  <ol class="steps" data-part="check">
+    <li data-w="term">
+      <pre data-lang="终端">npm run check -- b-5</pre>
+      <p class="expect">全部 <code>PASS</code>：已提交的 CLAUDE.md 里有这条规则，而且那次提交新增的每个非测试源文件，第一行都是这条规则。</p>
+      <details class="stuck"><summary>新文件第一行不是规则？</summary><p>开一个新会话，运行 <code>/context all</code>。<b>Memory files</b> 里没有 CLAUDE.md，说明你启动的文件夹不对；列出来了，说明 Claude 读到了规则但没有遵守。</p><p>不管哪种情况，都让它重新新建一个文件（比如 <code>src/summary.js</code> 加测试）并提交，再重新保存 commit。直接手动改旧文件是过不了检查的，因为检查只看那次提交新增的文件。</p></details>
+    </li>
+    <li data-w="look"><p>自查：加完规则后你开了新会话，并且说得出为什么必须这样做。</p></li>
+  </ol>
+  <div class="panel"><div class="section-title"><h3>过关小测</h3><span class="count">全部答对才算过关</span></div><div class="quiz" data-quiz="b-5"></div></div>
+  <nav class="pager" aria-label="课程翻页"></nav>
+</section>
+
+<!-- ============ 第 5 课 = 中级第 1 课 ============ -->
+<section class="view lesson" id="v-i-1" data-view="i-1" hidden>
+  <div class="lhead">
+    <span class="eyebrow">第 5 课 / 共 8 课 · 中级 · 约 20 分钟</span>
+    <h2>把重复工作做成技能</h2>
+    <p class="goal">学完这课，你能把一套反复使用的工作流程写成项目技能：输入名字就能运行，请求内容匹配时也会自动加载。</p>
+  </div>
+  <div class="panel idea">
+    <h3>先搞懂</h3>
+    <p><b>技能（skill）</b>就是一个文件夹，里面放一个 <code>SKILL.md</code> 文件。文件开头是一段 YAML 说明（frontmatter），写清这个技能是干什么的；后面是 Claude 要照着做的步骤。项目技能放在 <code>.claude/skills/&lt;名字&gt;/SKILL.md</code>，提交到仓库后，团队里每个人都能用。</p>
+    <p>技能运行之前，Claude 的上下文里最多只有它的简介（description）。技能有两种触发方式，不管哪种，触发后 Claude Code 都会加载整个文件：</p>
+    <ul class="plain">
+      <li>你输入 <code>/技能名</code>，后面可以跟一段内容，这段内容会填进技能正文里的 <code>$ARGUMENTS</code>。</li>
+      <li>你的请求和技能简介对得上，Claude 自己去加载。</li>
+    </ul>
+    <p>frontmatter 里写 <code>disable-model-invocation: true</code>，技能就只能靠输入名字来触发。部署这类有副作用的流程适合这样设置。</p>
+    <p class="small muted">联系你的工作：询盘分级、客户背调，都可以做成这样一个技能。</p>
+  </div>
+  <div class="section-title"><h3>跟着做</h3><span class="count" data-count="main"></span></div>
+  <ol class="steps" data-part="main">
+    <li data-w="term">
+      <p>在练习仓库里下载教程自带的示例技能 <code>five-whys</code>（连问五个为什么，找出根本原因）：</p>
+      <pre data-lang="终端">cd {{DIR}}
+mkdir -p .claude/skills/five-whys
+curl -fsSL https://raw.githubusercontent.com/wesammustafa/Claude-Code-Everything-You-Need-to-Know/main/examples/intermediate/01-first-skill/dot-claude/skills/five-whys/SKILL.md -o .claude/skills/five-whys/SKILL.md
+cat .claude/skills/five-whys/SKILL.md</pre>
+      <p>用之前先把内容读一遍。去掉开头的注释行后，主要是这些：</p>
+      <pre data-lang="SKILL.md">---
+name: five-whys
+description: Finds the root cause of a bug, failure or recurring problem by asking "why" until the answer is a cause you can fix. Use when the user asks why something keeps happening, or wants the root cause rather than a quick fix.
+argument-hint: "[problem]"
+---
+
+Find the root cause of this problem: $ARGUMENTS</pre>
+      <p class="tr">后面还有五个编号步骤，以及一条规则 “Don't change any files.”（不要改任何文件）。</p>
+    </li>
+    <li data-w="claude">
+      <p>启动 <code>claude</code>，查看技能列表：</p>
+      <pre data-lang="Claude">/skills</pre>
+      <p class="expect">列表里有 <code>five-whys</code>，它放在 <code>.claude/skills/</code> 下，所以是项目技能。</p>
+      <details class="stuck"><summary>列表里没有？</summary><p>如果会话启动时 <code>.claude/skills/</code> 文件夹还不存在，要先运行 <code>/reload-skills</code>。</p></details>
+    </li>
+    <li data-w="claude">
+      <p><b>方式一：输入名字运行</b>：</p>
+      <pre data-lang="Claude">/five-whys npm run linkcheck -- samples exits with code 1</pre>
+      <p class="tr">意思：用 five-whys 分析“npm run linkcheck -- samples 以错误码 1 退出”这个问题。</p>
+      <p class="expect">Claude 先复现问题，再根据证据一层层追问“为什么”，最后给出因果链、根本原因和两个修复方案。这时在窗口 B 运行 <code>git status</code>，只会看到 <code>.claude/</code> 下的新文件，因为技能要求它不改任何文件。</p>
+    </li>
+    <li data-w="claude">
+      <p><b>方式二：自动加载</b>。先输入 <code>/clear</code>，然后问一个和技能简介吻合、但不提技能名字的问题：</p>
+      <pre data-lang="Claude">Why does the test suite pass even though samples/guide.md has a broken link? I want the root cause, not a quick fix.</pre>
+      <p class="tr">意思：samples/guide.md 里有坏链接，为什么测试还是通过了？我要根本原因，不要临时修补。</p>
+      <p class="expect">Claude 回答之前，记录里出现一次对 <code>Skill</code> 工具的调用，加载的是 <code>five-whys</code>。这说明它自己加载了技能。</p>
+    </li>
+  </ol>
+  <div class="section-title"><h3>自己练一遍</h3><span class="count" data-count="turn"></span></div>
+  <ol class="steps" data-part="turn">
+    <li data-w="term"><p>下载一个还没写完的 <code>tdd</code> 技能（先写测试、再写代码）：</p>
+      <pre data-lang="终端">mkdir -p .claude/skills/tdd
+curl -fsSL https://raw.githubusercontent.com/wesammustafa/Claude-Code-Everything-You-Need-to-Know/main/examples/intermediate/01-first-skill/dot-claude/skills/tdd/SKILL.md -o .claude/skills/tdd/SKILL.md</pre>
+      <p class="tr">它的 frontmatter 里写着 <code>description: TODO</code> 和 <code>disable-model-invocation: true</code>，步骤里还有 <code>2. Green: TODO</code> 和 <code>3. Refactor: TODO</code>。</p></li>
+    <li data-w="edit"><p>用编辑器把它补完：</p>
+      <ul>
+        <li>把 description 里的 <code>TODO</code> 换成一两句英文，写清楚它做什么、什么时候该用。建议格式是“做什么 + Use when……”。</li>
+        <li>删掉 <code>disable-model-invocation: true</code> 这一行。</li>
+        <li>按 Red 那一步的写法，补完 Green 和 Refactor 两步。</li>
+      </ul></li>
+    <li data-w="term"><p>提交技能：</p>
+      <pre data-lang="终端">git add .claude/skills/tdd/SKILL.md
+git commit -m "Add a tdd skill"</pre></li>
+    <li data-w="claude"><p>输入名字运行它，做一个小功能：</p>
+      <pre data-lang="Claude">/tdd a slugify(heading) function in src/slug.js that turns a Markdown heading into its link anchor: lowercase, punctuation dropped, spaces turned into hyphens</pre>
+      <p>批准它的改动和测试命令，并让它提交。然后在窗口 B 运行 <code>git rev-parse HEAD &gt; .practice/i-1-commit.txt</code>。</p></li>
+    <li data-w="claude"><p>输入 <code>/clear</code>，不提技能名字，再要一个先写测试的小功能，例如 <code>Add a countHeadings(markdown) function, test-first.</code> 留意 Claude 有没有通过 <code>Skill</code> 工具自己运行 <code>tdd</code>。看到之后，可以按 <code>Esc</code> 让它停下，再用 <code>/rewind</code> 撤销它这次的改动。</p></li>
+  </ol>
+  <div class="section-title"><h3>检查过关</h3><span class="count" data-count="check"></span></div>
+  <ol class="steps" data-part="check">
+    <li data-w="term">
+      <pre data-lang="终端">npm run check -- i-1</pre>
+      <p class="expect">全部 <code>PASS</code>：技能已提交、里面没有 TODO、没有 <code>disable-model-invocation: true</code>，而且保存的那次提交同时包含测试和被测试的代码。</p>
+      <details class="stuck"><summary>技能提交不上？</summary><p>运行 <code>git check-ignore -v .claude/skills/tdd/SKILL.md</code>。如果某条忽略规则匹配到了 <code>.claude</code>，就用 <code>git add -f</code> 强制添加。</p></details>
+      <details class="stuck"><summary>第二项没通过？</summary><p>把 description 改写成“做什么 + Use when 适用的请求”。Claude 是根据技能列表里的简介来决定要不要加载技能的，不看正文。</p></details>
+    </li>
+    <li data-w="look"><p>自查：<code>/tdd</code> 能运行这个技能；清空对话后，Claude 也会自己加载 <code>tdd</code>。</p></li>
+  </ol>
+  <div class="warnbox">
+    <h3>容易踩的坑</h3>
+    <p>技能可以用 <code>allowed-tools</code> 预先批准某些工具。即使在你从没信任过的文件夹里用 <code>claude -p</code> 运行，项目技能的这个授权也会生效。所以在别人的仓库里运行 Claude Code 之前，先把里面的技能读一遍。</p>
+    <p>技能运行过一次后，它的内容就留在对话里，Claude Code 不会重新读文件。改了技能以后要重新运行一次，Claude 才会拿到新版本。</p>
+  </div>
+  <div class="panel"><div class="section-title"><h3>过关小测</h3><span class="count">全部答对才算过关</span></div><div class="quiz" data-quiz="i-1"></div></div>
+  <nav class="pager" aria-label="课程翻页"></nav>
+</section>
+
+<!-- ============ 第 6 课 = 中级第 2 课 ============ -->
+<section class="view lesson" id="v-i-2" data-view="i-2" hidden>
+  <div class="lhead">
+    <span class="eyebrow">第 6 课 / 共 8 课 · 中级 · 约 20 分钟</span>
+    <h2>整理项目记忆，查看加载了什么</h2>
+    <p class="goal">学完这课，你能把项目说明拆成导入文件和分范围规则；Claude 不遵守某条说明时，能查出是哪份说明文件没有加载。</p>
+  </div>
+  <div class="panel idea">
+    <h3>先搞懂</h3>
+    <p>CLAUDE.md 写得太长不好维护，而且每一行都会加载进每个会话。有两种办法把它拆开：</p>
+    <ul class="plain">
+      <li><b>导入（import）</b>：在 CLAUDE.md 里写一行 <code>@docs/conventions.md</code>，被引用的文件会一起加载。这只是让结构更清楚，<b>并不节省上下文</b>。</li>
+      <li><b>规则（rule）</b>：放在 <code>.claude/rules/</code> 下的 Markdown 文件。frontmatter 里写了 <code>paths:</code> 的规则，只有 Claude 处理匹配的文件时才会加载。</li>
+    </ul>
+    <div class="table-wrap"><table>
+      <thead><tr><th>说明文件</th><th>什么时候加载</th></tr></thead>
+      <tbody>
+        <tr><td>项目根目录的 CLAUDE.md，以及没写 <code>paths:</code> 的规则</td><td>会话开始时</td></tr>
+        <tr><td>被 <code>@路径</code> 导入的文件</td><td>和导入它的文件一起加载</td></tr>
+        <tr><td>写了 <code>paths:</code> 的规则</td><td>Claude 用 Read、Write、Edit 工具读、写或编辑匹配的文件时</td></tr>
+        <tr><td>自动记忆（Claude 自己记的笔记）</td><td>会话开始时，加载 <code>MEMORY.md</code> 索引的前 200 行或前 25KB</td></tr>
+      </tbody>
+    </table></div>
+    <p>Claude 不遵守某条说明时，<b>先查这份文件有没有加载</b>。如果加载了，问题多半出在写法上：写得更具体些，并删掉和它冲突的说明。</p>
+  </div>
+  <div class="section-title"><h3>跟着做</h3><span class="count" data-count="main"></span></div>
+  <ol class="steps" data-part="main">
+    <li data-w="term">
+      <p>本课需要 <code>jq</code>。先确认已安装：</p>
+      <pre data-lang="终端">jq --version</pre>
+      <details class="stuck"><summary>提示找不到 jq？</summary><p>如果装了 Homebrew，可以运行 <code>brew install jq</code> 安装。</p></details>
+    </li>
+    <li data-w="edit">
+      <p>在 CLAUDE.md 里加一行导入，这里导入的是 <code>package.json</code>：</p>
+      <pre data-lang="Markdown">- npm scripts: @package.json</pre>
+      <p class="tr">导入路径一直算到第一个空格为止，所以路径后面不要紧跟句号。</p>
+    </li>
+    <li data-w="edit">
+      <p>新建文件 <code>.claude/rules/testing.md</code>，写一条只针对测试文件的规则：</p>
+      <pre data-lang="Markdown">---
+paths:
+  - "test/**/*.js"
+---
+
+# Testing
+
+- Use `node:test` and `node:assert/strict`; no other test libraries.</pre>
+    </li>
+    <li data-w="edit">
+      <p>新建 <code>.practice/i-2-hook.json</code>，作为加载日志。它是一个 <code>InstructionsLoaded</code> 钩子：每加载一份 CLAUDE.md、规则或导入文件，就把加载原因和文件路径追加到 <code>.practice/i-2-loaded.txt</code>。它不记录别的内容，而且只在你带着它启动的会话里生效：</p>
+      <pre data-lang="JSON">{
+  "hooks": {
+    "InstructionsLoaded": [
+      { "hooks": [ { "type": "command", "command": "jq -r '[.load_reason, .file_path] | @tsv' &gt;&gt; \"$CLAUDE_PROJECT_DIR/.practice/i-2-loaded.txt\"" } ] }
+    ]
+  }
+}</pre>
+    </li>
+    <li data-w="term">
+      <p>带着日志启动会话：</p>
+      <pre data-lang="终端">claude --settings .practice/i-2-hook.json</pre>
+    </li>
+    <li data-w="claude">
+      <pre data-lang="Claude">/context all</pre>
+      <p class="expect"><b>Memory files</b> 下列出会话开始时加载的说明文件，比如 CLAUDE.md。那条分范围规则<b>不在</b>里面，因为还没有读过任何测试文件。</p>
+    </li>
+    <li data-w="claude">
+      <p>让 Claude 用 Read 工具读一个测试文件。一定要点明用 Read 工具：Claude 有时会用 shell 命令读文件，那样不会加载分范围规则。</p>
+      <pre data-lang="Claude">Use your Read tool to read test/config.test.js, then tell me in one sentence what it checks.</pre>
+    </li>
+    <li data-w="term">
+      <pre data-lang="终端">cat .practice/i-2-loaded.txt</pre>
+      <p class="expect">每次加载都有一行记录，前面是原因：CLAUDE.md 是 <code>session_start</code>，package.json 是 <code>include</code>，刚才那条规则是 <code>path_glob_match</code>。</p>
+    </li>
+  </ol>
+  <div class="section-title"><h3>自己练一遍</h3><span class="count" data-count="turn"></span></div>
+  <ol class="steps" data-part="turn">
+    <li data-w="look"><p>情景：同事写的一条规则始终不生效。你要查出原因并修好。</p></li>
+    <li data-w="edit"><p>新建 <code>.claude/rules/cli.md</code>，内容如下（路径故意写错了）：</p>
+      <pre data-lang="Markdown">---
+paths:
+  - "source/**/*.js"
+---
+
+# CLI output
+
+- Print errors to stderr, starting with `linkcheck:`.</pre></li>
+    <li data-w="claude"><p>用 <code>claude --settings .practice/i-2-hook.json</code> 启动一个带日志的会话，让 Claude 用 Read 工具读 <code>src/cli.js</code>。</p></li>
+    <li data-w="term"><p>读日志，会发现这条规则从没加载过。用 <code>git ls-files src</code> 看看实际有哪些文件，再和规则里的路径对比。</p></li>
+    <li data-w="edit"><p>把路径改成 <code>src/**/*.js</code>，再开一个新的带日志会话，重复第 3 步。这次日志里会出现 <code>cli.md</code> 的 <code>path_glob_match</code> 行。</p></li>
+    <li data-w="term"><p>提交 CLAUDE.md 和 <code>.claude/rules/</code>：</p>
+      <pre data-lang="终端">git add CLAUDE.md .claude/rules/
+git commit -m "Split project instructions into an import and scoped rules"</pre></li>
+  </ol>
+  <div class="section-title"><h3>检查过关</h3><span class="count" data-count="check"></span></div>
+  <ol class="steps" data-part="check">
+    <li data-w="term">
+      <pre data-lang="终端">npm run check -- i-2</pre>
+      <p class="expect">全部 <code>PASS</code>：CLAUDE.md 导入了一个真实存在的文件，每条带 <code>paths:</code> 的规则都至少匹配一个文件，日志里 <code>include</code> 和 <code>path_glob_match</code> 两种记录都至少有一行。</p>
+      <details class="stuck"><summary>导入检查失败？</summary><p>看路径后面是不是紧跟了标点，或者路径是不是相对错了文件夹。导入路径是相对于写这行导入的那个文件来算的。</p></details>
+      <details class="stuck"><summary>日志里没有 path_glob_match？</summary><p>确认会话是用 <code>--settings .practice/i-2-hook.json</code> 启动的，并且你点名让它用 Read 工具。</p></details>
+    </li>
+    <li data-w="look"><p>自查：你能说出哪些说明文件在会话开始时加载、哪些之后才加载，以及你分别是怎么看到它们加载的。</p></li>
+  </ol>
+  <div class="warnbox">
+    <h3>容易踩的坑</h3>
+    <p>会话中途改了 CLAUDE.md，要等运行 <code>/clear</code>、<code>/compact</code> 或重启之后才会生效。</p>
+    <p>想找出互相冲突的说明，或者引用了已不存在文件的说明，可以运行 <code>/doctor prompt-audit</code>。它只提修改建议，你不要求就不会改任何东西。</p>
+  </div>
+  <div class="panel"><div class="section-title"><h3>过关小测</h3><span class="count">全部答对才算过关</span></div><div class="quiz" data-quiz="i-2"></div></div>
+  <nav class="pager" aria-label="课程翻页"></nav>
+</section>
+
+<!-- ============ 第 7 课 = 中级第 4 课 ============ -->
+<section class="view lesson" id="v-i-4" data-view="i-4" hidden>
+  <div class="lhead">
+    <span class="eyebrow">第 7 课 / 共 8 课 · 中级 · 约 20 分钟</span>
+    <h2>权限、设置范围与沙箱</h2>
+    <p class="goal">学完这课，你能把权限规则放进作用范围合适的设置文件，查看哪些规则正在生效，并打开沙箱，让 Claude 运行的 shell 命令只能写入项目目录、临时目录和你额外加入的目录。</p>
+  </div>
+  <div class="panel idea">
+    <h3>先搞懂</h3>
+    <p>Claude Code 从四个设置文件读取设置。规则写在哪个文件里，决定了它对谁生效：</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>文件</th><th>对谁生效</th><th>适合放什么</th></tr></thead>
+      <tbody>
+        <tr><td><code>~/.claude/settings.json</code></td><td>你自己，所有项目</td><td>个人偏好</td></tr>
+        <tr><td><code>.claude/settings.json</code>（提交进仓库）</td><td>项目里所有人</td><td>团队规则：Claude 绝对不能读的文件、大家都要跑的命令</td></tr>
+        <tr><td><code>.claude/settings.local.json</code>（不进 git）</td><td>你自己，仅本项目</td><td>个人例外。对某条命令选 “Yes, and don't ask again”，就会保存在这里</td></tr>
+        <tr><td>Managed settings（托管设置）</td><td>组织统一下发的所有人</td><td>公司政策，你自己的设置覆盖不了</td></tr>
+      </tbody>
+    </table></div>
+    <p>规则的判断顺序是：<b>先看 deny（拒绝），再看 ask（询问），最后看 allow（允许）</b>，第一条匹配上的规则说了算。</p>
+    <p>权限规则管的是 Claude 的各种工具。<b>沙箱</b>则由操作系统在 Claude 运行的 shell 命令外面再加一层边界：默认只能写项目目录、你用户的临时目录，以及你用 <code>--add-dir</code> 或 <code>/add-dir</code> 加进来的目录；联网要经过一个代理，按你允许的域名逐个放行。沙箱默认是关着的。在它的 auto-allow 模式下，沙箱内运行的命令不需要权限确认。</p>
+    <p class="small muted">联系你的工作：接真实客户资料之前，先用这一课的方法把能读什么、能写到哪里限定好。</p>
+  </div>
+  <div class="section-title"><h3>跟着做</h3><span class="count" data-count="main"></span></div>
+  <ol class="steps" data-part="main">
+    <li data-w="claude">
+      <p>在练习仓库里启动 <code>claude</code>，运行 <code>/status</code>。</p>
+      <p class="expect"><code>Setting sources</code> 这一行列出了本次会话加载的设置文件。</p>
+    </li>
+    <li data-w="edit">
+      <p>新建 <code>.claude/settings.json</code>，写入团队规则：禁止 Claude 读取 <code>.env</code> 文件（这类文件里通常放账号密码），允许直接运行测试命令：</p>
+      <pre data-lang="JSON">{
+  "permissions": {
+    "allow": ["Bash(npm test)"],
+    "deny": ["Read(./.env)", "Read(./.env.*)"]
+  }
+}</pre>
+      <p class="tr">设置文件一改，Claude Code 就会重新加载，不用重启。</p>
+    </li>
+    <li data-w="claude">
+      <pre data-lang="Claude">/permissions</pre>
+      <p class="expect">allow 规则里有 <code>Bash(npm test)</code>，deny 规则里有那两条 <code>Read</code>。</p>
+    </li>
+    <li data-w="claude">
+      <pre data-lang="Claude">Run npm test</pre>
+      <p class="expect">测试直接运行，没有弹出权限确认，因为 allow 规则覆盖了这条命令。</p>
+    </li>
+    <li data-w="claude">
+      <p>打开沙箱：运行 <code>/sandbox</code>，在 <b>Mode</b> 标签页选 <b>auto-allow</b>。这个设置会保存到你的个人文件 <code>.claude/settings.local.json</code>。</p>
+      <details class="stuck"><summary>只看到一个 Dependencies 标签？</summary><p>说明沙箱缺少依赖。Mac 自带所需组件；在 Linux 或 WSL 2 上要安装 <code>bubblewrap</code> 和 <code>socat</code>，然后重启 Claude Code，再运行 <code>/sandbox</code>。</p></details>
+    </li>
+    <li data-w="claude">
+      <p>让 Claude 试着在项目外面写文件：</p>
+      <pre data-lang="Claude">Run this exact command and show me its output: touch ~/sandbox-probe</pre>
+      <p class="tr">意思：原样运行这条命令并显示输出：在你的用户主目录建一个文件。</p>
+      <p class="expect">命令没有弹确认就运行了，但执行失败。Mac 上的报错是 <code>Operation not permitted</code>。</p>
+      <p>如果 Claude 提出要在沙箱外重试，<b>拒绝</b>。</p>
+    </li>
+  </ol>
+  <div class="section-title"><h3>自己练一遍</h3><span class="count" data-count="turn"></span></div>
+  <ol class="steps" data-part="turn">
+    <li data-w="look"><p>原课的这一部分是在你自己的仓库里再做一遍。只用练习仓库的话，完成下面三步就行。以后要在装客户资料的真实文件夹里用 Claude Code，再按同样的方法做一次。</p></li>
+    <li data-w="term"><p>确认 <code>.claude/settings.json</code> 只允许一条测试命令，并且同时禁止读取 <code>.env</code> 和 <code>.env.*</code>。然后提交：</p>
+      <pre data-lang="终端">git add .claude/settings.json
+git commit -m "Add team permission rules"</pre></li>
+    <li data-w="term"><p>运行 <code>git status</code>，确认 <code>.claude/settings.local.json</code> <b>没有</b>被列出来。Claude Code 创建它时会自动把它排除在 git 之外。</p></li>
+  </ol>
+  <div class="section-title"><h3>检查过关</h3><span class="count" data-count="check"></span></div>
+  <ol class="steps" data-part="check">
+    <li data-w="term">
+      <pre data-lang="终端">git show HEAD:.claude/settings.json | jq .permissions
+jq .sandbox .claude/settings.local.json
+npm run check -- i-4</pre>
+      <p class="expect">第一条显示你写的 allow 和 deny 规则，第二条显示 <code>"enabled": true</code>，检查全部 <code>PASS</code>。</p>
+      <details class="stuck"><summary>第一项因为规则太宽没通过？</summary><p>把它换成具体的那一条命令。比如 <code>Bash(npm *)</code> 会让 Claude 不问你就运行任何 npm 命令。</p></details>
+    </li>
+    <li data-w="look"><p>自查：Claude 运行 <code>touch ~/sandbox-probe</code> 时没有先问你，而且失败了。</p></li>
+  </ol>
+  <div class="warnbox">
+    <h3>容易踩的坑</h3>
+    <p>沙箱只管 shell 命令。Claude 的文件工具和网页工具在沙箱外运行，受权限规则约束；钩子和本地 MCP 服务器也在沙箱外运行，拥有你的全部权限。另外，沙箱启动失败时，Claude Code 默认会在没有沙箱的情况下继续运行命令，除非把 <code>sandbox.failIfUnavailable</code> 设为 <code>true</code>。</p>
+    <p>单独一条 <code>Read</code> deny 规则，能拦住 Claude 的文件工具和它认得的文件命令（比如 <code>cat</code>），但拦不住自己去打开文件的脚本。打开沙箱后，deny 的路径会同时加进沙箱的禁读列表，沙箱里的命令和它们启动的进程也就都读不到了。</p>
+  </div>
+  <div class="panel"><div class="section-title"><h3>过关小测</h3><span class="count">全部答对才算过关</span></div><div class="quiz" data-quiz="i-4"></div></div>
+  <nav class="pager" aria-label="课程翻页"></nav>
+</section>
+
+<!-- ============ 第 8 课 = 中级第 7 课 ============ -->
+<section class="view lesson" id="v-i-7" data-view="i-7" hidden>
+  <div class="lhead">
+    <span class="eyebrow">第 8 课 / 共 8 课 · 中级 · 约 20 分钟</span>
+    <h2>用 MCP 连接外部工具</h2>
+    <p class="goal">学完这课，你能先给自己接入一个 MCP 服务器，再把它锁定到一个固定版本，按项目范围共享给项目里的所有人。</p>
+  </div>
+  <div class="panel idea">
+    <h3>先搞懂</h3>
+    <p><b>MCP</b>（Model Context Protocol，模型上下文协议）让 Claude Code 能使用另一个程序提供的工具，这个程序叫 MCP 服务器。本课用的是 Google 出的 <b>Chrome DevTools MCP</b>：它在你电脑上运行，让 Claude 能在 Chrome 里打开网页、读控制台输出、截图。</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>范围</th><th>谁能用</th><th>存在哪里</th></tr></thead>
+      <tbody>
+        <tr><td>Local（默认）</td><td>你自己，仅本项目</td><td><code>~/.claude.json</code></td></tr>
+        <tr><td>Project</td><td>项目里所有人</td><td>项目根目录的 <code>.mcp.json</code>，提交进仓库</td></tr>
+        <tr><td>User</td><td>你自己，所有项目</td><td><code>~/.claude.json</code></td></tr>
+      </tbody>
+    </table></div>
+    <p>在交互式会话里，项目里的服务器要先经过你批准才会被使用。</p>
+    <p><b>数据外流提醒</b>：Chrome DevTools MCP 默认会向 Google 发送使用统计，可能把性能追踪的网址发给 Google 的 CrUX 接口，还会联网检查 npm 更新。本课每次运行都把这三项关掉。即便如此，Claude 打开的网页仍然是从网上加载的，而且这个服务器能让 Claude 看到那个浏览器里的所有内容。</p>
+    <p class="small muted">需要提前装好 Chrome，以及 Node.js 自带的 npm。</p>
+  </div>
+  <div class="section-title"><h3>跟着做</h3><span class="count" data-count="main"></span></div>
+  <ol class="steps" data-part="main">
+    <li data-w="term">
+      <p>在练习仓库里准备一个要查看的网页：</p>
+      <pre data-lang="终端">cd {{DIR}}
+cat &gt; .practice/demo.html &lt;&lt;'EOF'
+&lt;!doctype html&gt;
+&lt;title&gt;Linkcheck demo&lt;/title&gt;
+&lt;h1&gt;Linkcheck demo&lt;/h1&gt;
+&lt;script&gt;console.warn('demo warning from the page');&lt;/script&gt;
+EOF</pre>
+    </li>
+    <li data-w="term">
+      <p>按 Local 范围给自己接入服务器。版本号固定为 1.10.1；<code>--isolated</code> 让浏览器使用一个临时配置；另外两个参数和环境变量负责关掉那三项数据外流。<code>--</code> 后面的部分是服务器自己的启动命令：</p>
+      <pre data-lang="终端">claude mcp add --env CHROME_DEVTOOLS_MCP_NO_UPDATE_CHECKS=1 --transport stdio chrome-devtools -- npx -y chrome-devtools-mcp@1.10.1 --isolated --no-usage-statistics --no-performance-crux</pre>
+    </li>
+    <li data-w="term">
+      <pre data-lang="终端">claude mcp get chrome-devtools</pre>
+      <p class="expect">显示它所在的范围（这里是 local）和服务器状态。</p>
+    </li>
+    <li data-w="claude">
+      <p>启动 <code>claude</code>，运行 <code>/mcp</code>，能看到 <code>chrome-devtools</code> 和它提供的工具。然后提问：</p>
+      <pre data-lang="Claude">Use the chrome-devtools tools to open .practice/demo.html as a file: URL, and tell me its title and console messages.</pre>
+      <p class="tr">意思：用 chrome-devtools 工具以 file: 地址打开这个网页，告诉我它的标题和控制台消息。</p>
+      <p class="expect">弹出一个 Chrome 窗口，Claude 报告标题是 <code>Linkcheck demo</code>，并给出那条控制台警告。如果是 Manual 模式，每个工具第一次使用时会先问你要权限。</p>
+    </li>
+  </ol>
+  <div class="section-title"><h3>自己练一遍</h3><span class="count" data-count="turn"></span></div>
+  <ol class="steps" data-part="turn">
+    <li data-w="term"><p>删掉本地范围的那份配置，否则它会优先于同名的项目服务器：</p>
+      <pre data-lang="终端">claude mcp remove chrome-devtools -s local</pre></li>
+    <li data-w="edit"><p>在仓库根目录新建 <code>.mcp.json</code>，把下面每个 <code>TODO</code> 换成示例命令里对应的值：</p>
+      <pre data-lang="JSON">{
+  "mcpServers": {
+    "chrome-devtools": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "TODO: the package at an exact version", "--isolated", "TODO: no usage statistics", "TODO: no CrUX lookups"],
+      "env": { "TODO: the variable that turns off update checks": "1" }
+    }
+  }
+}</pre>
+      <details class="stuck"><summary>想对一下答案？</summary><p>四个 TODO 依次是：<code>chrome-devtools-mcp@1.10.1</code>、<code>--no-usage-statistics</code>、<code>--no-performance-crux</code>、<code>CHROME_DEVTOOLS_MCP_NO_UPDATE_CHECKS</code>。</p></details></li>
+    <li data-w="term"><p>提交：<code>git add .mcp.json</code>，再 <code>git commit -m "Share the chrome-devtools MCP server"</code>。</p></li>
+    <li data-w="claude"><p>启动 <code>claude</code>。它会提示项目里发现了新的 MCP 服务器，选择使用它。之后 <code>/mcp</code> 会显示它已连接。</p></li>
+    <li data-w="claude"><p>让 Claude 截图：</p>
+      <pre data-lang="Claude">Use the chrome-devtools tools to open .practice/demo.html and save a screenshot of it to .practice/i-7-page.png</pre></li>
+  </ol>
+  <div class="section-title"><h3>检查过关</h3><span class="count" data-count="check"></span></div>
+  <ol class="steps" data-part="check">
+    <li data-w="term">
+      <pre data-lang="终端">file .practice/i-7-page.png
+npm run check -- i-7</pre>
+      <p class="expect">显示 <code>PNG image data</code>，检查全部 <code>PASS</code>。</p>
+      <details class="stuck"><summary>第一项没通过？</summary><p>把每个参数和示例命令逐一对比。写成 <code>@latest</code> 不算固定版本。</p></details>
+      <details class="stuck"><summary>没有生成截图？</summary><p>运行 <code>/mcp</code> 看服务器有没有连上。错过了批准提示的话，可以在 <code>/mcp</code> 里批准；如果之前点了拒绝，运行 <code>claude mcp reset-project-choices</code>，再重新启动 <code>claude</code>。</p></details>
+    </li>
+    <li data-w="look"><p>自查：批准之后，<code>/mcp</code> 显示 <code>chrome-devtools</code> 已连接。</p></li>
+  </ol>
+  <div class="warnbox">
+    <h3>容易踩的坑</h3>
+    <p>用 <code>claude -p</code> 写脚本运行时，Claude Code 会<b>不经询问</b>就加载项目里的 MCP 服务器。在任何仓库里写脚本调用 Claude Code 之前，先读一遍它的 <code>.mcp.json</code>。</p>
+    <p>第三方 MCP 服务器能在你电脑上运行代码，或者给 Claude 加上新工具。安装前先审一下，原教程不负责审核它们。</p>
+  </div>
+  <div class="panel"><div class="section-title"><h3>过关小测</h3><span class="count">全部答对才算过关</span></div><div class="quiz" data-quiz="i-7"></div></div>
+  <nav class="pager" aria-label="课程翻页"></nav>
+</section>
+
+<!-- ============ 复习：记忆卡 + 错题本 ============ -->
+<section class="view" id="v-review" data-view="review" hidden>
+  <div class="lhead">
+    <span class="eyebrow">复习</span>
+    <h2>命令记忆卡与错题本</h2>
+    <p class="muted">记忆卡按间隔复习：答“记得”，下次复习的间隔会依次拉长为 1、3、7、14 天；答“忘了”，这张卡今天会再出现。只有你学过的课程里的命令才会进入复习。</p>
+  </div>
+  <div class="stats" id="review-stats"></div>
+  <div id="flash-area"></div>
+  <div class="panel">
+    <div class="section-title"><h3>错题本</h3><span class="count" id="wrong-count"></span></div>
+    <div id="wrong-list" style="display:flex;flex-direction:column;gap:14px"></div>
+  </div>
+</section>
+
+<!-- ============ 速查 ============ -->
+<section class="view" id="v-ref" data-view="ref" hidden>
+  <div class="lhead"><span class="eyebrow">速查</span><h2>命令、术语和学完后的练手方向</h2></div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>命令 / 按键</th><th>作用</th><th>课</th></tr></thead>
+    <tbody id="cmd-rows"></tbody>
+  </table></div>
+  <div class="panel">
+    <h3>术语</h3>
     <dl class="glossary">
-      <dt>Session 会话</dt><dd>一次和 Claude Code 的对话。会话越长，上下文越满，需要清理或压缩。</dd>
-      <dt>Context 上下文</dt><dd>Claude 当前“记得”的内容总量，包括对话、读过的文件和加载的说明。</dd>
-      <dt>Permission mode</dt><dd>权限模式：决定 Claude 改文件、跑命令前是否要你批准。</dd>
-      <dt>Plan mode</dt><dd>计划模式：Claude 先出方案，你批准后才动手改文件。</dd>
-      <dt>CLAUDE.md</dt><dd>项目记忆文件。每次新会话都会读，适合放公司画像、规则和输出格式。</dd>
-      <dt>Skill 技能</dt><dd>把一套重复的工作说明存成文件，输入名字就调用，请求匹配时也会自动加载。</dd>
-      <dt>Sandbox 沙箱</dt><dd>限制 Claude 运行的命令只能写入项目目录、临时目录和你加进来的目录。</dd>
-      <dt>MCP</dt><dd>连接外部工具和数据的标准协议，例如浏览器、数据库或某个服务的接口。</dd>
+      <dt>Session 会话</dt><dd>一次和 Claude Code 的对话。会话越长，上下文越满。</dd>
+      <dt>Context 上下文</dt><dd>Claude 当前“记得”的全部内容：对话、读过的文件、加载的说明。</dd>
+      <dt>Permission mode</dt><dd>权限模式，决定 Claude 改文件、跑命令前要不要问你。</dd>
+      <dt>Plan mode</dt><dd>计划模式，Claude 先出方案，你批准后才动手改文件。</dd>
+      <dt>CLAUDE.md</dt><dd>项目记忆文件，每次会话开始时读取。</dd>
+      <dt>Rule 规则</dt><dd><code>.claude/rules/</code> 下的说明文件，写了 <code>paths:</code> 就只在处理匹配文件时加载。</dd>
+      <dt>Skill 技能</dt><dd>存成文件的一套工作说明，输入名字调用，请求匹配时也会自动加载。</dd>
+      <dt>Hook 钩子</dt><dd>在会话的固定时点必定执行的命令，用来强制执行规则。</dd>
+      <dt>Sandbox 沙箱</dt><dd>由操作系统限制 Claude 运行的 shell 命令能写到哪里、能连哪些网站。</dd>
+      <dt>MCP</dt><dd>让 Claude Code 使用外部程序所提供工具的协议，例如浏览器、数据库、某个服务的接口。</dd>
     </dl>
-  </section>
+  </div>
+  <div class="panel">
+    <h3>学完 8 课后可以练手的业务场景</h3>
+    <p class="small muted">这些是练习方向，不是现成功能。先用脱敏的样例数据在练习仓库里试，结果可靠了再接真实资料。草稿只是草稿，发出前要人工确认。</p>
+    <div class="usecases">
+      <div class="panel"><span class="eyebrow">第 4 课 CLAUDE.md</span><h4>公司与产品画像</h4><p class="small">写清 AICRANE 与 AIMIX 的产品范围、达曼办公室的安装和备件能力、S/A/B/C 评级标准和输出格式。开新会话验证 Claude 是否照着回答。不写银行信息、合同金额和私人联系方式。</p></div>
+      <div class="panel"><span class="eyebrow">第 5 课 技能</span><h4>“询盘分级”技能</h4><p class="small">把每次分析询盘时重复交代的要求写成技能，输出固定栏目：核心需求、紧迫度、决策链、产品匹配、风险、下一步、英文回复草稿。</p></div>
+      <div class="panel"><span class="eyebrow">第 7 课 权限与沙箱</span><h4>给客户资料文件夹上锁</h4><p class="small">禁止读取 <code>.env</code> 这类含账号密码的文件，打开沙箱，再用 <code>/permissions</code> 确认规则已生效。</p></div>
+      <div class="panel"><span class="eyebrow">第 8 课 MCP</span><h4>接外部工具做背调</h4><p class="small">学会接入 MCP 服务器后，可以连接你已授权的表格、浏览器等工具来整理跟进台账。连接了就等于授权它读取；对外发送、发布仍然要你明确确认。</p></div>
+    </div>
+  </div>
+  <div class="panel">
+    <h3>以后再学</h3>
+    <ul class="plain small">
+      <li><b>初级第 4 课 让会话不跑偏</b>：一次处理很多询盘、会话变长时再补，学 <code>/context</code>、<code>/clear</code>、<code>/compact</code>、<code>/rewind</code>、<code>/resume</code>。</li>
+      <li><b>中级第 3 课 选择模型与思考力度</b>，以及<b>第 8 课 插件</b>：前者帮你省时间，后者可以直接装现成的功能包。</li>
+      <li><b>中级第 5、6 课 钩子、子代理</b>：要强制执行某条规则，或把任务分给专门的助手时再学。</li>
+      <li><b>高级课程</b>：想让流程定时自动跑（比如每周汇总跟进），或者要给团队统一配置时再学。</li>
+    </ul>
+  </div>
+</section>
 
-  <footer>
-    <span>课程内容、时长和命令取自本仓库各课页面（核对版本 Claude Code v2.1.292 stable，2026-10-15）。路线取舍和业务场景是为你个人整理的建议，不属于原教程。</span>
-    <span>原教程：<a href="https://github.com/wesammustafa/Claude-Code-Everything-You-Need-to-Know" target="_blank" rel="noopener">wesammustafa/Claude-Code-Everything-You-Need-to-Know</a>，MIT 许可。</span>
-  </footer>
-</div>
+<footer>
+  <span>每课的步骤、命令和预期结果，都译自本仓库对应的英文课程页面（按 Claude Code v2.1.292 stable 核对，2026-10-15）。课程顺序、小测题、复习卡和业务场景是另外为你整理的，不属于原教程。</span>
+  <span>原教程：<a href="https://github.com/wesammustafa/Claude-Code-Everything-You-Need-to-Know" target="_blank" rel="noopener">wesammustafa/Claude-Code-Everything-You-Need-to-Know</a>，MIT 许可。掌握路径、过关小测、错题本、间隔复习的设计参考了开源项目 <a href="https://github.com/HKUDS/DeepTutor" target="_blank" rel="noopener">HKUDS/DeepTutor</a>。</span>
+</footer>
+</main>
 
 <script>
 (function () {
-  var BASE = "https://github.com/Essa-li/Claude-Code-Everything-You-Need-to-Know/blob/main/";
-
-  var STAGES = [
-    {
-      name: "第一晚：初级必修", tag: "必修", must: true, time: "约 80 分钟",
-      lessons: [
-        { id: "b-1", cn: "安装、登录、熟悉界面", en: "Install, sign in and look around", min: 20, path: "docs/beginner/01-install-and-look-around.md",
-          learn: "装好 Claude Code，登录，在仓库里启动，看清当前版本、模型和账号。",
-          why: "确认用的是公司账号还是个人账号，避免用错额度。" },
-        { id: "b-2", cn: "权限模式与计划模式", en: "Permission modes and plan mode", min: 20, path: "docs/beginner/02-permission-modes-and-plan-mode.md",
-          learn: "选择 Claude 改文件前要不要问你；用计划模式先看方案再放行。",
-          why: "这是管住 AI 的第一道闸，处理客户资料前必须会。" },
-        { id: "b-3", cn: "第一次改动：从需求到提交", en: "Your first change, from request to commit", min: 20, path: "docs/beginner/03-first-change.md",
-          learn: "走完一遍完整流程：探索、计划、执行、测试、看改动、纠正、提交。",
-          why: "以后让 Claude 改报告模板、改表格脚本，都按这套流程验收。" },
-        { id: "b-5", cn: "用 CLAUDE.md 写项目记忆", en: "Project memory with CLAUDE.md", min: 20, path: "docs/beginner/05-project-memory.md",
-          learn: "创建项目 CLAUDE.md，验证新会话会遵守它。",
-          why: "把公司、产品、评级标准写进去，不用每次重新交代。",
-          note: "页面标注的前置课是第 3 课，第 4 课可以之后再补。" }
-      ]
-    },
-    {
-      name: "第二晚：中级必修", tag: "必修", must: true, time: "约 80 分钟",
-      lessons: [
-        { id: "i-1", cn: "把重复工作做成技能", en: "Turn a repeated workflow into a skill", min: 20, path: "docs/intermediate/01-first-skill.md",
-          learn: "把反复使用的工作流写成项目技能，输入名字调用，请求匹配时自动加载。",
-          why: "这一课对你最有价值：询盘分级、客户背调都可以做成技能。" },
-        { id: "i-2", cn: "整理项目记忆，查看加载了什么", en: "Organize project memory and see what loaded", min: 20, path: "docs/intermediate/02-organize-memory.md",
-          learn: "把说明拆成导入文件和分范围规则；Claude 不听话时查是哪份说明没加载。",
-          why: "第 4 课页面标注需要先学这一课，所以保留。" },
-        { id: "i-4", cn: "权限、设置范围与沙箱", en: "Permissions, settings scopes and the sandbox", min: 20, path: "docs/intermediate/04-permissions-and-sandbox.md",
-          learn: "把权限规则放进合适范围的设置文件，查看生效规则，打开沙箱。",
-          why: "接真实客户资料之前，把“能读什么、能写哪里”锁死。" },
-        { id: "i-7", cn: "用 MCP 连接外部工具", en: "Connect a tool with MCP", min: 20, path: "docs/intermediate/07-mcp.md",
-          learn: "先给自己接一个 MCP 服务器，再锁定版本、共享给整个项目。",
-          why: "以后连接表格、邮箱、浏览器等工具，靠的就是这一课。" }
-      ]
-    },
-    {
-      name: "推荐加修", tag: "时间够再学", must: false, time: "约 55 分钟",
-      lessons: [
-        { id: "b-4", cn: "让会话不跑偏", en: "Keep a session on track", min: 20, path: "docs/beginner/04-keep-a-session-on-track.md",
-          learn: "看上下文用量，清空或压缩会话，撤回改动，恢复之前的对话。",
-          why: "一次处理几十条询盘时，会话变长后结果会变差，这课教你怎么收拾。" },
-        { id: "i-3", cn: "选择模型与思考力度", en: "Pick the model and effort", min: 15, path: "docs/intermediate/03-model-and-effort.md",
-          learn: "按任务选模型和思考力度，判断结果不好时该加力度还是换模型。",
-          why: "简单翻译用小力度省时间，复杂背调再加力度。" },
-        { id: "i-8", cn: "安装和管理插件", en: "Install and manage plugins", min: 20, path: "docs/intermediate/08-plugins.md",
-          learn: "从 Anthropic 的插件市场安装插件，看它加了什么，停用、更新或卸载。",
-          why: "现成插件可能直接覆盖部分需求，省去自己写。",
-          note: "页面标注的前置课还包括钩子（第 5 课）和子代理（第 6 课），可先浏览这两课的开头。" }
-      ]
-    }
+  "use strict";
+  var REPO = "https://github.com/Essa-li/Claude-Code-Everything-You-Need-to-Know/blob/main/";
+  var LESSONS = [
+    { id: "b-1", n: 1, night: 1, title: "安装、登录、熟悉界面", min: 20, path: "docs/beginner/01-install-and-look-around.md" },
+    { id: "b-2", n: 2, night: 1, title: "权限模式与计划模式", min: 20, path: "docs/beginner/02-permission-modes-and-plan-mode.md" },
+    { id: "b-3", n: 3, night: 1, title: "第一次改动：从需求到提交", min: 20, path: "docs/beginner/03-first-change.md" },
+    { id: "b-5", n: 4, night: 1, title: "用 CLAUDE.md 写项目记忆", min: 20, path: "docs/beginner/05-project-memory.md" },
+    { id: "i-1", n: 5, night: 2, title: "把重复工作做成技能", min: 20, path: "docs/intermediate/01-first-skill.md" },
+    { id: "i-2", n: 6, night: 2, title: "整理项目记忆，查看加载了什么", min: 20, path: "docs/intermediate/02-organize-memory.md" },
+    { id: "i-4", n: 7, night: 2, title: "权限、设置范围与沙箱", min: 20, path: "docs/intermediate/04-permissions-and-sandbox.md" },
+    { id: "i-7", n: 8, night: 2, title: "用 MCP 连接外部工具", min: 20, path: "docs/intermediate/07-mcp.md" }
   ];
 
-  var SKIPS = [
-    { t: "中级第 5、6 课：钩子、子代理", r: "偏开发流程。想让某条规则每次都强制执行，或把大任务分给专门助手时再学。" },
-    { t: "高级第 1–7 课", r: "并行会话、无人值守脚本、GitHub Actions、团队共享。准备让流程定时自动跑、或给团队统一配置时再学。" },
-    { t: "高级选修：/goal、/loop 和定时任务", r: "能让 Claude 按条件、按间隔或在云端按计划持续工作，适合“每周汇总跟进”。页面标注需先学完高级第 7 课。" },
-    { t: "三个级别的结业项目（Capstone）", r: "每个 30–60 分钟，综合练习。想检验自己是否真学会时再做。" },
-    { t: "各级选修课", r: "IDE 插件、截图、Chrome 浏览器、状态栏等，按需查。" }
-  ];
+  var QUIZ = {
+    "b-1": [
+      { q: "想一次看到版本、模型和账号，用哪个命令？", o: ["/status", "/usage", "claude --version", "/exit"], a: 0, e: "/status 的 Status 标签页同时列出三项；claude --version 只显示版本。" },
+      { q: "第一次在仓库里启动时出现信任对话框，默认高亮的是哪个选项？", o: ["Yes, I trust this folder", "No, exit"], a: 1, e: "默认高亮 No, exit，直接回车会退出。要按下箭头选 Yes, I trust this folder。" },
+      { q: "第 1 课结束时，为什么要在窗口 B 运行 git status？", o: ["为了登录账号", "新会话可以不问你就改文件、跑命令，即使只是提问也可能写入文件", "为了更新 Claude Code 版本"], a: 1, e: "新会话默认能不经确认修改大多数文件、运行大多数命令。有遗留文件就先提交或删掉。" }
+    ],
+    "b-2": [
+      { q: "状态栏显示 ⏸ plan mode on 时，Claude 能做什么？", o: ["直接改文件", "读文件、写出方案；你批准之前不能改文件", "什么都不能读"], a: 1, e: "计划模式下，Claude 读完先给方案，你批准后才能改文件。" },
+      { q: "批准方案时，想让 Claude 每次改文件都先问你，应该选哪项？", o: ["Yes, and use auto mode", "Yes, manually approve edits", "Tell Claude what to change"], a: 1, e: "选 manually approve edits 后会话进入 Manual 模式，每次改文件前都会问你。" },
+      { q: "在方案菜单上想把方案退回修改，正确做法是？", o: ["按 Shift+Tab", "移到 Tell Claude what to change，写上意见后按 Enter"], a: 1, e: "在这个菜单上按 Shift+Tab 会直接批准方案。" },
+      { q: "哪种情况更适合用 Manual 模式？", o: ["敏感工作或不熟悉的代码", "很长的任务，不想每步都批准"], a: 0, e: "Manual 适合敏感工作，每个动作你都亲自过目；长任务用 Auto 更省事。" }
+    ],
+    "b-3": [
+      { q: "本课七个步骤的正确顺序是？", o: ["计划→探索→执行→提交→测试→看改动→纠正", "探索→计划→执行→测试→看改动→纠正→提交", "执行→测试→提交→看改动"], a: 1, e: "探索、计划、执行、测试、看改动、纠正、提交。" },
+      { q: "用什么来判断改动真的有效？", o: ["Claude 写的总结", "测试结果"], a: 1, e: "能证明改动有效的是测试，不是 Claude 的总结。" },
+      { q: "Claude 的长输出被折叠了，怎么展开？", o: ["Ctrl+O", "/diff", "Esc"], a: 0, e: "Ctrl+O 展开，看完按 Esc 返回。" },
+      { q: "git diff 停在 : 提示符上，怎么退出？", o: ["按 Esc", "按 q", "按 Ctrl+O"], a: 1, e: "git 用分页器显示 diff，按 q 退出。" }
+    ],
+    "b-5": [
+      { q: "CLAUDE.md 什么时候被读取？", o: ["每次会话开始时", "每次发消息时", "只在运行 /init 时"], a: 0, e: "会话开始时读取一次，所以改完要开新会话。" },
+      { q: "绝对不能违反的规则，应该靠什么来保证？", o: ["写进 CLAUDE.md", "用钩子（hook）强制执行"], a: 1, e: "Claude 把 CLAUDE.md 当参考信息，不是必须执行的配置；硬性规则要靠钩子。" },
+      { q: "怎么确认当前会话加载了 CLAUDE.md？", o: ["/context all 的 Memory files 里能看到它", "cat CLAUDE.md"], a: 0, e: "cat 只能证明文件存在，证明不了会话加载了它。" },
+      { q: "用 /memory 编辑时，本课应该选哪个文件？", o: ["~/.claude/ 下的用户文件", "Project instructions，也就是 ./CLAUDE.md"], a: 1, e: "用户文件会作用于你所有的项目。" }
+    ],
+    "i-1": [
+      { q: "项目技能文件放在哪里？", o: [".claude/skills/<名字>/SKILL.md", ".claude/commands/<名字>.md", "CLAUDE.md 里"], a: 0, e: ".claude/commands/ 是旧格式，仍然能用，但新做的建议用技能。" },
+      { q: "frontmatter 里写 disable-model-invocation: true 有什么作用？", o: ["技能被禁用", "只能输入名字触发，Claude 不会自动加载它"], a: 1, e: "适合部署这类有副作用的流程。" },
+      { q: "Claude 根据什么决定要不要自动加载一个技能？", o: ["技能正文里的步骤", "技能的 description（以及 when_to_use）"], a: 1, e: "所以 description 要写成“做什么 + Use when 适用的请求”。" },
+      { q: "会话开始之后才新建了 .claude/skills/，技能列表里看不到，怎么办？", o: ["/reload-skills", "/init", "/clear"], a: 0, e: "/reload-skills 会重新加载技能。" }
+    ],
+    "i-2": [
+      { q: "写了 paths: 的规则什么时候加载？", o: ["会话开始时", "Claude 用 Read、Write、Edit 工具处理匹配的文件时", "永远不加载"], a: 1, e: "用 shell 命令读文件不会触发，所以本课要点名让它用 Read 工具。" },
+      { q: "@ 导入能节省上下文吗？", o: ["能", "不能，只是让结构更清楚"], a: 1, e: "被导入的文件会和导入它的文件一起加载。" },
+      { q: "Claude 不遵守某条说明时，第一步应该做什么？", o: ["把这条说明再写一遍", "先查这份说明文件有没有加载"], a: 1, e: "加载了还不遵守，再去改写法、删掉冲突的说明。" },
+      { q: "规则里写的是 source/**/*.js，但代码放在 src/ 下，结果会怎样？", o: ["照常加载", "永远不会加载"], a: 1, e: "路径从项目根目录算起，source/** 匹配不到任何文件。" }
+    ],
+    "i-4": [
+      { q: "整个团队都要遵守的规则应该放在哪里？", o: ["~/.claude/settings.json", ".claude/settings.json，并提交进仓库", ".claude/settings.local.json"], a: 1, e: "settings.local.json 只对你自己生效，而且不进 git。" },
+      { q: "权限规则的判断顺序是？", o: ["allow → ask → deny", "deny → ask → allow，第一条匹配上的说了算"], a: 1, e: "先看 deny，再看 ask，最后看 allow。" },
+      { q: "沙箱管的是什么？", o: ["Claude 的所有工具", "Claude 运行的 shell 命令"], a: 1, e: "文件工具、网页工具、钩子和本地 MCP 服务器都在沙箱外运行。" },
+      { q: "为什么不该写 Bash(npm *)？", o: ["语法错误", "范围太宽，Claude 不问你就能运行任何 npm 命令"], a: 1, e: "只允许具体的那一条测试命令。" }
+    ],
+    "i-7": [
+      { q: "想让项目里所有人都用同一个 MCP 服务器，用哪个范围？", o: ["Local", "Project，写进 .mcp.json 并提交", "User"], a: 1, e: "Local 和 User 范围都只对你自己生效。" },
+      { q: "为什么要写 @1.10.1，而不是 @latest？", o: ["固定版本，每个人用的都是同一版", "@latest 不能用"], a: 0, e: "@latest 不算固定版本，过不了检查。" },
+      { q: "之前拒绝了项目里的服务器，现在想重新被询问，怎么办？", o: ["claude mcp reset-project-choices", "删掉 .mcp.json"], a: 0, e: "运行后再重新启动 claude。" },
+      { q: "用 claude -p 写脚本运行时，项目里的 MCP 服务器会怎样？", o: ["每次都会先问你", "不经询问就加载"], a: 1, e: "所以写脚本之前，先读一遍仓库的 .mcp.json。" }
+    ]
+  };
 
-  var CMDS = [
+  var CARDS = [
     ["claude", "在当前文件夹启动 Claude Code", "b-1"],
     ["claude --version", "查看已安装的版本", "b-1"],
-    ["/status", "查看当前会话的版本、模型和账号", "b-1"],
+    ["/status", "查看会话的版本、模型、账号和设置来源", "b-1"],
+    ["/exit", "结束会话", "b-1"],
     ["Shift+Tab", "切换权限模式", "b-2"],
-    ["/plan <任务>", "进入计划模式，先出方案", "b-2"],
-    ["/diff", "查看 Claude 做了哪些改动", "b-3"],
-    ["/context", "查看上下文用了多少", "b-4"],
-    ["/clear", "清空当前对话，重新开始", "b-4"],
-    ["/compact", "压缩对话，腾出上下文", "b-4"],
-    ["/rewind", "撤回到之前的某一步", "b-4"],
-    ["/resume", "恢复之前的对话", "b-4"],
-    ["/init", "生成项目 CLAUDE.md 初稿", "b-5"],
-    ["/memory", "打开和编辑记忆文件", "b-5"],
-    ["/skills", "查看可用技能", "i-1"],
+    ["/plan <任务>", "进入计划模式，并直接开始这个任务", "b-2"],
+    ["Ctrl+O", "展开被折叠的长输出", "b-3"],
+    ["/diff", "查看还没提交的改动", "b-3"],
+    ["git rev-parse HEAD", "打印最新一次提交的编号", "b-3"],
+    ["/init", "根据代码生成 CLAUDE.md 初稿", "b-5"],
+    ["/memory", "打开并编辑记忆文件", "b-5"],
+    ["/context all", "展开查看上下文，包括已加载的 Memory files", "b-5"],
+    ["/skills", "列出可用的技能", "i-1"],
+    ["/技能名 内容", "运行技能，后面的内容会填进 $ARGUMENTS", "i-1"],
+    ["/reload-skills", "重新加载技能", "i-1"],
+    ["/clear", "清空当前对话", "i-1"],
+    ["/rewind", "撤回到之前的某一步", "i-1"],
+    ["claude --settings 文件", "带上额外的设置文件启动会话", "i-2"],
     ["/permissions", "查看和管理权限规则", "i-4"],
-    ["/sandbox", "设置沙箱", "i-4"],
-    ["/mcp", "查看和管理已连接的 MCP 服务器", "i-7"],
-    ["npm run check -- b-1", "在练习仓库检查某课作业（把 b-1 换成课号）", "各课"]
+    ["/sandbox", "设置沙箱模式", "i-4"],
+    ["claude mcp add", "添加一个 MCP 服务器", "i-7"],
+    ["claude mcp get 名字", "查看服务器的范围和状态", "i-7"],
+    ["/mcp", "在会话里查看 MCP 服务器和它们的工具", "i-7"],
+    ["claude mcp reset-project-choices", "重置你对项目服务器的批准或拒绝", "i-7"],
+    ["npm run check -- 课号", "在练习仓库里检查某一课的作业", "全部"]
   ];
 
-  var KEY = "cc-route-done-v1";
-  var done = {};
-  try { done = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { done = {}; }
-  function save() { try { localStorage.setItem(KEY, JSON.stringify(done)); } catch (e) {} }
-
-  function el(tag, cls, html) { var n = document.createElement(tag); if (cls) n.className = cls; if (html != null) n.innerHTML = html; return n; }
+  // ---------- 状态 ----------
+  var KEY = "cc-tutor-v2";
+  var S = { dir: "~/claude-code-practice", steps: {}, quiz: {}, wrong: {}, cards: {}, unlocked: {} };
+  try { var raw = localStorage.getItem(KEY); if (raw) { var p = JSON.parse(raw); for (var k in p) S[k] = p[k]; } } catch (e) {}
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function today() { var d = new Date(); d.setHours(0, 0, 0, 0); return d.getTime(); }
+  var DAY = 86400000;
 
-  var MUST_IDS = [];
-  var stagesEl = document.getElementById("stages");
-  stagesEl.style.cssText = "display:flex;flex-direction:column;gap:32px";
+  function copyText(btn, text, codeEl) {
+    function ok() { btn.textContent = "已复制"; setTimeout(function () { btn.textContent = "复制"; }, 1500); }
+    function fallback() { var r = document.createRange(); r.selectNodeContents(codeEl); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = "已选中，按 ⌘C"; }
+    try { navigator.clipboard.writeText(text).then(ok, fallback); } catch (e) { fallback(); }
+  }
 
-  STAGES.forEach(function (st, si) {
-    var s = el("div", "stage");
-    var head = el("div", "stage-head");
-    head.appendChild(el("h3", null, esc(st.name)));
-    head.appendChild(el("span", "tag" + (st.must ? " must" : ""), esc(st.tag)));
-    head.appendChild(el("span", "time", esc(st.time)));
-    s.appendChild(head);
-    var ol = el("ol", "timeline");
-    st.lessons.forEach(function (l) {
-      if (st.must) MUST_IDS.push(l.id);
-      var li = el("li", "lesson" + (done[l.id] ? " done" : ""));
-      var cb = document.createElement("input");
-      cb.type = "checkbox"; cb.id = "done-" + l.id; cb.checked = !!done[l.id];
-      cb.setAttribute("aria-label", "标记 " + l.cn + " 已完成");
-      cb.addEventListener("change", function () {
-        done[l.id] = cb.checked; save();
-        li.classList.toggle("done", cb.checked); update();
+  // ---------- 课程步骤 ----------
+  var WHERE = { term: ["term", "窗口 B · 终端"], claude: ["claude", "窗口 A · Claude Code"], edit: ["edit", "编辑器"], look: ["look", "只看"] };
+  var STEP_IDS = {};
+  document.querySelectorAll("section.lesson").forEach(function (sec) {
+    var lid = sec.dataset.view; STEP_IDS[lid] = [];
+    sec.querySelectorAll("ol.steps").forEach(function (ol) {
+      var part = ol.dataset.part;
+      Array.prototype.forEach.call(ol.children, function (li, i) {
+        var sid = lid + ":" + part + ":" + i; STEP_IDS[lid].push(sid);
+        var body = document.createElement("div"); body.className = "sbody";
+        while (li.firstChild) body.appendChild(li.firstChild);
+        var w = WHERE[li.dataset.w] || WHERE.look;
+        var head = document.createElement("div"); head.className = "shead";
+        head.innerHTML = '<span class="n"></span><span class="w ' + w[0] + '">' + w[1] + "</span>";
+        body.insertBefore(head, body.firstChild);
+        var cb = document.createElement("input"); cb.type = "checkbox"; cb.className = "tick"; cb.id = "t-" + sid.replace(/:/g, "-");
+        cb.setAttribute("aria-label", "标记这一步已完成"); cb.checked = !!S.steps[sid];
+        li.classList.toggle("done", cb.checked);
+        cb.addEventListener("change", function () { S.steps[sid] = cb.checked; li.classList.toggle("done", cb.checked); save(); refreshCounts(sec); renderMap(); });
+        li.appendChild(cb); li.appendChild(body);
+        body.querySelectorAll("pre").forEach(function (pre) {
+          var box = document.createElement("div"); box.className = "codebox";
+          var raw = pre.textContent; pre.dataset.raw = raw;
+          var code = document.createElement("code"); code.textContent = raw; pre.textContent = ""; pre.appendChild(code);
+          pre.parentNode.insertBefore(box, pre); box.appendChild(pre);
+          if (pre.dataset.lang) { var lg = document.createElement("span"); lg.className = "lang"; lg.textContent = pre.dataset.lang; box.appendChild(lg); }
+          var b = document.createElement("button"); b.type = "button"; b.className = "copy"; b.textContent = "复制";
+          b.addEventListener("click", function () { copyText(b, code.textContent, code); });
+          box.appendChild(b);
+        });
       });
-      li.appendChild(cb);
-      var b = el("div", "body");
-      b.appendChild(el("div", "top",
-        '<span class="id">' + esc(l.id) + '</span>' +
-        '<h3><label for="done-' + esc(l.id) + '">' + esc(l.cn) + '</label></h3>' +
-        '<span class="orig">' + esc(l.en) + '</span>'));
-      b.appendChild(el("p", null, esc(l.learn)));
-      b.appendChild(el("p", "why", "<b>对你的用处：</b>" + esc(l.why)));
-      if (l.note) b.appendChild(el("p", "note", esc(l.note)));
-      b.appendChild(el("div", "meta",
-        '<span>约 ' + l.min + ' 分钟</span>' +
-        '<span>检查：<code>npm run check -- ' + esc(l.id) + '</code></span>' +
-        '<a href="' + BASE + l.path + '" target="_blank" rel="noopener">打开课程页（英文）</a>'));
-      li.appendChild(b);
-      ol.appendChild(li);
     });
-    s.appendChild(ol);
-    stagesEl.appendChild(s);
+    refreshCounts(sec);
   });
+  function refreshCounts(sec) {
+    sec.querySelectorAll("[data-count]").forEach(function (el) {
+      var ol = sec.querySelector('ol.steps[data-part="' + el.dataset.count + '"]');
+      var all = ol.children.length, d = ol.querySelectorAll("li.done").length;
+      el.textContent = "已完成 " + d + " / " + all;
+    });
+  }
+  function applyDir() {
+    var dir = S.dir || "~/claude-code-practice";
+    document.querySelectorAll("pre[data-raw]").forEach(function (pre) { pre.firstChild.textContent = pre.dataset.raw.split("{{DIR}}").join(dir); });
+    document.querySelectorAll("details.stuck code, .sbody > p code").forEach(function (c) { if (!c.dataset.raw && c.textContent.indexOf("{{DIR}}") > -1) c.dataset.raw = c.textContent; if (c.dataset.raw) c.textContent = c.dataset.raw.split("{{DIR}}").join(dir); });
+  }
+  var dirInput = document.getElementById("dir-input");
+  dirInput.value = S.dir;
+  dirInput.addEventListener("input", function () { S.dir = dirInput.value.trim() || "~/claude-code-practice"; save(); applyDir(); });
+  applyDir();
 
-  var skipEl = document.getElementById("skip-list");
-  SKIPS.forEach(function (k) {
-    skipEl.appendChild(el("div", "skip-item", "<b>" + esc(k.t) + "</b><span>" + esc(k.r) + "</span>"));
-  });
-
-  var rows = document.getElementById("cmd-rows");
-  CMDS.forEach(function (c) {
-    var tr = document.createElement("tr");
-    tr.innerHTML = '<td><code>' + esc(c[0]) + '</code><button class="copy" type="button">复制</button></td><td>' + esc(c[1]) + '</td><td class="mono">' + esc(c[2]) + '</td>';
-    var btn = tr.querySelector("button");
-    btn.addEventListener("click", function () {
-      var code = tr.querySelector("code");
-      function ok() { btn.textContent = "已复制"; setTimeout(function () { btn.textContent = "复制"; }, 1500); }
-      function fallback() {
-        var r = document.createRange(); r.selectNodeContents(code);
-        var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
-        btn.textContent = "已选中";
+  // ---------- 小测 ----------
+  function lessonOf(id) { for (var i = 0; i < LESSONS.length; i++) if (LESSONS[i].id === id) return LESSONS[i]; }
+  function renderQuiz(box) {
+    var lid = box.dataset.quiz, qs = QUIZ[lid], st = S.quiz[lid] || { ans: {} };
+    box.innerHTML = "";
+    qs.forEach(function (item, qi) {
+      var q = document.createElement("div"); q.className = "q";
+      q.innerHTML = '<p class="stem">' + (qi + 1) + ". " + esc(item.q) + '</p><div class="opts"></div><p class="explain" hidden></p>';
+      var opts = q.querySelector(".opts"), ex = q.querySelector(".explain");
+      var chosen = st.ans[qi];
+      item.o.forEach(function (text, oi) {
+        var b = document.createElement("button"); b.type = "button"; b.className = "opt"; b.textContent = text;
+        if (chosen != null) { b.disabled = true; if (oi === item.a) b.classList.add("right"); if (oi === chosen && chosen !== item.a) b.classList.add("wrong"); }
+        b.addEventListener("click", function () {
+          st.ans[qi] = oi; S.quiz[lid] = st;
+          var wid = lid + ":" + qi;
+          if (oi !== item.a) { S.wrong[wid] = (S.wrong[wid] || 0) + 1; } else if (S.wrong[wid]) { S.wrong[wid + ":fixed"] = true; }
+          save(); renderQuiz(box); renderMap(); renderReview();
+        });
+        opts.appendChild(b);
+      });
+      if (chosen != null) { ex.hidden = false; ex.textContent = (chosen === item.a ? "答对了。" : "答错了，已记进错题本。") + item.e; }
+      box.appendChild(q);
+    });
+    var answered = Object.keys(st.ans).length;
+    if (answered === qs.length) {
+      var right = qs.filter(function (it, i) { return st.ans[i] === it.a; }).length;
+      var r = document.createElement("div");
+      if (right === qs.length) {
+        st.passed = true; S.quiz[lid] = st; save();
+        r.className = "result pass"; r.textContent = "全部答对，本课过关。地图上的下一课已经解锁。";
+      } else {
+        r.className = "result fail"; r.textContent = "答对 " + right + " / " + qs.length + "。看一下解释，再重做一遍。";
+        var again = document.createElement("button"); again.type = "button"; again.className = "btn ghost"; again.textContent = "重做小测";
+        again.style.marginTop = "8px";
+        again.addEventListener("click", function () { S.quiz[lid] = { ans: {}, passed: !!st.passed }; save(); renderQuiz(box); });
+        box.appendChild(r); box.appendChild(again); return;
       }
-      try { navigator.clipboard.writeText(c[0]).then(ok, fallback); } catch (e) { fallback(); }
+      box.appendChild(r);
+    }
+  }
+  document.querySelectorAll(".quiz[data-quiz]").forEach(renderQuiz);
+
+  function passed(id) { return !!(S.quiz[id] && S.quiz[id].passed); }
+  function stepPct(id) { var ids = STEP_IDS[id] || []; if (!ids.length) return 0; return ids.filter(function (s) { return S.steps[s]; }).length / ids.length; }
+  function currentLesson() { for (var i = 0; i < LESSONS.length; i++) if (!passed(LESSONS[i].id)) return LESSONS[i]; return null; }
+
+  // ---------- 翻页 + 解锁提示 ----------
+  LESSONS.forEach(function (l, i) {
+    var sec = document.getElementById("v-" + l.id);
+    var pager = sec.querySelector(".pager");
+    var prev = LESSONS[i - 1], next = LESSONS[i + 1];
+    pager.innerHTML =
+      (prev ? '<a class="btn ghost" href="#' + prev.id + '">← 第 ' + prev.n + " 课</a>" : '<a class="btn ghost" href="#home">← 回到路线</a>') +
+      '<a class="btn ghost" href="' + REPO + l.path + '" target="_blank" rel="noopener">英文原课</a>' +
+      (next ? '<a class="btn" href="#' + next.id + '">第 ' + next.n + " 课 →</a>" : '<a class="btn" href="#review">去复习 →</a>');
+    if (prev) {
+      var lock = document.createElement("div"); lock.className = "lock"; lock.dataset.lockFor = prev.id;
+      lock.innerHTML = '<span>建议先通过<b>第 ' + prev.n + " 课的过关小测</b>，再学这一课。</span>" +
+        '<a href="#' + prev.id + '">回到第 ' + prev.n + " 课</a>";
+      sec.querySelector(".lhead").appendChild(lock);
+    }
+  });
+  function refreshLocks() { document.querySelectorAll(".lock[data-lock-for]").forEach(function (el) { el.hidden = passed(el.dataset.lockFor); }); }
+
+  // ---------- 地图 ----------
+  function renderMap() {
+    var cur = currentLesson();
+    var html = '<ol class="map">', lastNight = 0;
+    LESSONS.forEach(function (l, i) {
+      if (l.night !== lastNight) { html += '<li style="display:block"><div class="night">' + (l.night === 1 ? "第一晚 · 初级 4 课 · 约 80 分钟" : "第二晚 · 中级 4 课 · 约 80 分钟") + "</div></li>"; lastNight = l.night; }
+      var done = passed(l.id), now = cur && cur.id === l.id, pct = Math.round(stepPct(l.id) * 100);
+      var locked = i > 0 && !passed(LESSONS[i - 1].id) && !now;
+      var chip = done ? '<span class="chip ok">已过关</span>' : now ? '<span class="chip now">当前</span>' : locked ? '<span class="chip">待解锁</span>' : '<span class="chip">可学</span>';
+      html += '<li class="' + (done ? "state-done" : now ? "state-now" : "") + '"><div class="rail"><span class="dot">' + (done ? "✓" : l.n) + '</span><span class="line"></span></div>' +
+        '<div class="card"><a href="#' + l.id + '">' + esc(l.title) + "</a>" +
+        '<div class="meta"><span>第 ' + l.n + " 课 · 约 " + l.min + " 分钟</span>" + chip + "<span>步骤 " + pct + "%</span></div>" +
+        '<div class="mini-bar"><i style="width:' + pct + '%"></i></div></div></li>';
     });
+    html += "</ol>";
+    document.getElementById("map").innerHTML = html;
+    var nPassed = LESSONS.filter(function (l) { return passed(l.id); }).length;
+    document.getElementById("map-count").textContent = "已过关 " + nPassed + " / 8";
+    var mins = LESSONS.filter(function (l) { return !passed(l.id); }).reduce(function (a, l) { return a + l.min; }, 0);
+    document.getElementById("home-stats").innerHTML =
+      '<div class="stat"><b>' + nPassed + ' / 8</b><span>已过关</span></div>' +
+      '<div class="stat"><b>≈' + mins + ' 分钟</b><span>剩余课时</span></div>' +
+      '<div class="stat"><b>' + dueCards().length + '</b><span>今天要复习的卡</span></div>';
+    var sb = document.getElementById("start-btn"), nl = document.getElementById("nav-lesson");
+    if (cur) { sb.href = "#" + cur.id; sb.textContent = (nPassed === 0 && stepPct(cur.id) === 0 ? "开始" : "继续") + "第 " + cur.n + " 课：" + cur.title; nl.href = "#" + cur.id; }
+    else { sb.href = "#review"; sb.textContent = "8 课都已过关，去复习"; nl.href = "#review"; }
+    refreshLocks();
+  }
+
+  // ---------- 记忆卡 ----------
+  var INTERVALS = [0, 1, 3, 7, 14];
+  function learnedIds() { return LESSONS.filter(function (l) { return passed(l.id) || stepPct(l.id) > 0; }).map(function (l) { return l.id; }); }
+  function activeCards() { var ids = learnedIds(); return CARDS.filter(function (c) { return c[2] === "全部" ? ids.length > 0 : ids.indexOf(c[2]) > -1; }); }
+  function dueCards() { var t = today(); return activeCards().filter(function (c) { var s = S.cards[c[0]]; return !s || s.due <= t; }); }
+  var showBack = false;
+  function renderReview() {
+    var act = activeCards(), due = dueCards();
+    var mastered = act.filter(function (c) { var s = S.cards[c[0]]; return s && s.box >= 3; }).length;
+    document.getElementById("review-stats").innerHTML =
+      '<div class="stat"><b>' + due.length + '</b><span>今天待复习</span></div>' +
+      '<div class="stat"><b>' + act.length + '</b><span>已解锁的卡</span></div>' +
+      '<div class="stat"><b>' + mastered + '</b><span>已熟记（间隔 ≥ 7 天）</span></div>';
+    var pill = document.getElementById("due-pill"); pill.hidden = due.length === 0; pill.textContent = due.length;
+    var area = document.getElementById("flash-area");
+    if (!act.length) { area.innerHTML = '<div class="flash"><p class="muted">开始第 1 课后，这里会出现那一课的命令卡。</p><a class="btn" href="#b-1">去第 1 课</a></div>'; }
+    else if (!due.length) { area.innerHTML = '<div class="flash"><p><b>今天的卡都复习完了。</b></p><p class="muted small">下次到期的卡会在这里出现。</p></div>'; }
+    else {
+      var c = due[0];
+      area.innerHTML = '<div class="flash"><span class="eyebrow">来自 ' + esc(lessonLabel(c[2])) + '</span><div class="front">' + esc(c[0]) + "</div>" +
+        (showBack ? '<div class="back">' + esc(c[1]) + '</div><div class="row"><button type="button" class="btn ghost" id="fc-no">忘了</button><button type="button" class="btn" id="fc-yes">记得</button></div>'
+                  : '<p class="muted small">先在心里说出它的作用，再翻面。</p><button type="button" class="btn" id="fc-flip">翻面</button>') + "</div>";
+      if (showBack) {
+        document.getElementById("fc-yes").onclick = function () { grade(c, true); };
+        document.getElementById("fc-no").onclick = function () { grade(c, false); };
+      } else document.getElementById("fc-flip").onclick = function () { showBack = true; renderReview(); };
+    }
+    // 错题本
+    var list = document.getElementById("wrong-list"), items = [];
+    Object.keys(S.wrong).forEach(function (k) {
+      if (/:fixed$/.test(k)) return;
+      var parts = k.split(":"), lid = parts[0], qi = +parts[1], it = QUIZ[lid] && QUIZ[lid][qi];
+      if (it) items.push({ lid: lid, it: it, n: S.wrong[k], fixed: !!S.wrong[k + ":fixed"] });
+    });
+    document.getElementById("wrong-count").textContent = items.length ? "共 " + items.length + " 题" : "";
+    list.innerHTML = items.length ? items.map(function (x) {
+      return '<div class="wrong-item"><span class="eyebrow">' + esc(lessonLabel(x.lid)) + " · 答错 " + x.n + " 次" + (x.fixed ? " · 已改对" : "") + "</span>" +
+        "<b>" + esc(x.it.q) + "</b><span>正确答案：" + esc(x.it.o[x.it.a]) + "</span><span class=\"muted\">" + esc(x.it.e) + "</span>" +
+        '<a href="#' + x.lid + '" class="small">回到这一课</a></div>';
+    }).join("") : '<p class="muted">还没有错题。做完每课的过关小测后，答错的题会自动出现在这里。</p>';
+  }
+  function lessonLabel(id) { if (id === "全部") return "全部课程"; var l = lessonOf(id); return "第 " + l.n + " 课 · " + l.title; }
+  function grade(c, ok) {
+    var s = S.cards[c[0]] || { box: 0, due: 0 };
+    s.box = ok ? Math.min(s.box + 1, INTERVALS.length - 1) : 0;
+    s.due = ok ? today() + INTERVALS[s.box] * DAY : today();
+    S.cards[c[0]] = s; save(); showBack = false;
+    // 忘了：今天再出现，但排到队尾
+    if (!ok) { var idx = CARDS.indexOf(c); CARDS.splice(idx, 1); CARDS.push(c); }
+    renderReview(); renderMap();
+  }
+
+  // ---------- 速查表 ----------
+  var rows = document.getElementById("cmd-rows");
+  CARDS.forEach(function (c) {
+    var tr = document.createElement("tr");
+    tr.innerHTML = "<td><code>" + esc(c[0]) + "</code></td><td>" + esc(c[1]) + "</td><td>" + esc(c[2] === "全部" ? "全部" : "第 " + lessonOf(c[2]).n + " 课") + "</td>";
     rows.appendChild(tr);
   });
 
-  function update() {
-    var n = MUST_IDS.filter(function (id) { return done[id]; }).length;
-    document.getElementById("progress-text").textContent = "已完成 " + n + " / " + MUST_IDS.length + " 节必修";
-    document.getElementById("progress-bar").style.width = (n / MUST_IDS.length * 100) + "%";
+  // ---------- 路由 ----------
+  var VIEWS = ["home", "review", "ref"].concat(LESSONS.map(function (l) { return l.id; }));
+  function route() {
+    var h = (location.hash || "").replace("#", "");
+    if (VIEWS.indexOf(h) < 0) h = "home";
+    document.querySelectorAll("section.view").forEach(function (s) { s.hidden = s.dataset.view !== h; });
+    document.querySelectorAll(".nav a").forEach(function (a) {
+      var t = a.dataset.nav, on = (t === h) || (t === "lesson" && lessonOf(h));
+      if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+    });
+    if (h === "review") { showBack = false; renderReview(); }
+    window.scrollTo(0, 0);
   }
-  update();
+  window.addEventListener("hashchange", route);
+  renderMap(); renderReview(); route();
 })();
 </script>
