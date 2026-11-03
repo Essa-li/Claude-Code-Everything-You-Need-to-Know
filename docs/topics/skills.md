@@ -1,6 +1,6 @@
 # Skills
 
-<sub>Topic · Verified against Claude Code v2.1.292 (stable) on 2026-10-15</sub>
+<sub>Topic · Verified against Claude Code v2.1.309 (stable) on 2026-11-02</sub>
 
 Packaged instructions that run by name or load when they apply.
 

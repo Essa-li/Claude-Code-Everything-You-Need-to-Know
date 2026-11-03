@@ -1,0 +1,5 @@
+{
+  "expect": "pass",
+  "about": "A page and a step file that still match pass; the lesson test has no offline mode that skips the comparison.",
+  "problems": []
+}

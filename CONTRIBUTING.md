@@ -107,6 +107,12 @@ Each release has an entry in [CHANGELOG.md](CHANGELOG.md), newest first:
 
 Pushing a `v*` tag runs the edition gate. On an edition tag, every stamped page's Stamp must name the edition's version. On a correction tag, every stamped page changed since the previous tag must carry a Stamp dated after that tag's entry.
 
+Not every merge is a release. After a pull request merges, decide which of these it is:
+
+- **Edition** (`vYYYY.MM`): a new level or a major rework. Verify every stamped page at the then-current `stable` and re-stamp it, as the Baseline item under [Pull requests](#pull-requests) says. Then turn the Unreleased entry into the edition's entry, tag the merge commit, and publish a GitHub Release with the entry as its notes.
+- **Correction** (`vYYYY.MM.N`, numbered from 1 within an edition): a merged change that alters what a learner does or reads as fact, such as a wrong command, a stale claim, or a broken lesson, example or check. Batch these: one correction covers every such change merged since the previous tag, at most once a week. Its entry lists the changes. Give every stamped page changed since the previous tag a new Stamp, then tag the merge commit and publish a Release as for an edition.
+- **No tag**: typos, wording that changes no fact or step, CI, the guide's own check scripts, tooling and repository housekeeping. These ship on `main` without a release.
+
 ### Numbers, benchmarks and estimates
 
 | Kind | Rule |
@@ -202,23 +208,24 @@ Before you open a pull request, run the guide's checks on your working tree, fro
 node .github/scripts/check.mjs
 ```
 
-It needs Node.js LTS, git, Ruby (for YAML), jq (for the examples' smoke tests), [shellcheck](https://github.com/koalaman/shellcheck) and [lychee](https://github.com/lycheeverse/lychee) 0.24 on your `PATH`; set `LYCHEE` or `SHELLCHECK` to point at a binary elsewhere. Each rule prints `PASS`, `FAIL`, `WARN` or `SKIP` with its name, and the command exits non-zero if any rule fails. Pull request CI runs the same command with `--base` set to the target branch; diff-scoped rules compare against `origin/main` locally.
+It needs Node.js LTS, git, Ruby (for YAML), jq (for the examples' smoke tests), [shellcheck](https://github.com/koalaman/shellcheck) and [lychee](https://github.com/lycheeverse/lychee) 0.24 on your `PATH`; set `LYCHEE` or `SHELLCHECK` to point at a binary elsewhere. Each rule prints `PASS`, `FAIL`, `WARN` or `SKIP` with its name, and the command exits non-zero if any rule fails. Pull request CI runs the same command with `--base` set to the target branch; diff-scoped rules compare against `origin/main` locally. Pull request CI runs only the jobs its changed files need (`.github/scripts/ci-scope.mjs`): a change to README, `assets/`, the check scripts or the weekly workflows runs only these checks, a change to the app's unit tests adds the `quest` job, and anything that reaches the build, the template or the app runs every job, as a push to `main` does.
 
 | Rule | Fails when |
 |---|---|
-| `internal-links` | A link or fragment inside the repo does not resolve |
+| `internal-links` | A link or fragment inside the repo does not resolve, outside `course/steps/`, `practice-template/learn/lessons/` and `quest/engine/test/fixtures/reducer-course/` (whose quoted links resolve from their Guide pages), and `practice-template/project/samples/` (the linkcheck tests' deliberate broken link) |
 | `anchor-diff` | An anchor in `anchors.txt`, or on the base branch, is gone |
 | `stub-paths` | A page path in `paths.txt` is gone |
 | `stamps` | A stamped page's Stamp is missing or malformed, or the trust strip disagrees with the CHANGELOG |
 | `edition-gate` | On a release tag only: a stamped page does not match the release |
 | `expiry` | Never on a pull request, where it warns about markers due within 30 days |
-| `em-dash` | An added line has an em dash outside code and double quotes |
+| `em-dash` | An added line in a Markdown, YAML or text file has an em dash outside code and double quotes, or an added line in the `quest/` source (TypeScript, TSX, CSS, JSON or HTML) has one anywhere, strings included |
 | `images` | An image lacks alt text, a Mermaid block lacks its accessibility lines, or a file under `assets/` breaks the naming, reference or size rules |
 | `lesson-lint` | A lesson or Elective breaks the [lesson anatomy](#lessons) |
 | `static-validation` | JSON, YAML, skill or agent frontmatter, a workflow script or a shell script does not parse or lint |
-| `inertness` | `examples/` holds a path Claude Code can load on its own, or a marketplace manifest not renamed to `dot-claude-plugin/`, or the repository root holds a `.claude-plugin/` folder |
+| `inertness` | `examples/`, `practice-template/` or `solutions/` holds a path Claude Code can load on its own, or a marketplace manifest not renamed to `dot-claude-plugin/`, or the repository root holds a `.claude-plugin/` folder |
 | `smoke-tests` | An example's `test.sh` fails (only when the change touches `examples/`) |
-| `lesson-quotes` | With `LEARN_DIR` set to a practice template checkout's `learn/lessons` folder, or in the weekly run: a quoted line, a code block, the title, the Stamp or a step count in a lesson file of the template's learning app no longer matches its lesson (a warm-up's quotes and code blocks, the earlier lesson or the level index its `from` line names), or a code block has no closing fence. A level index page (`docs/<level>/README.md`) can be quoted from any level: `learn.txt` lists it as `<level>-index`, and on any run, pull requests included, the check fails when that id names a different page; only a warm-up names it, as `from: <level>-index`. A code block must equal a fenced block of the lesson line for line, blank lines included, less the indent of the lesson's fence, which must be at most three spaces and outside a quote or alert. On a pull request that changes a lesson or level index listed in `learn.txt`, it only warns |
+
+Step-file quotes are checked by the lesson test, `npm run test:lessons`, which the quest job runs on every pull request.
 
 Each rule has known-bad fixtures under `.github/scripts/fixtures/`, one folder per case: `fixture.json` names the rule, the expected result and, optionally, `output` patterns the check's output must match, `tree/` holds the files, `base/` the state before a change, and `generate.mjs` writes anything that would be live Claude Code config if committed. If you change a rule, run the self-test too:
 
@@ -235,7 +242,6 @@ Scheduled checks keep watch between editions. Each opens or updates one tracking
 | Weekly external links | Mondays | Broken external links |
 | Daily expiry markers | Daily | Expired facts in the guide |
 | Weekly version drift | Mondays | New Claude Code stable release |
-| Weekly lesson quotes | Mondays | Lesson quotes drifted from a lesson |
 
 Every month, the maintainer:
 
@@ -250,7 +256,7 @@ The guide is organized as lessons in three levels: Beginner, Intermediate and Ad
 
 ### Lessons
 
-A lesson takes 10 to 20 minutes and moves the reader one step toward one can-do statement of its level. Every lesson has this shape, in this order:
+A lesson takes 15 to 25 minutes and moves the reader one step toward one can-do statement of its level. Every lesson has this shape, in this order:
 
 1. An H1 with the lesson title, as the first line.
 2. One `<sub>` header line under it: the level in bold, the position ("Lesson N of M"), "about N minutes", Needs (links to earlier lessons), and [the stamp](#the-stamp).
@@ -259,7 +265,7 @@ A lesson takes 10 to 20 minutes and moves the reader one step toward one can-do 
    - **You need:** earlier lessons, the environment, and where to practice. A variant callout (native Windows, a plan difference) goes here, at most one per variant.
    - **The idea:** the working model in about 150 words at most, plus the lesson's one optional diagram.
    - **Worked example:** numbered steps on a realistic task, with real commands and the observable state after each step.
-   - **Your turn:** the exercise. Beginner repeats the example with exact steps; Intermediate finishes or fixes a partial file; Advanced gets a brief and acceptance criteria.
+   - **Your turn:** the exercise: a new decision on the same skill, never a repeat of the Worked example. Beginner gives exact steps; Intermediate finishes or fixes a partial file; Advanced gets a brief and acceptance criteria.
    - **Check:** a task list of observable criteria, with any ready-made test it needs; then the `npm run check -- <id>` line where a check exists (core lessons and capstones, not Electives); then at most one "if not" diagnosis per tested item.
 4. Optional slots: **Watch out** (at most 3 bullets: safety, then cost, then gotchas) and **Go further** (at most 3 links).
 5. A footer: the `Sources:` line; previous, level index and next; one `Topic:` link; and "Stuck on this lesson?".
@@ -286,12 +292,15 @@ Callouts are GitHub alerts, at most two per lesson, each with one meaning:
 - Diagrams are Mermaid, with `accTitle:` and `accDescr:` lines. The sentence before the diagram states its takeaway in words.
 - Terminal state that the docs give as text is shown as text in a code block, not as a screenshot.
 - A screen capture is allowed only when recognizing the real interface is the point and text cannot show it: at most three across the Beginner level. Each is taken in the practice template, cropped to the relevant interface (no startup banner, no Anthropic logo), scrubbed of personal paths, usernames, account emails, org names and tokens, given a 1px border, and captioned `Claude Code vX.Y.Z (stable), YYYY-MM-DD`.
-- README may also show up to three captures of the practice template's learning app, `npm run learn`, under the same rules. Their visible captions carry no version or date, so the front page doesn't date itself: the `Claude Code vX.Y.Z (stable), YYYY-MM-DD` line goes in an HTML comment beside each image instead.
+- README may also show up to three captures of Claude Code Quest, taken in the generated template's app, under the same rules. Their visible captions carry no version or date, so the front page doesn't date itself: the `Claude Code vX.Y.Z (stable), YYYY-MM-DD` line goes in an HTML comment beside the images instead. Pip GIFs are governed by `PIP_GIF_BUDGET`, not by the three-capture count or the capture budget.
+- A capture may come as a light and dark pair, named `<name>-light.png` and `<name>-dark.png` and shown in a `<picture>` that follows the reader's theme. The pair counts as one capture, and each file keeps the capture budget.
 - Every image has alt text that says what the reader should learn from it, not "screenshot" and not a repeat of the caption.
 - Text in a diagram or image reaches 4.5:1 contrast in GitHub's light and dark themes; other marks reach 3:1.
-- No third-party images (logos, icons, slides, product screenshots), no animation and no embedded video. There are two exceptions. The Claude mascot, [`assets/brand/claude-jumping.svg`](assets/brand/claude-jumping.svg) (MIT, credited in README), jumps beside README's title and appears on the social card in its own colors. README's first capture of the learning app may be one animated GIF, the app's own frames played in order (its mascot, Pip, greeting the learner), at the size of the still capture it replaces.
-- The `images` check enforces the alt text, the Mermaid lines, and the names, references and budget below.
-- New images go under `assets/`: `assets/brand/` for the guide's identity, `assets/lessons/<lesson-id>/` for captures and `assets/readme/` for README's. Names are kebab-case, and paths are explicit and relative. Budget: an SVG up to 50 KB, a capture up to 200 KB, README's one animated GIF up to 1000 KB. Every image that is not a capture ships its editable source beside it. Hand-drawn SVG is for the guide's identity pieces only.
+- No third-party images (logos, icons, slides, product screenshots) and no embedded video.
+- The only animation is README's Pip GIFs, `assets/readme/pip-*.gif`: captures of Claude Code Quest that show Pip reacting, each with full alt text and within the Pip GIF budget below. No other page shows them.
+- Pip's art comes only from his rig (`quest/client/pip/`, rendered by the app's runtime or `npm run pip:build`), his icon SVG, or captures of the app. Never redraw him by hand.
+- The `images` check enforces the alt text, the Mermaid lines, the one-animation rule (it reads each PNG and WebP's header and fails an animated PNG or WebP), and the names, references and budget below.
+- New images go under `assets/`: `assets/brand/` for the guide's identity, `assets/lessons/<lesson-id>/` for captures and `assets/readme/` for README's. Names are kebab-case, and paths are explicit and relative. Budget: an SVG up to 50 KB, a capture up to 200 KB, the social card under 1 MB, and each Pip GIF up to `PIP_GIF_BUDGET`, 1400 KB (the largest measured GIF plus about 15%). Every image that is not a capture ships its editable source beside it. Hand-drawn SVG is for the guide's identity pieces only.
 
 ### Headings
 
@@ -314,7 +323,7 @@ Callouts are GitHub alerts, at most two per lesson, each with one meaning:
 - Filler such as "In this section we will explore", "as we mentioned earlier" or "it's worth noting that". Cut it.
 - Marketing language. "The ultimate guide to mastering..." reads as hype; lead with what the reader actually gets.
 - Multi-paragraph docstrings. One short line at most in code samples.
-- Em dashes in new prose. Keep them only inside quotations, identifiers and filenames. The `em-dash` check skips text in backticks, code blocks and double quotes; any other line that must keep one carries `<!-- allow-em-dash -->`.
+- Em dashes in new prose. Keep them only inside quotations, identifiers and filenames. The `em-dash` check skips text in backticks, code blocks and double quotes; any other line that must keep one carries `<!-- allow-em-dash -->`. In the `quest/` source it skips no string, since every string there is the app's own wording; a source line that must keep one carries `// allow-em-dash` (or `/* allow-em-dash */`) in a comment.
 - Claims about features you have not verified.
 
 ## File layout
@@ -358,8 +367,37 @@ Report a security problem in an example as [SECURITY.md](SECURITY.md) describes.
 
 The root `.claude/` is reserved for maintainer tooling. Do not add skills or other examples there.
 
+## App code
+
+Claude Code Quest, the web learning app, lives in `quest/`, with its course in `course/`, the Practice template's hand-written files in `practice-template/` and one Reference solution per Lesson in `solutions/`. The rules in this section apply to every agent and contributor working there.
+
+Every change to the app keeps this safety contract:
+
+- the app binds `127.0.0.1` and makes no outbound request at runtime (no telemetry, CDN, web font or update check);
+- reads only the Practice copy and the Learner's Work folders, writes only `.practice/` through the store, and runs only the Check child, read-only git and the platform's browser opener;
+- never reads `.env` files, never calls the Claude API, never logs file contents or command output beyond the verification lines;
+- its own wording states no Claude Code fact;
+- every bundled dependency is pinned, on the license allowlist and credited in the notices.
+
+The server trusts a request only on these rules, on every route:
+
+- the Host is `127.0.0.1` or `localhost`, with any port, and nothing else;
+- an `X-Forwarded-Host` is accepted only in a codespace, and only when it is exactly that codespace's forwarded name for the server's port;
+- every method but GET and HEAD must send `Content-Type: application/json`, an `Origin` equal to `http://` plus the Host (or exactly `https://localhost:` plus the bound port on an accepted forwarded request), and, when it sends `Sec-Fetch-Site`, `same-origin`;
+- a GET or HEAD changes nothing, and no response carries a CORS header;
+- an untrusted request gets a `403` and nothing is logged;
+- every action passes a strict schema of the contract's actions, refusing unknown keys and capping every string, and no action names a command, a script or a file to read;
+- a folder from the browser is checked before the host sees it: an absolute path inside the Learner's home folder, resolved through symlinks, the root of a git working tree, not the Practice copy and not holding it;
+- logs carry an error's message only, never a header value, a cookie, a token or a request body.
+
+Dependencies follow these rules:
+
+- A dependency bundled into the Practice template needs the owner's OK and a license on the allowlist: MIT, ISC, BSD-2-Clause, BSD-3-Clause or Apache-2.0; MIT-Modern-Variant or MIT-0 for code compiled into Rive's WASM; OFL-1.1 for fonts.
+- Every dependency is pinned to an exact version in the one root lockfile, and installs use `npm ci`.
+- A dev dependency is named, with its reason, in the pull request that adds it.
+
 ## License
 
-By contributing, you agree your contributions are licensed under the MIT license (see [`LICENSE`](LICENSE)).
+By contributing, you agree your contributions are licensed under the PolyForm Noncommercial License 1.0.0 (see [`LICENSE`](LICENSE)).
 
 Sources: [Extend Claude with skills](https://code.claude.com/docs/en/skills), [Plugin loading reference](https://code.claude.com/docs/en/plugins/loading), [Marketplace reference](https://code.claude.com/docs/en/plugins/marketplace-reference), [Advanced setup](https://code.claude.com/docs/en/setup), [Environment variables](https://code.claude.com/docs/en/env-vars), [Settings](https://code.claude.com/docs/en/settings), [Output styles](https://code.claude.com/docs/en/output-styles), [Your first day in Claude Code](https://support.claude.com/en/articles/14552382-your-first-day-in-claude-code), [The MCP Registry](https://modelcontextprotocol.io/registry/about), [official plugin `marketplace.json`](https://github.com/anthropics/claude-plugins-official/blob/main/.claude-plugin/marketplace.json), [Basic writing and formatting syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax), [Authentication](https://code.claude.com/docs/en/authentication), [Disabling and enabling a workflow](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/disable-and-enable-workflows), [REST API endpoints for repository traffic](https://docs.github.com/en/rest/metrics/traffic)

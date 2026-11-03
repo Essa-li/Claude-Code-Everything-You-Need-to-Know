@@ -4,9 +4,29 @@ Editions of this guide, newest first. An edition is tagged `vYYYY.MM`, and a cor
 
 ## Unreleased
 
-Baseline: Claude Code v2.1.292 (stable), frozen on 2026-10-15.
+Baseline: Claude Code v2.1.309 (stable), frozen on 2026-11-02.
 
-Every change in the next edition is verified against this version, the `stable` dist-tag of [`@anthropic-ai/claude-code`](https://www.npmjs.com/package/@anthropic-ai/claude-code?activeTab=versions) on 2026-10-15. It stays frozen until the edition ships, unless a later `stable` release removes, renames or changes the default of something a lesson teaches.
+Every change in the next edition is verified against this version, the `stable` dist-tag of [`@anthropic-ai/claude-code`](https://www.npmjs.com/package/@anthropic-ai/claude-code?activeTab=versions) on 2026-11-02. It stays frozen until the edition ships, unless a later `stable` release removes, renames or changes the default of something a lesson teaches. It moved earlier from v2.1.292 because v2.1.302 changed the permission mode a `claude -p` run starts in when nothing sets one ([CHANGELOG](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md#21302)). It moved from v2.1.308 to the then-current `stable` for the cutover edition, which re-verifies every stamped page.
+
+## v2026.12 - 2026-11-01
+
+Verified against Claude Code v2.1.308 (stable).
+
+Every lesson and capstone refined for Claude Code v2.1.308, and every other stamped page verified at that version.
+
+### Changed
+
+- The baseline moves from Claude Code v2.1.292 to v2.1.308, because v2.1.302 changed the permission mode a `claude -p` run starts in when nothing sets one ([CHANGELOG](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md#21302)). Every stamped page is re-verified at v2.1.308.
+- Every core lesson's Your turn opens with a mission line, every capstone carries one, and each Your turn asks for a new decision rather than a repeat of the Worked example. Facts that changed since v2.1.292 are brought up to date, and steps a learner would skim are cut. Each lesson and capstone was dry-run at v2.1.308 and fixed from what the runs showed.
+- Beginner: lesson 1 teaches stopping a turn with `Esc` and `@` file references; lesson 2 asks when a plan is worth making and commits the reviewed change instead of stashing it; lesson 3 teaches what a precise request holds; lesson 4 recovers with `Esc` and a rewind, and moves `/branch` and summarizing to Go further; lesson 5 ends by giving one of your own repositories a `CLAUDE.md`, which Intermediate lesson 2 starts from.
+- Intermediate: the `tdd` skill stops at a reviewed diff; the hooks lesson's guard fails closed with `"onFailure": "block"` and its Your turn adds a Stop-hook test gate; the permissions lesson teaches `ask` rules; the plugins lesson drops the `commit-commands` trial; the capstone states problems and accepts any sound mechanism. Setting up `.practice/` in your own repository moves to the [Intermediate index](docs/intermediate/README.md#prepare-your-own-repository).
+- Advanced: `/batch` joins the orchestration patterns; `/goal` is the dynamic workflows lesson's verification gate, and the `/loop` Elective becomes [`/loop` and cloud scheduled tasks](docs/advanced/electives/goal-loop-routines.md); a headless reviewer runs only the tools it lists; the GitHub Actions lesson uses the job's own token and pins the action to a release that installs v2.1.308; the capstone runs one committed review definition both locally and in CI.
+- [Commands by level](docs/reference/commands.md) credits each command to the lesson that uses it and adds `/batch`; the hook line in the Intermediate Exit and the Advanced readiness list says the hook fails closed; Electives, topic and reference pages follow the refined lessons and the current docs.
+- The `tdd` skill and the hook script that Intermediate lessons 1 and 5 download from [examples](examples/README.md) follow their lessons.
+
+## v2026.11 - 2026-10-23
+
+Verified against Claude Code v2.1.292 (stable).
 
 Editions 2 and 3: the Intermediate and Advanced paths, with checked exercises. Every level is now rebuilt, and no page from the previous edition remains.
 
@@ -22,6 +42,9 @@ Editions 2 and 3: the Intermediate and Advanced paths, with checked exercises. E
 
 ### Changed
 
+- The Beginner lessons and capstone use code review, plan review, recovery and project instructions as practice tasks. The learning app's questions focus on decisions, and its checks read available evidence directly from files, git and the installed CLI.
+- The Intermediate lessons and capstone use real work as practice tasks: a console error found through Chrome DevTools MCP and fixed, a commit made by a plugin, a lookup through a code intelligence plugin, and a malformed-link crash fixed in the capstone. Each lesson asks at most three graded questions, and the capstone asks none.
+- The Advanced lessons and capstone use real work as practice tasks: two backlog changes in parallel worktrees, a release-week backlog sorted by orchestration pattern, a migration across two folders that a saved workflow keeps fixing until the tests pass, a staged-change review you act on, and a bounded run whose diff you review for changes outside the task. Self-checks ask for a decision the check can't see, and the capstone groups its check list by lesson and caps the review script's spend with `--max-budget-usd`.
 - The animated Claude mascot is back beside README's title, and the social card shows it in place of the trail blazes. It comes from [shanraisshan/claude-code-best-practice](https://github.com/shanraisshan/claude-code-best-practice) under the MIT License.
 - Every stamped page is re-verified against Claude Code v2.1.292 (stable), and the social card carries the full tagline, "Learn it in three levels, with cited facts and checked exercises."
 - The topic pages, [Commands by level](docs/reference/commands.md) and the [Feature map](docs/reference/feature-map.md) link the Intermediate and Advanced lessons and Electives, and "When to use what" on the [Intermediate index](docs/intermediate/README.md#when-to-use-what) links the dynamic workflows lesson.
@@ -51,7 +74,7 @@ Edition 1: the Beginner path, with checked exercises, and the structure the next
 - Issue forms for lesson trouble, bugs and stale facts, with a "Stuck on this lesson?" link at the bottom of every lesson.
 - Checks on every pull request: internal links and anchors, page stamps, lesson structure, images, em dashes, config validation and the safety of `examples/`. Scheduled checks watch external links, expiry markers and new `stable` releases, and open an issue when something needs attention.
 - A listing policy in [CONTRIBUTING.md](CONTRIBUTING.md#listing-policy) and a form to suggest a resource.
-- Agent rules in [AGENTS.md](AGENTS.md), which a new [CLAUDE.md](CLAUDE.md) imports.
+- Agent rules in `AGENTS.md`, which a new `CLAUDE.md` imports.
 - A rewritten [CONTRIBUTING.md](CONTRIBUTING.md), a pull request template with a claim table and a dry-run section, and a CODEOWNERS file.
 
 ### Changed

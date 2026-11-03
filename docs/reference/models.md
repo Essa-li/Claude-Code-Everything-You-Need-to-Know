@@ -1,7 +1,7 @@
 <a id="models--specifications--pricing"></a>
 # Models and effort
 
-<sub>Verified against Claude Code v2.1.292 (stable) on 2026-10-15</sub>
+<sub>Verified against Claude Code v2.1.309 (stable) on 2026-11-02</sub>
 
 Which model a session runs and how hard it thinks are two separate choices. This page is the lookup for both: the model aliases, the effort levels and the ways to set them. Which model and effort a task needs is taught in the Intermediate lesson [Pick the model and effort](../intermediate/03-model-and-effort.md). To compare the current models and find their IDs, see Anthropic's [models overview](https://platform.claude.com/docs/en/about-claude/models/overview).
 
@@ -16,13 +16,13 @@ An alias picks the recommended model of a family, so you never need a version nu
 | `opus` | The latest Opus | Complex reasoning |
 | `fable` | The Fable model for your provider | The hardest, longest-running tasks |
 | `best` | Fable where your account has it, otherwise Opus | You want the strongest model available to you |
-| `haiku` | Haiku | Quick, simple tasks |
+| `haiku` | The latest Haiku | Quick, simple tasks |
 | `opusplan` | Opus in plan mode, then Sonnet to carry out the plan | You want deep planning and cheaper execution |
 | `opus[1m]` | Opus with a 1 million token context window | Very long sessions, on a provider where `opus` doesn't already have that window |
 
 - An alias moves to a newer model over time. To stay on one version, use its full model name, such as `claude-opus-5-5`, from the [models overview](https://platform.claude.com/docs/en/about-claude/models/overview).
 - `default` isn't an alias: it clears any model you picked and returns to your account's default.
-- On other providers an alias can resolve to an older model: `sonnet` does on Claude Platform on AWS, Amazon Bedrock, Google Cloud's Agent Platform and Microsoft Foundry, and `opus` does on Microsoft Foundry. The [alias table](https://code.claude.com/docs/en/model-config#model-aliases) lists them.
+- On other providers an alias can resolve to an older model: `sonnet` and `haiku` do on Claude Platform on AWS, Amazon Bedrock, Google Cloud's Agent Platform and Microsoft Foundry, and `opus` does on Microsoft Foundry. The [alias table](https://code.claude.com/docs/en/model-config#model-aliases) lists them.
 - Fable can draw on usage credits depending on your plan and seat ([Fable and usage credits](https://code.claude.com/docs/en/model-config#fable-and-usage-credits)).
 
 The default model differs by account type and provider. Check yours with `/model` or `/status`, and see [Default model setting](https://code.claude.com/docs/en/model-config#default-model-setting) for the rules.

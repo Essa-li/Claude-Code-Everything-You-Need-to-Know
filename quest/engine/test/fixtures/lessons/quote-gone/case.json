@@ -1,0 +1,7 @@
+{
+  "expect": "fail",
+  "about": "The page reworded a sentence the step file quotes.",
+  "problems": [
+    "course/steps/b-1\\.md:17: quotes \"Type `/status`\\.\""
+  ]
+}

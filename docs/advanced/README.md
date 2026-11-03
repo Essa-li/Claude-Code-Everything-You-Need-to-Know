@@ -1,13 +1,13 @@
 # Advanced
 
-<sub>**Advanced** · about 3 hours 20 minutes, plus run time · Verified against Claude Code v2.1.292 (stable) on 2026-10-15</sub>
+<sub>**Advanced** · about 4 hours, plus run time · Verified against Claude Code v2.1.309 (stable) on 2026-11-02</sub>
 
 Beyond one session: parallel sessions, orchestration, unattended runs in scripts and CI, a setup your team shares, and limits that keep an autonomous run safe.
 
 ## You're ready for this level if you can
 
 - [ ] Write a project skill that runs by name and loads on its own when it applies.
-- [ ] Write a hook that enforces a rule, and show it firing.
+- [ ] Write a hook that enforces a rule and fails closed, and show it firing.
 - [ ] Delegate to a custom subagent with limited tools.
 - [ ] Add an MCP server at project scope, and install a plugin from an Anthropic marketplace.
 - [ ] Put permission rules in the right scope, turn on the sandbox, and pick the model and effort for a task.
@@ -15,15 +15,11 @@ Beyond one session: parallel sessions, orchestration, unattended runs in scripts
 
 ## Practice
 
-Practice in your own repository, and run each check from your copy of the [practice template](https://github.com/wesammustafa/claude-code-practice) as `npm run check -- <lesson-id> --dir <your repo>`. The GitHub Actions lesson and the capstone are the exceptions: they run in a separate template copy, which you tear down afterwards so no workflow or secret is left behind.
+Practice in your own repository, and run each check from the `project/` folder of your copy of the [practice template](https://github.com/wesammustafa/claude-code-practice) as `npm run check -- <lesson-id> --dir <your repo>`. The GitHub Actions lesson and the capstone are the exceptions: each runs in a new template copy of its own, which you tear down afterwards so no workflow or secret is left behind.
 
-A copy you made for an earlier level may not have the Advanced checks: `npm run check` then lists no `a-` lessons. Bring them in from the template, in your copy:
+To go step by step, run `npm run learn` in your copy: Claude Code Quest opens in your browser (in a Codespace, it prints the address to open) and you use Claude Code in your own terminal beside it. The app takes you through every lesson and the capstone, one step at a time, checks your work as you go and saves your place. Each page below teaches the same lesson on its own.
 
-```bash
-git fetch https://github.com/wesammustafa/claude-code-practice main
-git checkout FETCH_HEAD -- checks capstone
-git commit -m "Add the Advanced checks"
-```
+If `npm run learn` opens in your terminal instead of your browser, or says `Missing script: "learn"`, your copy is older, so [upgrade it](../../README.md#already-have-a-practice-copy).
 
 ## Lessons
 
@@ -35,16 +31,16 @@ git commit -m "Add the Advanced checks"
 6. [Share your setup with a team](06-share-your-setup.md)
 7. [Put bounds on autonomous runs](07-bounded-runs.md)
 
-Each lesson takes 10 to 20 minutes, plus the time an agent run takes.
+Each lesson takes about 20 minutes, and the capstone 60 to 90, plus the time an agent run takes.
 
 ## Capstone
 
-[Add CI review your team can share](capstone.md): in a new template copy, two parallel worktree sessions, a bounded `claude -p` review script, a team marketplace, a saved dynamic workflow and a pull request review workflow with limits. Then tear down the workflow, the secret and, with an API key, the key.
+[Add CI review your team can share](capstone.md): in a new template copy, one review skill that a bounded `claude -p` script and a pull request workflow with limits both run, built in two parallel worktree sessions beside a team marketplace, plus a saved dynamic workflow for a sweep before a release. Then tear down the workflow, the secret and, with an API key, the key.
 
 ## By the end of this level you can
 
 - [ ] Run parallel sessions in worktrees and merge their work.
-- [ ] Choose between subagents, a workflow or a team by need and cost, and run a dynamic workflow.
+- [ ] Choose between subagents, `/batch`, a workflow or a team by need and cost, keep a session working until a check passes with `/goal`, and save a dynamic workflow.
 - [ ] Write a `claude -p` script and a GitHub Actions workflow.
 - [ ] Share a setup as committed config and a team marketplace plugin.
 - [ ] Bound an autonomous run with least privilege, the sandbox, turn or spend limits, a review gate and a cost estimate.
@@ -55,7 +51,7 @@ Optional lessons beside the core path:
 
 - [Agent teams](electives/agent-teams.md): a lead and teammates that message each other, staffed from your own subagent definitions.
 - [Agent view](electives/agent-view.md): hand tasks to background sessions from one screen, and step in only when one needs you.
-- [`/goal`, `/loop` and routines](electives/goal-loop-routines.md): keep Claude working toward a condition, on an interval, or on a schedule in the cloud.
+- [`/loop` and cloud scheduled tasks](electives/goal-loop-routines.md): keep Claude working on an interval in your session, or on a schedule in the cloud.
 - [Testing and publishing a plugin](electives/publish-a-plugin.md): check a plugin's files and behavior, then publish it in your own marketplace.
 - [Dev containers](electives/dev-containers.md): run Claude Code in a container with a firewall, keep your sign-in, and let it work unattended.
 
