@@ -1,0 +1,16 @@
+{
+  "note": "The lesson pages learning-path/index.html translates, with the git blob of each one at the upstream commit the page was last updated from. Update this file whenever the page is brought up to date.",
+  "upstream": "https://github.com/wesammustafa/Claude-Code-Everything-You-Need-to-Know",
+  "upstreamCommit": "193b37e",
+  "verifiedAgainst": "Claude Code v2.1.309 (stable), 2026-11-02",
+  "files": {
+    "docs/beginner/01-install-and-look-around.md": "98c82133a71d2df9cf3b4353180a93a15cc94a79",
+    "docs/beginner/02-permission-modes-and-plan-mode.md": "c67e276d42293207aa1708f337b7902669b92331",
+    "docs/beginner/03-first-change.md": "83d7dd8a3ba9a5825b5bf99871b66994a3859423",
+    "docs/beginner/05-project-memory.md": "3f4c69b7cdd00334ca59d5150cb30584d8816ac8",
+    "docs/intermediate/01-first-skill.md": "5170758e51db2138fa0200926f13598db8cd40b5",
+    "docs/intermediate/02-organize-memory.md": "aa5b925831c3ab7eadfa49b78ae07a76d59aad61",
+    "docs/intermediate/04-permissions-and-sandbox.md": "2b5a767f0f5b9f82d85319e8c7d68a4dc2ea6ca1",
+    "docs/intermediate/07-mcp.md": "99a461531e03018c4637444f361adb7864da100e"
+  }
+}

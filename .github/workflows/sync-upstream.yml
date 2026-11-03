@@ -1,0 +1,90 @@
+name: Sync with upstream
+
+# Runs daily in this fork only. It merges the original guide's main branch into
+# this fork's main, then checks whether the lessons that learning-path/index.html
+# translates changed since the page was last updated. When they did, or when the
+# merge conflicts, the run fails (GitHub emails a failed scheduled run) and, if
+# the fork has Issues turned on, it opens or updates one issue.
+#
+# The merge needs a repository secret named SYNC_TOKEN: a fine-grained personal
+# access token for this repository with Contents and Workflows set to
+# "Read and write". Without it the run skips the merge and still checks the lessons.
+on:
+  schedule:
+    - cron: "23 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  sync:
+    if: github.repository == 'Essa-li/Claude-Code-Everything-You-Need-to-Know'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.SYNC_TOKEN || github.token }}
+      - name: Fetch the original guide
+        run: git fetch --no-tags https://github.com/wesammustafa/Claude-Code-Everything-You-Need-to-Know.git main:refs/remotes/upstream/main
+      - name: Merge it into main
+        id: merge
+        env:
+          HAS_TOKEN: ${{ secrets.SYNC_TOKEN != '' }}
+        run: |
+          if [ "$HAS_TOKEN" != "true" ]; then
+            echo "SYNC_TOKEN is not set: skipping the merge." | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "result=skipped" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git merge-base --is-ancestor upstream/main HEAD; then
+            echo "main already has every upstream commit." | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "result=current" >> "$GITHUB_OUTPUT"
+          elif git merge --no-edit -m "Merge upstream main" upstream/main; then
+            git push origin HEAD:main
+            echo "Merged upstream main into main." | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "result=merged" >> "$GITHUB_OUTPUT"
+          else
+            git merge --abort
+            echo "The merge with upstream main conflicts: resolve it by hand." | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "result=conflict" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Check the translated lessons
+        id: lessons
+        run: |
+          set +e
+          node learning-path/check-sources.mjs upstream/main > "$RUNNER_TEMP/report.md"
+          echo "code=$?" >> "$GITHUB_OUTPUT"
+          cat "$RUNNER_TEMP/report.md" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Open or update the issue
+        if: steps.lessons.outputs.code != '0' || steps.merge.outputs.result == 'conflict'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MERGE: ${{ steps.merge.outputs.result }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          title="带练页需要按原课程更新"
+          body="$RUNNER_TEMP/body.md"
+          {
+            if [ "$MERGE" = "conflict" ]; then echo "The merge with upstream main conflicts and needs resolving by hand."; echo; fi
+            cat "$RUNNER_TEMP/report.md"
+            echo
+            echo "Run: $RUN_URL"
+          } > "$body"
+          num=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "in:title $title" --json number --jq '.[0].number // empty')
+          if [ -n "$num" ]; then
+            gh issue comment "$num" --repo "$GITHUB_REPOSITORY" --body-file "$body"
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body-file "$body"
+          fi
+      - name: Fail so GitHub sends an email
+        if: steps.lessons.outputs.code != '0' || steps.merge.outputs.result == 'conflict'
+        run: |
+          echo "The learning page needs an update, or the merge conflicts. See the summary above."
+          exit 1
