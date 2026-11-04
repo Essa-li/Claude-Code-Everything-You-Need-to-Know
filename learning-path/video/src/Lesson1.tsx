@@ -1,5 +1,7 @@
 import React from "react";
-import { AbsoluteFill, Easing, interpolate, Series, useCurrentFrame } from "remotion";
+import { AbsoluteFill, Easing, interpolate, Sequence, Series, staticFile, useCurrentFrame } from "remotion";
+import { Audio } from "@remotion/media";
+import VOICE from "./voice.gen.json";
 import { C, cn, FPS, mono } from "./theme";
 import { fadeIn, Key, Scene, Terminal } from "./parts";
 
@@ -239,13 +241,23 @@ export const LESSON1_SCENES: { name: string; sec: number; C: React.FC }[] = [
   { name: "End", sec: 4, C: End },
 ];
 
-export const LESSON1_FRAMES = LESSON1_SCENES.reduce((n, x) => n + s(x.sec), 0);
+// With a voiceover, a scene lasts at least as long as its audio plus a short pause.
+const voice = (VOICE as Record<string, Record<string, number>>)["b-1"] ?? {};
+const LEAD = 6; // frames before the voice starts in each scene
+const dur = (x: { name: string; sec: number }) => Math.max(s(x.sec), voice[x.name] ? LEAD + Math.ceil((voice[x.name] / 1000 + 0.7) * FPS) : 0);
+
+export const LESSON1_FRAMES = LESSON1_SCENES.reduce((n, x) => n + dur(x), 0);
 
 export const Lesson1: React.FC = () => (
   <Series>
     {LESSON1_SCENES.map((x) => (
-      <Series.Sequence key={x.name} name={x.name} durationInFrames={s(x.sec)}>
+      <Series.Sequence key={x.name} name={x.name} durationInFrames={dur(x)}>
         <x.C />
+        {voice[x.name] ? (
+          <Sequence from={LEAD} name={`Voice ${x.name}`}>
+            <Audio src={staticFile(`voice/b-1/${x.name}.mp3`)} />
+          </Sequence>
+        ) : null}
       </Series.Sequence>
     ))}
   </Series>
