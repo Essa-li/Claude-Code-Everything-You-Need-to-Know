@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Claude Code 带练课</title>
@@ -39,7 +40,7 @@
 }
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
 body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-cn); font-size: 15px; line-height: 1.75; }
 .wrap {
   max-width: 860px; margin: 0 auto;
@@ -61,7 +62,15 @@ code { font-family: var(--font-mono); font-size: 0.86em; background: var(--code-
 button { font: inherit; cursor: pointer; }
 
 /* 顶部导航 */
-.topbar { background: var(--surface); border-bottom: 1px solid var(--line); }
+.topbar { background: var(--surface); border-bottom: 1px solid var(--line); position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 21; background: var(--surface); }
+.lessonbar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: thin; -webkit-overflow-scrolling: touch; }
+.lessonbar a { flex: none; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; font-size: 13px; color: var(--fg); background: var(--soft); border: 1px solid transparent; border-radius: 99px; padding: 4px 12px 4px 4px; white-space: nowrap; }
+.lessonbar a .num { width: 22px; height: 22px; border-radius: 99px; display: grid; place-items: center; font-family: var(--font-en); font-weight: 700; font-size: 12px; background: var(--surface); color: var(--navy); }
+.lessonbar a.done .num { background: var(--ok); color: var(--on-navy); }
+.lessonbar a[aria-current="page"] { border-color: var(--navy); background: var(--surface); font-weight: 700; color: var(--navy); }
+.lessonbar a[aria-current="page"] .num { background: var(--navy); color: var(--on-navy); }
+.lessonbar .sep { flex: none; align-self: center; font-size: 12px; color: var(--muted); padding: 0 4px; }
 .topbar .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 4px; padding-block: 10px; }
 .brand { font-weight: 900; color: var(--navy); margin-right: auto; text-decoration: none; font-size: 15px; }
 .nav a { text-decoration: none; color: var(--muted); font-size: 14px; padding: 4px 10px; border-radius: 6px; }
@@ -110,12 +119,20 @@ ul.plain, ol.plain { margin: 0; padding-left: 20px; display: flex; flex-directio
 .chip.ok { background: var(--ok-soft); color: var(--ok); }
 .chip.now { background: var(--yellow); color: #1b2433; }
 .night { font-size: 13px; font-weight: 700; color: var(--navy); padding: 4px 0 10px 48px; }
+.courses { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+.course { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: var(--fg); background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; min-width: 0; }
+.course:hover { border-color: var(--navy); }
+.course b { font-size: 17px; color: var(--navy); }
+.course .chip { align-self: flex-start; }
 .mini-bar { height: 4px; background: var(--soft); border-radius: 99px; overflow: hidden; max-width: 260px; }
 .mini-bar i { display: block; height: 100%; background: var(--ok); width: 0; }
 
 /* 单课 */
 .lhead { display: flex; flex-direction: column; gap: 8px; }
 .goal { font-size: 16px; border-left: 3px solid var(--yellow); padding-left: 12px; max-width: 65ch; }
+.demo { display: flex; flex-direction: column; gap: 8px; }
+.demo video { width: 100%; max-width: 100%; aspect-ratio: 16 / 9; border-radius: 12px; background: #0f1520; display: block; }
+.demo .cap { font-size: 13px; color: var(--muted); }
 .lock { background: var(--soft); border-radius: 10px; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font-size: 14px; }
 .section-title { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
 .section-title .count { font-size: 13px; color: var(--muted); font-family: var(--font-en); font-variant-numeric: tabular-nums; }
@@ -196,11 +213,15 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line)
   <div class="wrap">
     <a class="brand" href="#home">Claude Code 带练课</a>
     <nav class="nav" aria-label="主导航">
+      <a href="#courses" data-nav="courses">全部课程</a>
       <a href="#home" data-nav="home">路线</a>
       <a href="#b-1" data-nav="lesson" id="nav-lesson">继续学习</a>
       <a href="#review" data-nav="review">复习<span class="due-pill" id="due-pill" hidden></span></a>
       <a href="#ref" data-nav="ref">速查</a>
     </nav>
+  </div>
+  <div class="wrap">
+    <nav class="lessonbar" id="lessonbar" aria-label="课程目录"></nav>
   </div>
 </header>
 
@@ -214,6 +235,21 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line)
     <p>每课都按同一个流程走：先搞懂一个概念，跟着示例一步步操作，再自己练一道真实的小任务，然后运行检查命令确认通过，最后做几道过关小测。小测通过后，地图上会亮起下一课。</p>
     <div class="stats" id="home-stats"></div>
     <a class="btn" id="start-btn" href="#b-1">开始第 1 课</a>
+  </div>
+
+  <div class="panel" id="courses">
+    <div class="section-title"><h3>全部课程</h3><span class="count">4 门课 · 每门都有逐步带练、过关小测和配音视频</span></div>
+    <div class="courses">
+      <a class="course" href="#b-1"><span class="eyebrow">第 1 门 · 本页</span><b>Claude Code 入门</b><span class="small muted">8 课：安装、权限、计划模式、项目记忆、技能、沙箱、MCP</span><span class="chip ok">已上线</span></a>
+      <a class="course" href="agents.html"><span class="eyebrow">第 2 门 · 微软开源课程改编</span><b>AI 智能体入门</b><span class="small muted">19 课：智能体是什么、设计模式、工具、RAG、规划、多智能体、记忆、安全</span><span class="chip ok">文字版已上线 · 视频制作中</span></a>
+      <a class="course" href="genai.html"><span class="eyebrow">第 3 门 · 微软开源课程改编</span><b>生成式 AI 基础</b><span class="small muted">22 课：大模型、提示词、AI 应用、RAG、负责任使用</span><span class="chip">排队中</span></a>
+      <a class="course" href="internals.html"><span class="eyebrow">第 4 门 · 开源课程改编</span><b>Claude Code 原理</b><span class="small muted">17 课：拆解智能体循环、工具、权限、计划、技能、上下文压缩</span><span class="chip">排队中</span></a>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="section-title"><h3>掌握路径</h3><span class="count" id="map-count"></span></div>
+    <div id="map"></div>
   </div>
 
   <div class="panel">
@@ -247,11 +283,6 @@ git checkout FETCH_HEAD -- .github/workflows/progress.yml .gitattributes
 node checks/upgrade.mjs</pre></details>
   </div>
 
-  <div class="panel">
-    <div class="section-title"><h3>掌握路径</h3><span class="count" id="map-count"></span></div>
-    <div id="map"></div>
-  </div>
-
   <p class="small muted">练习仓库里还有一个官方的英文带练程序：在窗口 B 的练习仓库里运行 <code>npm run learn</code>，Claude Code Quest 会在浏览器里打开，内容和本页对应，可以对照着用。本页的进度只保存在这台设备的浏览器里。</p>
 </section>
 
@@ -261,6 +292,10 @@ node checks/upgrade.mjs</pre></details>
     <span class="eyebrow">第 1 课 / 共 8 课 · 初级 · 约 20 分钟</span>
     <h2>安装、登录、熟悉界面</h2>
     <p class="goal">学完这课，你能装好 Claude Code，在仓库里安全地启动它，在它回答到一半时叫停，说出当前会话用的是哪个模型和账号，并且会拿代码去核对它说的话。</p>
+  </div>
+  <div class="demo">
+    <video controls playsinline preload="metadata" poster="videos/b-1-poster.jpg" src="videos/b-1.mp4" aria-label="第 1 课演示动画"></video>
+    <span class="cap">先看约 85 秒的配音演示动画，再跟着下面的步骤动手做。画面里的界面只是示意，不是真实录屏；具体操作以本页步骤为准。</span>
   </div>
   <div class="panel idea">
     <h3>先搞懂</h3>
@@ -356,6 +391,10 @@ claude</pre>
     <span class="eyebrow">第 2 课 / 共 8 课 · 初级 · 约 25 分钟</span>
     <h2>权限模式与计划模式</h2>
     <p class="goal">学完这课，你能为一项任务选合适的权限模式，判断一个改动需不需要先出计划，并且在 Claude 动你的文件之前，用计划模式只批准你愿意合并的方案。</p>
+  </div>
+  <div class="demo">
+    <video controls playsinline preload="metadata" poster="videos/b-2-poster.jpg" src="videos/b-2.mp4" aria-label="本课演示动画"></video>
+    <span class="cap">先看这段一分多钟的配音演示动画，再跟着下面的步骤动手做。画面里的界面只是示意，不是真实录屏；具体操作以本页步骤为准。</span>
   </div>
   <div class="panel idea">
     <h3>先搞懂</h3>
@@ -473,6 +512,10 @@ git commit -m "Reject unknown keys in linkcheck.json"</pre>
     <h2>第一次改动：从需求到提交</h2>
     <p class="goal">学完这课，你能把一个改动从提出需求一直做到提交，并且审查得足够仔细，在提交之前就发现它哪里做错了。</p>
   </div>
+  <div class="demo">
+    <video controls playsinline preload="metadata" poster="videos/b-3-poster.jpg" src="videos/b-3.mp4" aria-label="本课演示动画"></video>
+    <span class="cap">先看这段一分多钟的配音演示动画，再跟着下面的步骤动手做。画面里的界面只是示意，不是真实录屏；具体操作以本页步骤为准。</span>
+  </div>
   <div class="panel idea">
     <h3>先搞懂</h3>
     <p>提了要求就照单全收，是会话出问题最常见的原因。Anthropic 的最佳实践建议分四个阶段：探索、计划、执行、提交。自动模式不会把普通源码修改交给分类器审查，所以改得对不对，要你在两个地方把关：<b>开工前看方案，提交前看 diff</b>。</p>
@@ -585,6 +628,10 @@ npm run check -- b-3</pre>
     <h2>用 CLAUDE.md 写项目记忆</h2>
     <p class="goal">学完这课，你能写一份简短、内容属实的项目 CLAUDE.md，证明新会话会遵守它，并且判断每条说明应该写进哪个记忆文件。</p>
   </div>
+  <div class="demo">
+    <video controls playsinline preload="metadata" poster="videos/b-5-poster.jpg" src="videos/b-5.mp4" aria-label="本课演示动画"></video>
+    <span class="cap">先看这段一分多钟的配音演示动画，再跟着下面的步骤动手做。画面里的界面只是示意，不是真实录屏；具体操作以本页步骤为准。</span>
+  </div>
   <div class="panel idea">
     <h3>先搞懂</h3>
     <p>每个会话都从空白的上下文开始。你的说明文件会在每次会话开始时加载，<b>写在哪个文件里，决定了谁能看到</b>：</p>
@@ -693,6 +740,10 @@ git status</pre>
     <span class="eyebrow">第 5 课 / 共 8 课 · 中级 · 约 20 分钟</span>
     <h2>把重复工作做成技能</h2>
     <p class="goal">学完这课，你能把一套反复使用的工作流程做成项目技能，决定哪些请求会自动加载它，并且审查它做出来的改动。</p>
+  </div>
+  <div class="demo">
+    <video controls playsinline preload="metadata" poster="videos/i-1-poster.jpg" src="videos/i-1.mp4" aria-label="本课演示动画"></video>
+    <span class="cap">先看这段一分多钟的配音演示动画，再跟着下面的步骤动手做。画面里的界面只是示意，不是真实录屏；具体操作以本页步骤为准。</span>
   </div>
   <div class="panel idea">
     <h3>先搞懂</h3>
@@ -804,6 +855,10 @@ git rev-parse HEAD &gt; .practice/i-1-commit.txt</pre>
     <span class="eyebrow">第 6 课 / 共 8 课 · 中级 · 约 20 分钟</span>
     <h2>整理项目记忆，查看加载了什么</h2>
     <p class="goal">学完这课，你能把项目说明拆成导入文件和分范围规则；Claude 不遵守某条说明时，能查出是哪些说明文件加载了、哪些没有。</p>
+  </div>
+  <div class="demo">
+    <video controls playsinline preload="metadata" poster="videos/i-2-poster.jpg" src="videos/i-2.mp4" aria-label="本课演示动画"></video>
+    <span class="cap">先看这段一分多钟的配音演示动画，再跟着下面的步骤动手做。画面里的界面只是示意，不是真实录屏；具体操作以本页步骤为准。</span>
   </div>
   <div class="panel idea">
     <h3>先搞懂</h3>
@@ -918,6 +973,10 @@ git commit -m "Split project instructions into an import and scoped rules"</pre>
     <span class="eyebrow">第 7 课 / 共 8 课 · 中级 · 约 20 分钟</span>
     <h2>权限、设置范围与沙箱</h2>
     <p class="goal">学完这课，你能挑出范围窄的权限规则，放进合适的设置文件，并且亲手验证沙箱的边界。</p>
+  </div>
+  <div class="demo">
+    <video controls playsinline preload="metadata" poster="videos/i-4-poster.jpg" src="videos/i-4.mp4" aria-label="本课演示动画"></video>
+    <span class="cap">先看这段一分多钟的配音演示动画，再跟着下面的步骤动手做。画面里的界面只是示意，不是真实录屏；具体操作以本页步骤为准。</span>
   </div>
   <div class="panel idea">
     <h3>先搞懂</h3>
@@ -1040,6 +1099,10 @@ npm run check -- i-4</pre>
     <span class="eyebrow">第 8 课 / 共 8 课 · 中级 · 约 25 分钟</span>
     <h2>用 MCP 连接外部工具</h2>
     <p class="goal">学完这课，你能按合适的范围接入一个锁定了版本的 MCP 服务器，并借助它拿到的浏览器信息，找出并修好网页上的一个错误。</p>
+  </div>
+  <div class="demo">
+    <video controls playsinline preload="metadata" poster="videos/i-7-poster.jpg" src="videos/i-7.mp4" aria-label="本课演示动画"></video>
+    <span class="cap">先看这段一分多钟的配音演示动画，再跟着下面的步骤动手做。画面里的界面只是示意，不是真实录屏；具体操作以本页步骤为准。</span>
   </div>
   <div class="panel idea">
     <h3>先搞懂</h3>
@@ -1469,6 +1532,24 @@ npm run check -- i-7</pre>
     if (cur) { sb.href = "#" + cur.id; sb.textContent = (nPassed === 0 && stepPct(cur.id) === 0 ? "开始" : "继续") + "第 " + cur.n + " 课：" + cur.title; nl.href = "#" + cur.id; }
     else { sb.href = "#review"; sb.textContent = "8 课都已过关，去复习"; nl.href = "#review"; }
     refreshLocks();
+    renderLessonBar();
+  }
+
+  // ---------- 顶部课程目录 ----------
+  var SHORT = { "b-1": "安装登录", "b-2": "权限与计划", "b-3": "第一次改动", "b-5": "项目记忆", "i-1": "技能", "i-2": "整理记忆", "i-4": "权限与沙箱", "i-7": "MCP" };
+  function renderLessonBar() {
+    var h = (location.hash || "").replace("#", "");
+    var html = "";
+    LESSONS.forEach(function (l, i) {
+      if (i === 4) html += '<span class="sep">中级</span>';
+      if (i === 0) html += '<span class="sep">初级</span>';
+      html += '<a href="#' + l.id + '" class="' + (passed(l.id) ? "done" : "") + '"' + (h === l.id ? ' aria-current="page"' : "") + ' title="第 ' + l.n + ' 课 · ' + esc(l.title) + '">' +
+        '<span class="num">' + (passed(l.id) ? "✓" : l.n) + "</span>" + esc(SHORT[l.id] || l.title) + "</a>";
+    });
+    var bar = document.getElementById("lessonbar");
+    bar.innerHTML = html;
+    var cur = bar.querySelector('[aria-current="page"]');
+    if (cur && cur.scrollIntoView) { try { cur.scrollIntoView({ block: "nearest", inline: "center" }); } catch (e) {} }
   }
 
   // ---------- 记忆卡 ----------
@@ -1535,14 +1616,17 @@ npm run check -- i-7</pre>
   var VIEWS = ["home", "review", "ref"].concat(LESSONS.map(function (l) { return l.id; }));
   function route() {
     var h = (location.hash || "").replace("#", "");
+    var raw = h;
     if (VIEWS.indexOf(h) < 0) h = "home";
     document.querySelectorAll("section.view").forEach(function (s) { s.hidden = s.dataset.view !== h; });
     document.querySelectorAll(".nav a").forEach(function (a) {
-      var t = a.dataset.nav, on = (t === h) || (t === "lesson" && lessonOf(h));
+      var t = a.dataset.nav, on = t === "courses" ? raw === "courses" : (t === h && raw !== "courses") || (t === "lesson" && lessonOf(h));
       if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
     });
     if (h === "review") { showBack = false; renderReview(); }
-    window.scrollTo(0, 0);
+    renderLessonBar();
+    var target = raw === "courses" && document.getElementById("courses");
+    if (target) target.scrollIntoView(); else window.scrollTo(0, 0);
   }
   window.addEventListener("hashchange", route);
   renderMap(); renderReview(); route();
