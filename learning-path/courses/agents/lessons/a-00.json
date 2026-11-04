@@ -20,40 +20,80 @@
     {
       "w": "web",
       "html": "<p>打开原课程第 0 课的官方中文版，从头到尾扫一遍，知道它讲了哪些部分就行，不用照着做：</p>",
-      "code": [{ "lang": "网址", "text": "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/00-course-setup/README.md" }],
+      "code": [
+        {
+          "lang": "网址",
+          "text": "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/00-course-setup/README.md"
+        }
+      ],
       "expect": "页面标题是“课程设置”，下面依次是克隆或派生代码库、运行代码、要求、设置 Microsoft Foundry 等小节。"
     },
     {
       "w": "term",
       "html": "<p>打开终端，先确认电脑上装了 Git：</p>",
-      "code": [{ "lang": "终端", "text": "git --version" }],
+      "code": [
+        {
+          "lang": "终端",
+          "text": "git --version"
+        }
+      ],
       "expect": "显示类似 <code>git version 2.4x.x</code> 的版本号。下一步的稀疏克隆需要 2.25 或更高。",
-      "stuck": [{ "q": "提示找不到 git 命令？", "a": "<p>先安装 Git（官网 git-scm.com）。也可以在 Claude Code 里说“帮我检查这台电脑有没有装 Git，没有的话告诉我怎么装”，让它一步步带你，每条命令它都会先问你同意。</p>" }]
+      "stuck": [
+        {
+          "q": "提示找不到 git 命令？",
+          "a": "<p>先安装 Git（官网 git-scm.com）。也可以在 Claude Code 里说“帮我检查这台电脑有没有装 Git，没有的话告诉我怎么装”，让它一步步带你，每条命令它都会先问你同意。</p>"
+        }
+      ]
     },
     {
       "w": "term",
       "html": "<p>用课程主页 README 给的命令，把课程下载到 <code>{{DIR}}</code>，并跳过 50 多种语言的翻译（三行一行一行地执行）：</p>",
-      "code": [{ "lang": "终端", "text": "git clone --filter=blob:none --sparse https://github.com/microsoft/ai-agents-for-beginners.git {{DIR}}\ncd {{DIR}}\ngit sparse-checkout set --no-cone '/*' '!translations' '!translated_images'" }],
+      "code": [
+        {
+          "lang": "终端",
+          "text": "git clone --filter=blob:none --sparse https://github.com/microsoft/ai-agents-for-beginners.git {{DIR}}\ncd {{DIR}}\ngit sparse-checkout set --no-cone '/*' '!translations' '!translated_images'"
+        }
+      ],
       "expect": "文件夹里出现 <code>00-course-setup</code> 到 <code>18-securing-ai-agents</code> 共 19 个课程文件夹，还有 <code>README.md</code>、<code>requirements.txt</code>、<code>.env.example</code> 等文件。",
       "stuck": [
-        { "q": "我用的是 Windows 的命令提示符（CMD），第三行报错？", "a": "<p>原课程给 CMD 的写法是双引号：</p><p><code>git sparse-checkout set --no-cone \"/*\" \"!translations\" \"!translated_images\"</code></p>" },
-        { "q": "有没有更简单的一条命令？", "a": "<p>可以用原课程第 0 课的浅克隆：<code>git clone --depth 1 https://github.com/microsoft/ai-agents-for-beginners.git {{DIR}}</code>。它会连翻译一起下，下载量更大。</p>" },
-        { "q": "要不要先 fork？", "a": "<p>只读的话不需要。以后想改代码并提交，再去 GitHub 上点 Fork，克隆时把地址换成你自己的 fork。</p>" }
+        {
+          "q": "我用的是 Windows 的命令提示符（CMD），第三行报错？",
+          "a": "<p>原课程给 CMD 的写法是双引号：</p><p><code>git sparse-checkout set --no-cone \"/*\" \"!translations\" \"!translated_images\"</code></p>"
+        },
+        {
+          "q": "有没有更简单的一条命令？",
+          "a": "<p>可以用原课程第 0 课的浅克隆：<code>git clone --depth 1 https://github.com/microsoft/ai-agents-for-beginners.git {{DIR}}</code>。它会连翻译一起下，下载量更大。</p>"
+        },
+        {
+          "q": "要不要先 fork？",
+          "a": "<p>只读的话不需要。以后想改代码并提交，再去 GitHub 上点 Fork，克隆时把地址换成你自己的 fork。</p>"
+        }
       ]
     },
     {
       "w": "claude",
       "html": "<p>在课程文件夹里启动 Claude Code，让它用中文讲讲第 0 课。这一步只读，不运行、不安装：</p>",
       "code": [
-        { "lang": "终端", "text": "cd {{DIR}}\nclaude" },
-        { "lang": "Claude", "text": "读 @00-course-setup/README.md ，用中文给不会编程的人讲：真正运行这门课的示例代码，需要准备哪些账号、软件和设置？哪些是所有课程都要的，哪些只有个别课程才要？只读文件，不要运行任何命令，也不要安装任何东西。" }
+        {
+          "lang": "终端",
+          "text": "cd {{DIR}}\nclaude"
+        },
+        {
+          "lang": "Claude",
+          "text": "读 @00-course-setup/README.md ，用中文给不会编程的人讲：真正运行这门课的示例代码，需要准备哪些账号、软件和设置？哪些是所有课程都要的，哪些只有个别课程才要？只读文件，不要运行任何命令，也不要安装任何东西。"
+        }
       ],
       "expect": "Claude 会列出 Python 3.12、Azure CLI、Azure 订阅、Microsoft Foundry 项目和 <code>.env</code> 里的两个变量，并说明第 5、6、8、16 课有额外设置。"
     },
     {
       "w": "look",
       "html": "<p>对照 Claude 的讲解，看一眼文件夹里的 <code>.env.example</code>：它是原课程给的配置模板，里面只有占位内容（比如 <code>AZURE_AI_PROJECT_ENDPOINT=\"https://...\"</code>）。真正运行时才复制成 <code>.env</code> 填上自己的值。本页的所有练习都不需要它。</p>",
-      "stuck": [{ "q": "我想真的跑一遍示例，要花钱吗？", "a": "<p>原课程要求有 Azure 订阅，模型部署在你自己的 Microsoft Foundry 项目里，费用按 Azure 的规则算，原课程没有给价格。想不用云，原课程介绍了 Foundry Local，可以把模型放在自己电脑上运行。</p>" }]
+      "stuck": [
+        {
+          "q": "我想真的跑一遍示例，要花钱吗？",
+          "a": "<p>原课程要求有 Azure 订阅，模型部署在你自己的 Microsoft Foundry 项目里，费用按 Azure 的规则算，原课程没有给价格。想不用云，原课程介绍了 Foundry Local，可以把模型放在自己电脑上运行。</p>"
+        }
+      ]
     }
   ],
   "turn": [
@@ -64,7 +104,12 @@
     {
       "w": "claude",
       "html": "<p>在 Claude Code 里复制下面这段，方括号里换成你的实际情况：</p>",
-      "code": [{ "lang": "Claude", "text": "读 @README.md 里的课程目录。用中文列出全部课程，每课一句话说明讲什么；拿不准的，可以打开对应课程文件夹里的 README.md 看。然后，我是工程机械销售分公司的总经理，产品是 [起重设备、混凝土设备、破碎设备]，日常工作是 [处理客户询盘、做客户背调、管理经销商]。请帮我挑出和我的工作最相关的 3 课，说明理由。只读文件，不要运行任何命令。" }],
+      "code": [
+        {
+          "lang": "Claude",
+          "text": "读 @README.md 里的课程目录。用中文列出全部课程，每课一句话说明讲什么；拿不准的，可以打开对应课程文件夹里的 README.md 看。然后，我是工程机械销售分公司的总经理，产品是 [起重设备、混凝土设备、破碎设备]，日常工作是 [处理客户询盘、做客户背调、管理经销商]。请帮我挑出和我的工作最相关的 3 课，说明理由。只读文件，不要运行任何命令。"
+        }
+      ],
       "expect": "一张 19 课的中文清单，加上 3 课推荐和理由。推荐结果每次可能不同。"
     },
     {
@@ -77,45 +122,240 @@
     }
   ],
   "check": [
-    { "w": "look", "html": "<p><code>{{DIR}}</code> 里能看到 19 个课程文件夹，Claude Code 能在这个文件夹里启动。</p>" },
-    { "w": "look", "html": "<p>你能说出真正运行示例需要的几样东西：Python、Azure CLI、Azure 订阅、部署了模型的 Microsoft Foundry 项目，以及 <code>.env</code> 里的两个值。</p>" },
-    { "w": "look", "html": "<p>你的“重点 3 课”表已经填好，至少核对过其中一课的原文。</p>" }
+    {
+      "w": "look",
+      "html": "<p><code>{{DIR}}</code> 里能看到 19 个课程文件夹，Claude Code 能在这个文件夹里启动。</p>"
+    },
+    {
+      "w": "look",
+      "html": "<p>你能说出真正运行示例需要的几样东西：Python、Azure CLI、Azure 订阅、部署了模型的 Microsoft Foundry 项目，以及 <code>.env</code> 里的两个值。</p>"
+    },
+    {
+      "w": "look",
+      "html": "<p>你的“重点 3 课”表已经填好，至少核对过其中一课的原文。</p>"
+    }
   ],
   "warn": [
     "<p>原课程提到，下载后可以删掉 <code>.git</code> 文件夹来省空间，但这一步<b>不可逆</b>，删了就不能再用 Git 更新课程。本页不建议这么做。</p>",
     "<p>密钥和端点只写进你电脑上的 <code>.env</code> 文件，不要贴进任何聊天窗口。原课程的大多数笔记本用 <code>az login</code> 登录，本来就不需要 API 密钥。</p>"
   ],
   "quiz": [
-    { "q": "原课程为什么推荐浅克隆或稀疏克隆？", "o": ["完整克隆会丢文件", "带完整历史和全部文件时仓库约 3 GB，太大", "只有这样才能用 Claude Code"], "a": 1, "e": "原课程说完整仓库约 3 GB，浅克隆或稀疏克隆下载的内容少得多。" },
-    { "q": "fork（派生）和 clone（克隆）的区别是？", "o": ["fork 在你的 GitHub 账号下生成副本，clone 把仓库下载到电脑", "两者完全一样", "fork 只能在 Windows 上用"], "a": 0, "e": "想改代码并提交，要先 fork，再克隆你自己的 fork；只读的话直接克隆就行。" },
-    { "q": "原课程的大多数笔记本靠什么认证？", "o": ["把 API 密钥写进代码", "用 Azure CLI 的 az login 登录状态", "不需要任何认证"], "a": 1, "e": "大多数笔记本用 AzureCliCredential 或 DefaultAzureCredential，读取你的 az login 登录状态，不需要 API 密钥。" },
-    { "q": "运行大多数课程，.env 文件里要填哪两个值？", "o": ["用户名和密码", "AZURE_AI_PROJECT_ENDPOINT 和 AZURE_AI_MODEL_DEPLOYMENT_NAME", "Discord 账号和邮箱"], "a": 1, "e": "项目端点在 Foundry 项目的概览页，模型部署名称在“模型 + 终结点”里。" }
+    {
+      "q": "原课程为什么推荐浅克隆或稀疏克隆？",
+      "o": [
+        "完整克隆会丢文件",
+        "带完整历史和全部文件时仓库约 3 GB，太大",
+        "只有这样才能用 Claude Code"
+      ],
+      "a": 1,
+      "e": "原课程说完整仓库约 3 GB，浅克隆或稀疏克隆下载的内容少得多。"
+    },
+    {
+      "q": "fork（派生）和 clone（克隆）的区别是？",
+      "o": [
+        "fork 在你的 GitHub 账号下生成副本，clone 把仓库下载到电脑",
+        "两者完全一样",
+        "fork 只能在 Windows 上用"
+      ],
+      "a": 0,
+      "e": "想改代码并提交，要先 fork，再克隆你自己的 fork；只读的话直接克隆就行。"
+    },
+    {
+      "q": "原课程的大多数笔记本靠什么认证？",
+      "o": [
+        "把 API 密钥写进代码",
+        "用 Azure CLI 的 az login 登录状态",
+        "不需要任何认证"
+      ],
+      "a": 1,
+      "e": "大多数笔记本用 AzureCliCredential 或 DefaultAzureCredential，读取你的 az login 登录状态，不需要 API 密钥。"
+    },
+    {
+      "q": "运行大多数课程，.env 文件里要填哪两个值？",
+      "o": [
+        "用户名和密码",
+        "AZURE_AI_PROJECT_ENDPOINT 和 AZURE_AI_MODEL_DEPLOYMENT_NAME",
+        "Discord 账号和邮箱"
+      ],
+      "a": 1,
+      "e": "项目端点在 Foundry 项目的概览页，模型部署名称在“模型 + 终结点”里。"
+    }
   ],
   "cards": [
-    ["fork / clone", "在你的 GitHub 账号下生成副本 / 把仓库下载到电脑"],
-    ["浅克隆 / 稀疏克隆", "只下最新一次提交 / 只下选定的文件夹"],
-    ["Microsoft Foundry 项目", "运行示例需要的云端项目，里面部署一个模型"],
-    ["az login", "用 Azure CLI 登录，大多数笔记本靠它认证，不用密钥"],
-    [".env 文件", "存项目端点和模型部署名称的本地配置文件"]
+    [
+      "fork / clone",
+      "在你的 GitHub 账号下生成副本 / 把仓库下载到电脑"
+    ],
+    [
+      "浅克隆 / 稀疏克隆",
+      "只下最新一次提交 / 只下选定的文件夹"
+    ],
+    [
+      "Microsoft Foundry 项目",
+      "运行示例需要的云端项目，里面部署一个模型"
+    ],
+    [
+      "az login",
+      "用 Azure CLI 登录，大多数笔记本靠它认证，不用密钥"
+    ],
+    [
+      ".env 文件",
+      "存项目端点和模型部署名称的本地配置文件"
+    ]
   ],
   "video": {
-    "hook": { "bubble": "仓库约三个 G，全下载吗？不用。", "slam": "挑着下！", "title": "把课程搬到电脑上" },
-    "chapters": ["下载", "命令", "打开", "要求"],
-    "scenes": [
-      { "type": "cards", "chapter": 0, "caption": "仓库约 3 GB，原课程教你少下点", "hi": "少下点", "heading": "几种下载方式", "cards": [{ "t": "浅克隆", "b": "只要最新一次提交", "color": "navy" }, { "t": "稀疏克隆", "b": "只下选定的文件夹", "color": "navy" }, { "t": "去掉翻译", "b": "本页用这种", "color": "ok" }] },
-      { "type": "code", "chapter": 1, "caption": "三行命令，跳过翻译", "hi": "跳过翻译", "file": "README.md · 课程主页给的克隆命令", "lines": ["git clone --filter=blob:none --sparse \\", "  https://github.com/microsoft/ai-agents-for-beginners.git", "cd ai-agents-for-beginners", "git sparse-checkout set --no-cone \\", "  '/*' '!translations' '!translated_images'"], "hiLines": [0, 4], "stamp": { "text": "下载完成", "color": "ok", "f": 0.65 } },
-      { "type": "term", "chapter": 2, "caption": "让 Claude Code 只读，不运行", "hi": "只读", "title": "窗口 A · Claude Code", "tag": "A", "lines": [{ "f": 0.05, "kind": "cmd", "text": "cd ~/ai-agents-for-beginners && claude" }, { "f": 0.2, "kind": "you", "text": "读 @00-course-setup/README.md，运行示例要准备什么？" }, { "f": 0.4, "kind": "claude", "text": "需要 Python 3.12、Azure CLI、Azure 订阅……" }, { "f": 0.6, "kind": "claude", "text": "还要一个部署了模型的 Microsoft Foundry 项目。" }, { "f": 0.78, "kind": "ok", "text": "只读了文件，没有运行任何命令" }] },
-      { "type": "panel", "chapter": 3, "caption": "真正运行才需要这些", "hi": "真正运行", "heading": "运行示例的要求（可选）", "rows": [["Python 3.12 以上", "装依赖"], ["Azure CLI", "az login"], ["Azure 订阅", "访问 Foundry"], ["Foundry 项目", "部署一个模型"], [".env 两个值", "端点和部署名"]], "hiRows": [3] }
+    "hook": {
+      "bubble": "仓库约三个 G，全下载吗？不用。",
+      "slam": "挑着下！",
+      "title": "把课程搬到电脑上"
+    },
+    "chapters": [
+      "下载",
+      "命令",
+      "打开",
+      "要求"
     ],
-    "takeaways": [["稀疏克隆", "少下几个 G"], ["只读代码", "不用账号"], ["真要运行", "Azure 账号"]],
-    "quiz": { "q": "大多数笔记本靠什么登录认证？", "a": "az login，不用密钥" },
+    "scenes": [
+      {
+        "type": "cards",
+        "chapter": 0,
+        "caption": "仓库约 3 GB，原课程教你少下点",
+        "hi": "少下点",
+        "heading": "几种下载方式",
+        "cards": [
+          {
+            "t": "浅克隆",
+            "b": "只要最新一次提交",
+            "color": "navy"
+          },
+          {
+            "t": "稀疏克隆",
+            "b": "只下选定的文件夹",
+            "color": "navy"
+          },
+          {
+            "t": "去掉翻译",
+            "b": "本页用这种",
+            "color": "ok"
+          }
+        ]
+      },
+      {
+        "type": "code",
+        "chapter": 1,
+        "caption": "三行命令，跳过翻译",
+        "hi": "跳过翻译",
+        "file": "README.md · 课程主页给的克隆命令",
+        "lines": [
+          "git clone --filter=blob:none --sparse \\",
+          "  https://github.com/microsoft/ai-agents-for-beginners.git",
+          "cd ai-agents-for-beginners",
+          "git sparse-checkout set --no-cone \\",
+          "  '/*' '!translations' '!translated_images'"
+        ],
+        "hiLines": [
+          0,
+          4
+        ],
+        "stamp": {
+          "text": "下载完成",
+          "color": "ok",
+          "f": 0.65
+        }
+      },
+      {
+        "type": "term",
+        "chapter": 2,
+        "caption": "让 Claude Code 只读，不运行",
+        "hi": "只读",
+        "title": "窗口 A · Claude Code",
+        "tag": "A",
+        "lines": [
+          {
+            "f": 0.05,
+            "kind": "cmd",
+            "text": "cd ~/ai-agents-for-beginners && claude"
+          },
+          {
+            "f": 0.2,
+            "kind": "you",
+            "text": "读 @00-course-setup/README.md，运行示例要准备什么？"
+          },
+          {
+            "f": 0.4,
+            "kind": "claude",
+            "text": "需要 Python 3.12、Azure CLI、Azure 订阅……"
+          },
+          {
+            "f": 0.6,
+            "kind": "claude",
+            "text": "还要一个部署了模型的 Microsoft Foundry 项目。"
+          },
+          {
+            "f": 0.78,
+            "kind": "ok",
+            "text": "只读了文件，没有运行任何命令"
+          }
+        ]
+      },
+      {
+        "type": "panel",
+        "chapter": 3,
+        "caption": "真正运行才需要这些",
+        "hi": "真正运行",
+        "heading": "运行示例的要求（可选）",
+        "rows": [
+          [
+            "Python 3.12 以上",
+            "装依赖"
+          ],
+          [
+            "Azure CLI",
+            "az login"
+          ],
+          [
+            "Azure 订阅",
+            "访问 Foundry"
+          ],
+          [
+            "Foundry 项目",
+            "部署一个模型"
+          ],
+          [
+            ".env 两个值",
+            "端点和部署名"
+          ]
+        ],
+        "hiRows": [
+          3
+        ]
+      }
+    ],
+    "takeaways": [
+      [
+        "稀疏克隆",
+        "少下几个 G"
+      ],
+      [
+        "只读代码",
+        "不用账号"
+      ],
+      [
+        "真要运行",
+        "Azure 账号"
+      ]
+    ],
+    "quiz": {
+      "q": "大多数笔记本靠什么登录认证？",
+      "a": "az login，不用密钥"
+    },
     "outro": "下载课程 · 用 Claude Code 打开 · 挑出你的重点三课",
     "narration": {
       "Hook": "原课程整个仓库大约三个 G，要全部下载吗？不用。这一课，把课程搬到你的电脑上，再让 Claude Code 帮你读懂它。",
       "S1": "原课程说，完整仓库大约三个 G。它给了几种少下载的办法：浅克隆、稀疏克隆，还有课程主页给的、去掉翻译的下载方式。",
       "S2": "就三行命令：先稀疏克隆，再进入文件夹，最后告诉 Git 跳过翻译文件夹。十九课的内容都在，下载量小得多。",
       "S3": "在课程文件夹里启动 Claude Code，让它读第零课的说明。注意告诉它只读文件，不运行命令，也不安装任何东西。",
-      "S4": "想真正运行示例，原课程要求准备 Python、Azure 命令行、Azure 订阅，还有一个部署了模型的 Microsoft Foundry 项目。",
+      "S4": "想真正运行示例，原课程要求准备 Python、Azure 命令行、Azure 订阅，以及一个部署了模型的 Foundry 项目。",
       "Takeaways": "记住三件事：稀疏克隆少下几个 G；只读代码不需要账号；真要运行，就得有 Azure 账号。",
       "Quiz": "考你一题：原课程的大多数笔记本，靠什么登录认证？三，二，一。答案：az login，不需要密钥。",
       "Outro": "现在回到网页，把课程下载下来，挑出你的重点三课。"

@@ -91,15 +91,15 @@
     ["NLWeb", "给网站加自然语言界面，每个部署同时也是 MCP 服务器"]
   ],
   "video": {
-    "hook": { "bubble": "工具、智能体、网站，各说各话？", "slam": "要有协议！", "title": "MCP、A2A 和 NLWeb" },
-    "chapters": ["MCP", "A2A", "NLWeb", "示例"],
+    "hook": { "bubble": "工具、智能体、网站，各说各话？", "slam": "要有协议！", "title": "MCP、A2A、NLWeb" },
+    "chapters": ["MCP", "A2A", "网页", "示例"],
     "scenes": [
       { "type": "cards", "chapter": 0, "caption": "MCP 是连工具的万能转接头", "hi": "万能转接头", "heading": "MCP 服务器的三种能力", "cards": [{ "t": "工具", "b": "可调用的动作：查航班", "color": "navy" }, { "t": "资源", "b": "只读数据：文件、记录", "color": "navy" }, { "t": "提示", "b": "预设的提示模板", "color": "ok" }] },
       { "type": "panel", "chapter": 1, "caption": "A2A 让智能体之间协作", "hi": "协作", "heading": "A2A 的四个组成", "rows": [["智能体卡片", "自我介绍"], ["智能体执行器", "传递上下文"], ["工件", "交回结果"], ["事件队列", "长任务不断线"]], "hiRows": [0] },
       { "type": "cards", "chapter": 2, "caption": "NLWeb 让网站能用自然语言问", "hi": "自然语言", "heading": "NLWeb 怎么回答", "cards": [{ "t": "向量数据库", "b": "找出最相关的网站内容", "color": "navy" }, { "t": "大模型", "b": "理解问题，组织回复", "color": "navy" }, { "t": "也是 MCP 服务器", "b": "外部智能体用 ask 提问", "color": "ok" }] },
       { "type": "code", "chapter": 3, "caption": "三个智能体按顺序传递结果", "hi": "传递", "file": "11-a2a-agent-framework.ipynb · 原课程示例", "lines": ["currency_agent = client.as_agent(", "    name=\"CurrencyExchangeAgent\", …)", "activity_agent = client.as_agent(", "    name=\"ActivityPlannerAgent\", …)", "travel_manager = client.as_agent(", "    name=\"TravelManagerAgent\", …)", "", "workflow = WorkflowBuilder(start_executor=currency_agent) \\", "    .add_edge(currency_agent, activity_agent) …"], "hiLines": [7, 8], "stamp": { "text": "模拟 A2A", "color": "yellow", "f": 0.65 } }
     ],
-    "takeaways": [["MCP", "智能体连工具"], ["A2A", "智能体找智能体"], ["NLWeb", "网站能对话"]],
+    "takeaways": [["MCP 协议", "智能体连工具"], ["A2A 协议", "智能体找智能体"], ["NLWeb", "网站能对话"]],
     "quiz": { "q": "介绍 A2A 智能体技能的是什么？", "a": "智能体卡片" },
     "outro": "读懂两个示例 · 画出你的接线图 · 完成小测",
     "narration": {
@@ -108,7 +108,7 @@
       "S2": "A 2 A 让智能体和智能体协作。智能体卡片介绍自己的技能，执行器传递上下文，工件交回结果，事件队列保证长任务不断线。",
       "S3": "N L Web 让网站能用自然语言提问。它用向量数据库找出相关内容，再让大模型组织回复，引用的是网站里真实的内容。",
       "S4": "看原课程的示例：货币、活动、旅行经理三个智能体按顺序传递结果。示例说明，这是简化版，真正部署要用 A 2 A 协议通信。",
-      "Takeaways": "记住三件事：M C P 让智能体连工具；A 2 A 让智能体找智能体；N L Web 让网站能对话。",
+      "Takeaways": "记住三件事：M C P 连工具；A 2 A 让智能体协作；N L Web 让网站能对话。",
       "Quiz": "考你一题：在 A 2 A 里，介绍一个智能体技能的是什么？三，二，一。答案：智能体卡片。",
       "Outro": "现在回到网页，读懂两个示例，再画出你公司的协议接线图。"
     }
