@@ -116,6 +116,9 @@ ul.plain, ol.plain { margin: 0; padding-left: 20px; display: flex; flex-directio
 /* 单课 */
 .lhead { display: flex; flex-direction: column; gap: 8px; }
 .goal { font-size: 16px; border-left: 3px solid var(--yellow); padding-left: 12px; max-width: 65ch; }
+.demo { display: flex; flex-direction: column; gap: 8px; }
+.demo video { width: 100%; max-width: 100%; aspect-ratio: 16 / 9; border-radius: 12px; background: #0f1520; display: block; }
+.demo .cap { font-size: 13px; color: var(--muted); }
 .lock { background: var(--soft); border-radius: 10px; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font-size: 14px; }
 .section-title { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
 .section-title .count { font-size: 13px; color: var(--muted); font-family: var(--font-en); font-variant-numeric: tabular-nums; }
@@ -261,6 +264,10 @@ node checks/upgrade.mjs</pre></details>
     <span class="eyebrow">第 1 课 / 共 8 课 · 初级 · 约 20 分钟</span>
     <h2>安装、登录、熟悉界面</h2>
     <p class="goal">学完这课，你能装好 Claude Code，在仓库里安全地启动它，在它回答到一半时叫停，说出当前会话用的是哪个模型和账号，并且会拿代码去核对它说的话。</p>
+  </div>
+  <div class="demo">
+    <video controls playsinline preload="metadata" poster="videos/b-1-poster.jpg" src="videos/b-1.mp4" aria-label="第 1 课演示动画"></video>
+    <span class="cap">先看 80 秒演示动画，再跟着下面的步骤动手做。画面里的界面只是示意，不是真实录屏；具体操作以本页步骤为准。</span>
   </div>
   <div class="panel idea">
     <h3>先搞懂</h3>
