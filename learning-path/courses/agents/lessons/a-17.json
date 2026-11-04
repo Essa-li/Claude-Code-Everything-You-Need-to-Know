@@ -102,14 +102,14 @@
       { "type": "code", "chapter": 2, "caption": "只换一个地址，就连上本机模型", "hi": "地址", "file": "17-local-agent-foundry-local.ipynb · 原课程示例", "lines": ["from foundry_local import FoundryLocalManager", "from openai import OpenAI", "", "MODEL_ALIAS = \"qwen2.5-7b-instruct\"", "manager = FoundryLocalManager(MODEL_ALIAS)", "", "client = OpenAI(", "    base_url=manager.endpoint,   # e.g. http://localhost:PORT/v1", "    api_key=manager.api_key,     # local placeholder"], "hiLines": [4, 7], "stamp": { "text": "全程本机", "color": "ok", "f": 0.65 } },
       { "type": "panel", "chapter": 3, "caption": "先看敏感，再看难度", "hi": "敏感", "heading": "本地和云端怎么分", "rows": [["敏感数据或离线", "本地小模型"], ["简单有边界的任务", "本地小模型"], ["不敏感的复杂推理", "云端模型"], ["云端出故障", "退回本地"]], "hiRows": [0] }
     ],
-    "takeaways": [["本地", "隐私·省钱·离线"], ["小模型", "调度别硬扛"], ["混合", "敏感留本地"]],
+    "takeaways": [["本地运行", "隐私省钱离线"], ["小模型分工", "调度别硬扛"], ["混合路由", "敏感留本地"]],
     "quiz": { "q": "客户背调资料该在哪里处理？", "a": "本地小模型" },
     "outro": "网页上读懂示例 · 给工作分本地和云端 · 完成小测",
     "narration": {
       "Hook": "有些资料一个字都不能出网，比如客户的背调材料。这一课把智能体搬到你自己的电脑上，全程不调用任何云端模型。",
       "S1": "为什么要放在本机？原课程给了三个理由：隐私，数据不离开这台机器；成本，没有按 token 计的账单；离线，断网照样能用。",
       "S2": "代价是换成了小模型。它擅长分类、提取和判断该调哪个工具，但不擅长多步推理和广泛知识。所以让小模型调度，让工具去干重活。",
-      "S3": "看示例：Foundry Local 在本机提供模型，接口和 OpenAI 兼容。代码用的是标准开发包，只是把地址换成本机，模型选的是 Qwen。",
+      "S3": "看示例：Foundry Local 在本机提供 Qwen 模型，接口和 OpenAI 兼容。代码还是标准开发包，只是地址换成了本机。",
       "S4": "本地优先不等于只用本地。敏感或离线的交给本地，简单任务也交给本地；不敏感的复杂推理才用云端。云端出故障，就退回本地。",
       "Takeaways": "记住三件事：本地带来隐私、省钱和离线；小模型负责调度；敏感数据留在本地。",
       "Quiz": "考你一题：客户背调资料属于敏感数据，按混合路由该在哪里处理？三，二，一。答案：本地小模型。",
