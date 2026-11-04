@@ -1,0 +1,23 @@
+{
+  "id": "agents",
+  "title": "AI 智能体入门",
+  "headline": "从会用 AI，到会设计 AI 智能体",
+  "lead": "19 课，讲清楚智能体是什么、它用哪些设计模式、怎么接工具和资料、怎么规划、协作、记忆，以及怎么做到可信、安全、能上线。每课先讲概念，再带你用 Claude Code 读懂原课程的示例代码，最后用你自己的业务做一道设计练习。",
+  "source": { "name": "微软 AI Agents for Beginners", "repo": "https://github.com/microsoft/ai-agents-for-beginners" },
+  "dirDefault": "~/ai-agents-for-beginners",
+  "howto": [
+    "<p>每课分四块：<b>先搞懂</b>（概念），<b>跟着看</b>（用 Claude Code 读懂原课程的示例代码，不需要你会编程，也不需要 API 密钥），<b>自己练一遍</b>（把这课的方法套到你的业务上，比如询盘处理、客户背调），<b>检查过关</b>（自查清单）和过关小测。</p>",
+    "<p>原课程的示例代码用 Python 和微软的 Azure / Microsoft Foundry 服务。真正运行这些代码需要 Azure 账号和模型调用费用，所以本页默认只<b>读懂</b>代码；想亲手运行的，每课都标了需要准备什么。</p>",
+    "<p>第 0 课会带你把原课程下载到电脑上，之后每课都在这个文件夹里练。</p>"
+  ],
+  "glossary": [
+    ["AI 智能体（Agent）", "让大模型不只回答问题、还能用工具和知识去“做事”的系统。"],
+    ["环境 / 传感器 / 执行器", "智能体工作的地方 / 它感知环境的方式 / 它采取行动的方式。"],
+    ["工具（Tool）", "智能体可以调用的函数或服务，比如查数据库、发消息。"],
+    ["RAG", "检索增强生成：先查资料，再基于查到的内容回答。"],
+    ["智能体框架", "现成的模板和基础设施，帮开发者更快地搭智能体。"],
+    ["MCP", "让智能体用统一方式连接外部工具的协议。"]
+  ],
+  "sourceNote": "本课程改编自微软 AI Agents for Beginners（MIT 许可），以官方简体中文译本为底稿，对照英文原版改写成带练格式。原版的示例代码、视频和英文说明以原仓库为准。你的学习进度只保存在这台设备的浏览器里。",
+  "footer": "改编自 <a href=\"https://github.com/microsoft/ai-agents-for-beginners\" target=\"_blank\" rel=\"noopener\">microsoft/ai-agents-for-beginners</a>，Copyright (c) Microsoft Corporation，MIT 许可。概念讲解依据原课程（官方简体中文译本与英文原版），练习和小测为改编时另写。界面与学习功能同 Claude Code 带练课。"
+}

@@ -119,6 +119,11 @@ ul.plain, ol.plain { margin: 0; padding-left: 20px; display: flex; flex-directio
 .chip.ok { background: var(--ok-soft); color: var(--ok); }
 .chip.now { background: var(--yellow); color: #1b2433; }
 .night { font-size: 13px; font-weight: 700; color: var(--navy); padding: 4px 0 10px 48px; }
+.courses { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+.course { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: var(--fg); background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; min-width: 0; }
+.course:hover { border-color: var(--navy); }
+.course b { font-size: 17px; color: var(--navy); }
+.course .chip { align-self: flex-start; }
 .mini-bar { height: 4px; background: var(--soft); border-radius: 99px; overflow: hidden; max-width: 260px; }
 .mini-bar i { display: block; height: 100%; background: var(--ok); width: 0; }
 
@@ -208,6 +213,7 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line)
   <div class="wrap">
     <a class="brand" href="#home">Claude Code 带练课</a>
     <nav class="nav" aria-label="主导航">
+      <a href="#courses" data-nav="courses">全部课程</a>
       <a href="#home" data-nav="home">路线</a>
       <a href="#b-1" data-nav="lesson" id="nav-lesson">继续学习</a>
       <a href="#review" data-nav="review">复习<span class="due-pill" id="due-pill" hidden></span></a>
@@ -229,6 +235,16 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line)
     <p>每课都按同一个流程走：先搞懂一个概念，跟着示例一步步操作，再自己练一道真实的小任务，然后运行检查命令确认通过，最后做几道过关小测。小测通过后，地图上会亮起下一课。</p>
     <div class="stats" id="home-stats"></div>
     <a class="btn" id="start-btn" href="#b-1">开始第 1 课</a>
+  </div>
+
+  <div class="panel" id="courses">
+    <div class="section-title"><h3>全部课程</h3><span class="count">4 门课 · 每门都有逐步带练、过关小测和配音视频</span></div>
+    <div class="courses">
+      <a class="course" href="#b-1"><span class="eyebrow">第 1 门 · 本页</span><b>Claude Code 入门</b><span class="small muted">8 课：安装、权限、计划模式、项目记忆、技能、沙箱、MCP</span><span class="chip ok">已上线</span></a>
+      <a class="course" href="agents.html"><span class="eyebrow">第 2 门 · 微软开源课程改编</span><b>AI 智能体入门</b><span class="small muted">19 课：智能体是什么、设计模式、工具、RAG、规划、多智能体、记忆、安全</span><span class="chip now">制作中</span></a>
+      <a class="course" href="genai.html"><span class="eyebrow">第 3 门 · 微软开源课程改编</span><b>生成式 AI 基础</b><span class="small muted">22 课：大模型、提示词、AI 应用、RAG、负责任使用</span><span class="chip">排队中</span></a>
+      <a class="course" href="internals.html"><span class="eyebrow">第 4 门 · 开源课程改编</span><b>Claude Code 原理</b><span class="small muted">17 课：拆解智能体循环、工具、权限、计划、技能、上下文压缩</span><span class="chip">排队中</span></a>
+    </div>
   </div>
 
   <div class="panel">
@@ -1600,15 +1616,17 @@ npm run check -- i-7</pre>
   var VIEWS = ["home", "review", "ref"].concat(LESSONS.map(function (l) { return l.id; }));
   function route() {
     var h = (location.hash || "").replace("#", "");
+    var raw = h;
     if (VIEWS.indexOf(h) < 0) h = "home";
     document.querySelectorAll("section.view").forEach(function (s) { s.hidden = s.dataset.view !== h; });
     document.querySelectorAll(".nav a").forEach(function (a) {
-      var t = a.dataset.nav, on = (t === h) || (t === "lesson" && lessonOf(h));
+      var t = a.dataset.nav, on = t === "courses" ? raw === "courses" : (t === h && raw !== "courses") || (t === "lesson" && lessonOf(h));
       if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
     });
     if (h === "review") { showBack = false; renderReview(); }
     renderLessonBar();
-    window.scrollTo(0, 0);
+    var target = raw === "courses" && document.getElementById("courses");
+    if (target) target.scrollIntoView(); else window.scrollTo(0, 0);
   }
   window.addEventListener("hashchange", route);
   renderMap(); renderReview(); route();
