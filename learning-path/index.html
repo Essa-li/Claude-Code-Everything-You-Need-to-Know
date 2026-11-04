@@ -61,7 +61,15 @@ code { font-family: var(--font-mono); font-size: 0.86em; background: var(--code-
 button { font: inherit; cursor: pointer; }
 
 /* 顶部导航 */
-.topbar { background: var(--surface); border-bottom: 1px solid var(--line); }
+.topbar { background: var(--surface); border-bottom: 1px solid var(--line); position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 21; background: var(--surface); }
+.lessonbar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: thin; -webkit-overflow-scrolling: touch; }
+.lessonbar a { flex: none; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; font-size: 13px; color: var(--fg); background: var(--soft); border: 1px solid transparent; border-radius: 99px; padding: 4px 12px 4px 4px; white-space: nowrap; }
+.lessonbar a .num { width: 22px; height: 22px; border-radius: 99px; display: grid; place-items: center; font-family: var(--font-en); font-weight: 700; font-size: 12px; background: var(--surface); color: var(--navy); }
+.lessonbar a.done .num { background: var(--ok); color: var(--on-navy); }
+.lessonbar a[aria-current="page"] { border-color: var(--navy); background: var(--surface); font-weight: 700; color: var(--navy); }
+.lessonbar a[aria-current="page"] .num { background: var(--navy); color: var(--on-navy); }
+.lessonbar .sep { flex: none; align-self: center; font-size: 12px; color: var(--muted); padding: 0 4px; }
 .topbar .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 4px; padding-block: 10px; }
 .brand { font-weight: 900; color: var(--navy); margin-right: auto; text-decoration: none; font-size: 15px; }
 .nav a { text-decoration: none; color: var(--muted); font-size: 14px; padding: 4px 10px; border-radius: 6px; }
@@ -205,6 +213,9 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line)
       <a href="#ref" data-nav="ref">速查</a>
     </nav>
   </div>
+  <div class="wrap">
+    <nav class="lessonbar" id="lessonbar" aria-label="课程目录"></nav>
+  </div>
 </header>
 
 <main class="wrap" id="main">
@@ -217,6 +228,11 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line)
     <p>每课都按同一个流程走：先搞懂一个概念，跟着示例一步步操作，再自己练一道真实的小任务，然后运行检查命令确认通过，最后做几道过关小测。小测通过后，地图上会亮起下一课。</p>
     <div class="stats" id="home-stats"></div>
     <a class="btn" id="start-btn" href="#b-1">开始第 1 课</a>
+  </div>
+
+  <div class="panel">
+    <div class="section-title"><h3>掌握路径</h3><span class="count" id="map-count"></span></div>
+    <div id="map"></div>
   </div>
 
   <div class="panel">
@@ -248,11 +264,6 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line)
 git checkout --no-overlay FETCH_HEAD -- checks capstone learn
 git checkout FETCH_HEAD -- .github/workflows/progress.yml .gitattributes
 node checks/upgrade.mjs</pre></details>
-  </div>
-
-  <div class="panel">
-    <div class="section-title"><h3>掌握路径</h3><span class="count" id="map-count"></span></div>
-    <div id="map"></div>
   </div>
 
   <p class="small muted">练习仓库里还有一个官方的英文带练程序：在窗口 B 的练习仓库里运行 <code>npm run learn</code>，Claude Code Quest 会在浏览器里打开，内容和本页对应，可以对照着用。本页的进度只保存在这台设备的浏览器里。</p>
@@ -1504,6 +1515,24 @@ npm run check -- i-7</pre>
     if (cur) { sb.href = "#" + cur.id; sb.textContent = (nPassed === 0 && stepPct(cur.id) === 0 ? "开始" : "继续") + "第 " + cur.n + " 课：" + cur.title; nl.href = "#" + cur.id; }
     else { sb.href = "#review"; sb.textContent = "8 课都已过关，去复习"; nl.href = "#review"; }
     refreshLocks();
+    renderLessonBar();
+  }
+
+  // ---------- 顶部课程目录 ----------
+  var SHORT = { "b-1": "安装登录", "b-2": "权限与计划", "b-3": "第一次改动", "b-5": "项目记忆", "i-1": "技能", "i-2": "整理记忆", "i-4": "权限与沙箱", "i-7": "MCP" };
+  function renderLessonBar() {
+    var h = (location.hash || "").replace("#", "");
+    var html = "";
+    LESSONS.forEach(function (l, i) {
+      if (i === 4) html += '<span class="sep">中级</span>';
+      if (i === 0) html += '<span class="sep">初级</span>';
+      html += '<a href="#' + l.id + '" class="' + (passed(l.id) ? "done" : "") + '"' + (h === l.id ? ' aria-current="page"' : "") + ' title="第 ' + l.n + ' 课 · ' + esc(l.title) + '">' +
+        '<span class="num">' + (passed(l.id) ? "✓" : l.n) + "</span>" + esc(SHORT[l.id] || l.title) + "</a>";
+    });
+    var bar = document.getElementById("lessonbar");
+    bar.innerHTML = html;
+    var cur = bar.querySelector('[aria-current="page"]');
+    if (cur && cur.scrollIntoView) { try { cur.scrollIntoView({ block: "nearest", inline: "center" }); } catch (e) {} }
   }
 
   // ---------- 记忆卡 ----------
@@ -1577,6 +1606,7 @@ npm run check -- i-7</pre>
       if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
     });
     if (h === "review") { showBack = false; renderReview(); }
+    renderLessonBar();
     window.scrollTo(0, 0);
   }
   window.addEventListener("hashchange", route);
