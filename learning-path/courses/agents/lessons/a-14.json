@@ -19,15 +19,26 @@
     {
       "w": "web",
       "html": "<p>打开原课程这一课的官方中文版，重点读“核心概念”和“工作流”两节：</p>",
-      "code": [{ "lang": "网址", "text": "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/14-microsoft-agent-framework/README.md" }],
+      "code": [
+        {
+          "lang": "网址",
+          "text": "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/14-microsoft-agent-framework/README.md"
+        }
+      ],
       "expect": "页面标题是“探索 Microsoft Agent Framework”。页面里有很多短代码片段，不用逐行看懂，知道每段在演示哪个概念就行。"
     },
     {
       "w": "claude",
       "html": "<p>在课程文件夹里启动 Claude Code，让它讲解一个完整的工作流示例：酒店预订条件工作流。注意这一课的示例文件夹叫 <code>code-samples</code>（中间是短横线）。只读，不运行：</p>",
       "code": [
-        { "lang": "终端", "text": "cd {{DIR}}\nclaude" },
-        { "lang": "Claude", "text": "用中文给一个不会编程的人讲解 @14-microsoft-agent-framework/code-samples/hotel_booking_workflow_sample.py ：这个工作流里有哪几个执行器？它们之间用什么边连起来？什么情况下走哪条路？不要运行任何代码。" }
+        {
+          "lang": "终端",
+          "text": "cd {{DIR}}\nclaude"
+        },
+        {
+          "lang": "Claude",
+          "text": "用中文给一个不会编程的人讲解 @14-microsoft-agent-framework/code-samples/hotel_booking_workflow_sample.py ：这个工作流里有哪几个执行器？它们之间用什么边连起来？什么情况下走哪条路？不要运行任何代码。"
+        }
       ],
       "expect": "Claude 会讲到：有三个智能体执行器（<code>availability_agent</code> 查房态、<code>alternative_agent</code> 推荐别的城市、<code>booking_agent</code> 鼓励下单），一个自定义执行器 <code>display_result</code> 输出结果；查房态之后按“有没有房”走两条条件边。示例用巴黎（没房）和斯德哥尔摩（有房）各测一次。"
     },
@@ -38,15 +49,26 @@
     {
       "w": "claude",
       "html": "<p>再看同一个场景加上“人在回路”之后变成什么样：</p>",
-      "code": [{ "lang": "Claude", "text": "对比 @14-microsoft-agent-framework/code-samples/14-human-loop.ipynb 和刚才的酒店预订工作流：多了哪些步骤？工作流在哪里停下来等人回答？人回答“是”或“否”之后分别走向哪里？用中文讲，不运行代码。" }],
+      "code": [
+        {
+          "lang": "Claude",
+          "text": "对比 @14-microsoft-agent-framework/code-samples/14-human-loop.ipynb 和刚才的酒店预订工作流：多了哪些步骤？工作流在哪里停下来等人回答？人回答“是”或“否”之后分别走向哪里？用中文讲，不运行代码。"
+        }
+      ],
       "expect": "答案大意：没房时，先由一个智能体准备要问用户的问题，然后工作流暂停，等用户回答要不要看其他城市；回答“是”就去推荐其他城市，回答“否”就走取消；有房时直接走预订，不需要人参与。具体措辞每次不同。"
     },
     {
       "w": "look",
       "html": "<p><code>14-microsoft-agent-framework/code-samples/</code> 里还有几个示例，分别对应本课讲的概念，想深入可以同样让 Claude 讲：</p><ul><li><code>14-sequential.ipynb</code>：顺序编排，前台智能体先推荐景点，礼宾智能体再审核。</li><li><code>14-concurrent.ipynb</code>：并发编排，三个智能体并行（扇出 / 扇入）。</li><li><code>14-handoff.ipynb</code>：交接编排，客服按需要转给专门的智能体。</li><li><code>14-middleware.ipynb</code>：函数中间件，给优先会员改写工具结果。</li><li><code>14-langchain-hosted-agent.py</code>：把 LangGraph 智能体托管到 Foundry。</li></ul>",
       "stuck": [
-        { "q": "想真正运行这些示例，需要什么？", "a": "<p>需要你自己的模型服务账号。酒店预订示例会按你设置的环境变量选一家：MiniMax（<code>MINIMAX_API_KEY</code>）、Azure OpenAI（<code>AZURE_OPENAI_ENDPOINT</code>，先 <code>az login</code>），否则默认用 OpenAI。都会按各家规则计费。本页的练习只需要读懂。</p>" },
-        { "q": "README 里的写法和示例文件里的不完全一样？", "a": "<p>是的。比如 README 里建线程用 <code>get_new_thread()</code>，第 13 课的示例用 <code>create_session()</code>。读的时候抓住概念（这是线程、这是工具、这是边）就够了，具体写法以示例文件为准。</p>" }
+        {
+          "q": "想真正运行这些示例，需要什么？",
+          "a": "<p>需要你自己的模型服务账号。酒店预订示例会按你设置的环境变量选一家：MiniMax（<code>MINIMAX_API_KEY</code>）、Azure OpenAI（<code>AZURE_OPENAI_ENDPOINT</code>，先 <code>az login</code>），否则默认用 OpenAI。都会按各家规则计费。本页的练习只需要读懂。</p>"
+        },
+        {
+          "q": "README 里的写法和示例文件里的不完全一样？",
+          "a": "<p>是的。比如 README 里建线程用 <code>get_new_thread()</code>，第 13 课的示例用 <code>create_session()</code>。读的时候抓住概念（这是线程、这是工具、这是边）就够了，具体写法以示例文件为准。</p>"
+        }
       ]
     }
   ],
@@ -58,7 +80,12 @@
     {
       "w": "claude",
       "html": "<p>先让 Claude 帮你把报价流程拆成执行器和边。下面这段可以直接复制，方括号里换成你的实际情况：</p>",
-      "code": [{ "lang": "Claude", "text": "参考 @14-microsoft-agent-framework/code-samples/hotel_booking_workflow_sample.py 的结构，帮我把我们的报价流程设计成一个工作流（只讲设计，不写代码）。我们的流程大致是：[收到询价 → 确认设备型号和工况 → 查库存和交期 → 算价格 → 经理审批 → 发报价单]。请告诉我：1）哪些步骤适合做成智能体执行器，哪些适合做成固定逻辑的执行器；2）每两步之间用直接边、条件边、分支边还是扇出/扇入边，为什么；3）哪一步必须“人在回路”，暂停等人审批；4）哪里适合加函数中间件记日志。" }]
+      "code": [
+        {
+          "lang": "Claude",
+          "text": "参考 @14-microsoft-agent-framework/code-samples/hotel_booking_workflow_sample.py 的结构，帮我把我们的报价流程设计成一个工作流（只讲设计，不写代码）。我们的流程大致是：[收到询价 → 确认设备型号和工况 → 查库存和交期 → 算价格 → 经理审批 → 发报价单]。请告诉我：1）哪些步骤适合做成智能体执行器，哪些适合做成固定逻辑的执行器；2）每两步之间用直接边、条件边、分支边还是扇出/扇入边，为什么；3）哪一步必须“人在回路”，暂停等人审批；4）哪里适合加函数中间件记日志。"
+        }
+      ]
     },
     {
       "w": "edit",
@@ -67,54 +94,256 @@
     {
       "w": "claude",
       "html": "<p>最后用前面学过的课把这个设计复盘一遍，看看它用到了哪些概念：</p>",
-      "code": [{ "lang": "Claude", "text": "对照这门课前面的内容（工具使用、可信智能体与人在回路、规划、多智能体、记忆），我这个报价工作流分别用到了哪些？还有哪一块是缺的？比如老客户的历史报价应该放在哪种记忆里？只讨论设计。" }],
+      "code": [
+        {
+          "lang": "Claude",
+          "text": "对照这门课前面的内容（工具使用、可信智能体与人在回路、规划、多智能体、记忆），我这个报价工作流分别用到了哪些？还有哪一块是缺的？比如老客户的历史报价应该放在哪种记忆里？只讨论设计。"
+        }
+      ],
       "expect": "你会得到一张“概念 ↔ 设计里的位置”的对照。重点看：价格和对外发送是否都放在了人工审批之后。"
     }
   ],
   "check": [
-    { "w": "look", "html": "<p>你能说出 MAF 的五种编排方式里至少三种，并说出各自适合什么场景。</p>" },
-    { "w": "look", "html": "<p>你能解释执行器、条件边、扇出 / 扇入边分别是什么，并在酒店预订示例里指出条件边。</p>" },
-    { "w": "look", "html": "<p>你能说出函数中间件和聊天中间件的区别：一个夹在智能体和工具之间，一个夹在智能体和大模型之间。</p>" },
-    { "w": "look", "html": "<p>你的报价工作流表已经填好，并且标出了哪一步暂停等人审批。</p>" }
+    {
+      "w": "look",
+      "html": "<p>你能说出 MAF 的五种编排方式里至少三种，并说出各自适合什么场景。</p>"
+    },
+    {
+      "w": "look",
+      "html": "<p>你能解释执行器、条件边、扇出 / 扇入边分别是什么，并在酒店预订示例里指出条件边。</p>"
+    },
+    {
+      "w": "look",
+      "html": "<p>你能说出函数中间件和聊天中间件的区别：一个夹在智能体和工具之间，一个夹在智能体和大模型之间。</p>"
+    },
+    {
+      "w": "look",
+      "html": "<p>你的报价工作流表已经填好，并且标出了哪一步暂停等人审批。</p>"
+    }
   ],
   "warn": [
     "<p>这一课讲的是一个具体厂商的框架。功能清单（Foundry 托管、仪表盘、内容安全等）是原课程对 MAF 的介绍，很多和微软自己的服务绑定。学的时候抓住通用的概念：执行器、边、人在回路、中间件、检查点，这些换任何框架都用得上。</p>",
     "<p>原课程把“人在回路”列为 MAF 的“可控”功能：任务可以标记为需要人工审批。设计你自己的流程时，涉及价格、对外发送、合同的步骤，都应该放在人工审批之后。</p>"
   ],
   "quiz": [
-    { "q": "“一个经理智能体建立和修改任务清单，协调下属智能体完成”，是 MAF 的哪种编排？", "o": ["顺序编排", "Magnetic 编排", "并发编排"], "a": 1, "e": "Magnetic 编排由一个经理智能体管理任务清单并协调子智能体。" },
-    { "q": "MAF 工作流里，“酒店没房时才转去推荐其他城市”，用的是哪种边？", "o": ["直接边", "条件边", "扇入边"], "a": 1, "e": "条件边在满足某个条件后才会被激活。" },
-    { "q": "想给智能体每一次调用工具都记一条日志，应该用什么？", "o": ["函数中间件", "持久消息", "扇出边"], "a": 0, "e": "函数中间件夹在智能体和它要调用的工具之间，适合做日志等处理。" },
-    { "q": "原课程说 MAF 的“持久”功能指什么？", "o": ["智能体永远不会出错", "线程和工作流可以暂停、恢复、从错误中恢复", "所有数据永久免费保存"], "a": 1, "e": "持久性让线程和工作流可以暂停、恢复和从错误中恢复，支持更长时间运行的流程。" }
+    {
+      "q": "“一个经理智能体建立和修改任务清单，协调下属智能体完成”，是 MAF 的哪种编排？",
+      "o": [
+        "顺序编排",
+        "Magnetic 编排",
+        "并发编排"
+      ],
+      "a": 1,
+      "e": "Magnetic 编排由一个经理智能体管理任务清单并协调子智能体。"
+    },
+    {
+      "q": "MAF 工作流里，“酒店没房时才转去推荐其他城市”，用的是哪种边？",
+      "o": [
+        "直接边",
+        "条件边",
+        "扇入边"
+      ],
+      "a": 1,
+      "e": "条件边在满足某个条件后才会被激活。"
+    },
+    {
+      "q": "想给智能体每一次调用工具都记一条日志，应该用什么？",
+      "o": [
+        "函数中间件",
+        "持久消息",
+        "扇出边"
+      ],
+      "a": 0,
+      "e": "函数中间件夹在智能体和它要调用的工具之间，适合做日志等处理。"
+    },
+    {
+      "q": "原课程说 MAF 的“持久”功能指什么？",
+      "o": [
+        "智能体永远不会出错",
+        "线程和工作流可以暂停、恢复、从错误中恢复",
+        "所有数据永久免费保存"
+      ],
+      "a": 1,
+      "e": "持久性让线程和工作流可以暂停、恢复和从错误中恢复，支持更长时间运行的流程。"
+    }
   ],
   "cards": [
-    ["Microsoft Agent Framework", "微软构建 AI 智能体的统一框架，支持多种编排方式和生产功能"],
-    ["执行器", "工作流里的一步：收消息、做任务、出消息；可以是智能体或自定义逻辑"],
-    ["边", "执行器之间的连线：直接、条件、分支、扇出、扇入"],
-    ["中间件", "插在智能体和工具（函数中间件）或大模型（聊天中间件）之间的一层"],
-    ["检查点", "保存工作流状态，长流程可以暂停后续跑"]
+    [
+      "Microsoft Agent Framework",
+      "微软构建 AI 智能体的统一框架，支持多种编排方式和生产功能"
+    ],
+    [
+      "执行器",
+      "工作流里的一步：收消息、做任务、出消息；可以是智能体或自定义逻辑"
+    ],
+    [
+      "边",
+      "执行器之间的连线：直接、条件、分支、扇出、扇入"
+    ],
+    [
+      "中间件",
+      "插在智能体和工具（函数中间件）或大模型（聊天中间件）之间的一层"
+    ],
+    [
+      "检查点",
+      "保存工作流状态，长流程可以暂停后续跑"
+    ]
   ],
   "video": {
-    "hook": { "bubble": "流程一长，几个智能体乱成一锅粥？", "slam": "用工作流！", "title": "Microsoft Agent Framework" },
-    "chapters": ["编排", "生产", "工作流", "示例"],
-    "scenes": [
-      { "type": "panel", "chapter": 0, "caption": "五种编排，应对不同场景", "hi": "五种编排", "heading": "MAF 的编排方式", "rows": [["顺序编排", "一步接一步"], ["并发编排", "同时做"], ["群聊编排", "一起协作"], ["交接编排", "做完交给下一个"], ["Magnetic 编排", "经理管任务清单"]], "hiRows": [4] },
-      { "type": "cards", "chapter": 1, "caption": "要上生产，还得看得见、管得住", "hi": "管得住", "heading": "为生产准备的功能", "cards": [{ "t": "可观测性", "b": "记录每个动作", "color": "navy" }, { "t": "安全", "b": "访问控制与内容安全", "color": "navy" }, { "t": "持久", "b": "暂停、恢复、出错续跑", "color": "navy" }, { "t": "可控", "b": "关键任务要人审批", "color": "ok" }] },
-      { "type": "cards", "chapter": 2, "caption": "执行器干活，边决定往哪走", "hi": "边", "heading": "工作流的组成", "cards": [{ "t": "执行器", "b": "智能体或自定义逻辑", "color": "navy" }, { "t": "边", "b": "直接、条件、扇出扇入", "color": "yellow" }, { "t": "事件", "b": "看流程走到哪一步", "color": "ok" }] },
-      { "type": "code", "chapter": 3, "caption": "没房就走另一条路", "hi": "另一条路", "file": "hotel_booking_workflow_sample.py · 原课程示例", "lines": ["workflow = (", "    WorkflowBuilder()", "    .set_start_executor(availability_agent)", "    .add_edge(availability_agent, alternative_agent,", "              condition=no_availability_condition)", "    .add_edge(alternative_agent, display_result)", "    .add_edge(availability_agent, booking_agent,", "              condition=has_availability_condition)", "    .build()"], "hiLines": [2, 4, 7], "stamp": { "text": "条件边", "color": "ok", "f": 0.65 } }
+    "hook": {
+      "bubble": "流程一长，几个智能体乱成一锅粥？",
+      "slam": "用工作流！",
+      "title": "认识 MAF 框架"
+    },
+    "chapters": [
+      "编排",
+      "生产",
+      "工作流",
+      "示例"
     ],
-    "takeaways": [["五种编排", "顺序到经理式"], ["执行器加边", "组成工作流"], ["中间件", "夹层做日志"]],
-    "quiz": { "q": "“没房才走这条路”是哪种边？", "a": "条件边" },
+    "scenes": [
+      {
+        "type": "panel",
+        "chapter": 0,
+        "caption": "五种编排，应对不同场景",
+        "hi": "五种编排",
+        "heading": "MAF 的编排方式",
+        "rows": [
+          [
+            "顺序编排",
+            "一步接一步"
+          ],
+          [
+            "并发编排",
+            "同时做"
+          ],
+          [
+            "群聊编排",
+            "一起协作"
+          ],
+          [
+            "交接编排",
+            "做完交给下一个"
+          ],
+          [
+            "Magnetic 编排",
+            "经理管任务清单"
+          ]
+        ],
+        "hiRows": [
+          4
+        ]
+      },
+      {
+        "type": "cards",
+        "chapter": 1,
+        "caption": "要上生产，还得看得见、管得住",
+        "hi": "管得住",
+        "heading": "为生产准备的功能",
+        "cards": [
+          {
+            "t": "可观测性",
+            "b": "记录每个动作",
+            "color": "navy"
+          },
+          {
+            "t": "安全",
+            "b": "访问控制与内容安全",
+            "color": "navy"
+          },
+          {
+            "t": "持久",
+            "b": "暂停、恢复、出错续跑",
+            "color": "navy"
+          },
+          {
+            "t": "可控",
+            "b": "关键任务要人审批",
+            "color": "ok"
+          }
+        ]
+      },
+      {
+        "type": "cards",
+        "chapter": 2,
+        "caption": "执行器干活，边决定往哪走",
+        "hi": "边",
+        "heading": "工作流的组成",
+        "cards": [
+          {
+            "t": "执行器",
+            "b": "智能体或自定义逻辑",
+            "color": "navy"
+          },
+          {
+            "t": "边",
+            "b": "直接、条件、扇出扇入",
+            "color": "yellow"
+          },
+          {
+            "t": "事件",
+            "b": "看流程走到哪一步",
+            "color": "ok"
+          }
+        ]
+      },
+      {
+        "type": "code",
+        "chapter": 3,
+        "caption": "没房就走另一条路",
+        "hi": "另一条路",
+        "file": "hotel_booking_workflow_sample.py · 原课程示例",
+        "lines": [
+          "workflow = (",
+          "    WorkflowBuilder()",
+          "    .set_start_executor(availability_agent)",
+          "    .add_edge(availability_agent, alternative_agent,",
+          "              condition=no_availability_condition)",
+          "    .add_edge(alternative_agent, display_result)",
+          "    .add_edge(availability_agent, booking_agent,",
+          "              condition=has_availability_condition)",
+          "    .build()"
+        ],
+        "hiLines": [
+          2,
+          4,
+          7
+        ],
+        "stamp": {
+          "text": "条件边",
+          "color": "ok",
+          "f": 0.65
+        }
+      }
+    ],
+    "takeaways": [
+      [
+        "五种编排",
+        "顺序到经理式"
+      ],
+      [
+        "执行器加边",
+        "组成工作流"
+      ],
+      [
+        "用中间件",
+        "夹层做日志"
+      ]
+    ],
+    "quiz": {
+      "q": "“没房才走这条路”是哪种边？",
+      "a": "条件边"
+    },
     "outro": "网页上读懂工作流示例 · 设计你的报价工作流 · 完成小测",
     "narration": {
-      "Hook": "流程一长，几个智能体谁先谁后、出了错怎么办，很快就乱了。微软的 Agent Framework 用编排和工作流来管。这一课：探索 M A F。",
-      "S1": "M A F 支持五种编排：顺序，一步接一步；并发，同时做；群聊，一起协作；交接，做完交给下一个；还有 Magnetic，由经理智能体管理任务清单。",
+      "Hook": "流程一长，几个智能体谁先谁后、出错怎么办，很快就乱了。微软的框架用编排和工作流来管。这一课：探索 M A F。",
+      "S1": "M A F 支持五种编排：顺序，一步接一步；并发，同时做；群聊，一起协作；交接，做完交给下一个；Magnetic，由经理智能体管任务清单。",
       "S2": "要上生产，M A F 还提供四类功能：可观测性记录每个动作；安全控制访问；持久，能暂停、恢复、出错后续跑；可控，关键任务要人审批。",
       "S3": "工作流由执行器和边组成。执行器可以是智能体，也可以是固定逻辑；边决定消息往哪走，有直接边、条件边，还有扇出和扇入。",
       "S4": "看原课程的酒店预订示例：先由一个智能体查房态，有房就走预订，没房就走条件边，转去推荐其他城市，最后统一输出结果。",
-      "Takeaways": "记住三件事：五种编排，从顺序到经理式；执行器加上边，组成工作流；中间件是夹层，可以做日志和检查。",
+      "Takeaways": "记住三件事：五种编排，从顺序到经理式；执行器加上边，组成工作流；中间件是夹层，能记日志。",
       "Quiz": "考你一题：酒店没房时才转去推荐其他城市，用的是哪种边？三，二，一。答案：条件边。",
-      "Outro": "现在回到网页，用 Claude Code 读懂工作流示例，再设计你的报价工作流。"
+      "Outro": "现在回到网页，读懂工作流示例，再设计你的报价工作流。"
     }
   }
 }
