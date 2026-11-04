@@ -1,154 +1,182 @@
 import React from "react";
-import { AbsoluteFill, Easing, interpolate, Sequence, Series, staticFile, useCurrentFrame } from "remotion";
+import { AbsoluteFill, Easing, interpolate, Sequence, staticFile, useCurrentFrame } from "remotion";
 import { Audio } from "@remotion/media";
+import { linearTiming, TransitionSeries } from "@remotion/transitions";
+import { slide } from "@remotion/transitions/slide";
+import { fade } from "@remotion/transitions/fade";
 import VOICE from "./voice.gen.json";
 import { C, cn, FPS, mono } from "./theme";
-import { fadeIn, Key, Scene, Terminal } from "./parts";
+import { Terminal, Key } from "./parts";
+import { appear, Bubble, Cam, Caption, ChapterBar, Sfx, Slam, shake, TypingSfx } from "./fx";
 
-const s = (sec: number) => Math.round(sec * FPS);
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
+const out = Easing.bezier(0.16, 1, 0.3, 1);
+const s = (sec: number) => Math.round(sec * FPS);
 
-const Title: React.FC = () => {
+const Light: React.FC<{ chapter?: number; children: React.ReactNode }> = ({ chapter, children }) => (
+  <AbsoluteFill style={{ background: `radial-gradient(circle at 70% 20%, #ffffff 0%, ${C.bg} 55%, #e4e9f2 100%)`, fontFamily: cn, color: C.ink }}>
+    {chapter !== undefined ? <ChapterBar current={chapter} /> : null}
+    {children}
+  </AbsoluteFill>
+);
+
+const Dark: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <AbsoluteFill style={{ background: `radial-gradient(circle at 30% 25%, #2a4f8a 0%, ${C.navy} 45%, #0d1f3d 100%)`, fontFamily: cn, color: "#fff" }}>
+    <div style={{ position: "absolute", top: 28, right: 56, fontSize: 16, opacity: 0.7 }}>演示动画 · 界面为示意</div>
+    {children}
+  </AbsoluteFill>
+);
+
+// 1 · Hook: a confident AI answer, then "真的吗？"
+const Hook: React.FC = () => {
   const frame = useCurrentFrame();
+  const t = (sec: number) => s(sec);
   return (
-    <AbsoluteFill style={{ background: C.navy, color: "#fff", fontFamily: cn, justifyContent: "center", padding: "0 110px" }}>
-      <div style={{ fontSize: 28, letterSpacing: 2, opacity: fadeIn(frame, 0) * 0.8 }}>Claude Code 带练课 · 第 1 课 / 共 8 课</div>
-      <div style={{ fontSize: 76, fontWeight: 900, marginTop: 18, opacity: fadeIn(frame, 6), translate: `0px ${interpolate(frame, [6, 24], [24, 0], { ...clamp, easing: Easing.bezier(0.16, 1, 0.3, 1) })}px` }}>
-        安装、登录、熟悉界面
-      </div>
-      <div style={{ width: 120, height: 6, background: C.yellow, marginTop: 30, opacity: fadeIn(frame, 14) }} />
-      <div style={{ fontSize: 30, marginTop: 30, maxWidth: 900, lineHeight: 1.55, opacity: fadeIn(frame, 20) }}>
-        装好 Claude Code，安全地启动它，学会中途叫停，看清模型和账号，并用代码核对它说的话。
-      </div>
-      <div style={{ position: "absolute", bottom: 50, left: 110, fontSize: 20, opacity: 0.75 }}>演示动画 · 界面为示意，非真实录屏 · 操作以网页上的步骤为准</div>
-    </AbsoluteFill>
+    <Dark>
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", gap: 34 }}>
+        <div style={{ opacity: interpolate(frame, [t(6.2), t(6.8)], [1, 0], clamp), display: "flex", flexDirection: "column", alignItems: "center", gap: 30 }}>
+          <Bubble at={t(0.3)} text="这份客户资料我核对过了，没有问题。" />
+          <Slam at={t(3.0)} text="真的吗？" color={C.yellow} size={150} />
+        </div>
+        <div style={{ position: "absolute", textAlign: "center", opacity: appear(frame, t(6.8), 12) }}>
+          <div style={{ fontSize: 30, opacity: 0.85, letterSpacing: 2 }}>Claude Code 带练课 · 第 1 课</div>
+          <div style={{ fontSize: 84, fontWeight: 900, marginTop: 14 }}>装好它，再学会核对它</div>
+          <div style={{ width: 140, height: 7, background: C.yellow, margin: "26px auto 0", scale: `${interpolate(frame, [t(7.2), t(7.8)], [0, 1], clamp)} 1` }} />
+        </div>
+      </AbsoluteFill>
+      <Sfx at={t(0.3)} name="page-turn" volume={0.5} />
+      <Sfx at={t(3.0)} name="switch" volume={0.7} />
+      <Sfx at={t(6.8)} name="whoosh" volume={0.6} />
+    </Dark>
   );
 };
 
-const Windows: React.FC = () => {
+// 2 · Install
+const Install: React.FC = () => {
   const frame = useCurrentFrame();
-  const card = (tag: string, title: string, desc: string, color: string, at: number) => (
-    <div style={{ flex: 1, background: C.term, borderRadius: 16, padding: 34, color: C.termText, opacity: fadeIn(frame, at), translate: `0px ${interpolate(frame, [at, at + 16], [20, 0], clamp)}px` }}>
-      <div style={{ display: "inline-block", fontSize: 26, fontWeight: 700, color, border: `2px solid ${color}`, borderRadius: 99, padding: "2px 18px" }}>{tag}</div>
-      <div style={{ fontSize: 40, fontWeight: 900, marginTop: 22, color: "#fff" }}>{title}</div>
-      <div style={{ fontSize: 26, marginTop: 14, lineHeight: 1.6, color: C.termText }}>{desc}</div>
+  return (
+    <Light chapter={0}>
+      <Cam punchAt={s(3.6)} punchTo={[30, 45]} punchScale={1.18}>
+        <AbsoluteFill style={{ padding: "100px 120px 130px" }}>
+          <Terminal
+            title="窗口 B · 终端"
+            tag="B"
+            style={{ height: "100%" }}
+            lines={[
+              { at: 6, kind: "cmd", text: "curl -fsSL https://claude.ai/install.sh | bash", typeFrames: 30 },
+              { at: 42, kind: "dim", text: "（装好后，新开一个终端窗口）" },
+              { at: s(2.6), kind: "cmd", text: "claude --version", typeFrames: 16 },
+              { at: s(3.6), kind: "ok", text: "X.Y.Z (Claude Code)" },
+            ]}
+          />
+        </AbsoluteFill>
+      </Cam>
+      <div style={{ position: "absolute", right: 150, top: 330, opacity: appear(frame, s(3.8)), translate: shake(frame, s(3.8)) }}>
+        <div style={{ background: C.ok, color: "#fff", fontWeight: 900, fontSize: 44, padding: "10px 26px", borderRadius: 14, rotate: "-6deg" }}>装好了</div>
+      </div>
+      <TypingSfx at={6} frames={30} />
+      <TypingSfx at={s(2.6)} frames={16} />
+      <Sfx at={s(3.8)} name="ding" volume={0.5} />
+      <Caption text="一行命令装好，看到版本号就成功" hi="版本号" />
+    </Light>
+  );
+};
+
+// 3 · Start and the trust dialog
+const Start: React.FC = () => {
+  const frame = useCurrentFrame();
+  const card = (title: string, body: string, color: string, at: number) => (
+    <div style={{ background: "#fff", borderRadius: 16, padding: "22px 26px", borderLeft: `10px solid ${color}`, boxShadow: "0 14px 34px rgba(19,42,79,.14)", opacity: appear(frame, at), translate: `${interpolate(frame, [at, at + 12], [60, 0], { ...clamp, easing: out })}px 0px` }}>
+      <div style={{ fontSize: 32, fontWeight: 900, color }}>{title}</div>
+      <div style={{ fontSize: 26, marginTop: 6, lineHeight: 1.5 }}>{body}</div>
     </div>
   );
   return (
-    <Scene step="开始前" caption="先开好两个终端窗口。网页上每一步都标着该在哪个窗口操作。">
-      <div style={{ display: "flex", gap: 32, height: "100%", alignItems: "stretch" }}>
-        {card("窗口 A", "Claude Code", "运行 claude 之后的会话：输入 /status 这类命令，以及要对 Claude 说的话", C.winA, 10)}
-        {card("窗口 B", "普通终端", "打开在同一个文件夹，运行 git、npm、cat 这些命令", C.winB, 30)}
-      </div>
-    </Scene>
-  );
-};
-
-const Install: React.FC = () => (
-  <Scene step="第 1–2 步 · 窗口 B" caption="安装 Claude Code，然后新开一个终端窗口，用 claude --version 确认装好了。">
-    <Terminal
-      title="窗口 B · 终端"
-      tag="B"
-      style={{ height: "100%" }}
-      lines={[
-        { at: 8, kind: "cmd", text: "curl -fsSL https://claude.ai/install.sh | bash", typeFrames: 40 },
-        { at: 56, kind: "dim", text: "（安装完成后，新开一个终端窗口）" },
-        { at: 90, kind: "cmd", text: "claude --version" },
-        { at: 116, kind: "ok", text: "X.Y.Z (Claude Code)" },
-        { at: 130, kind: "dim", text: "← 看到版本号加 (Claude Code)，就装好了" },
-      ]}
-    />
-  </Scene>
-);
-
-const Start: React.FC = () => {
-  const frame = useCurrentFrame();
-  return (
-    <Scene step="第 3 步 · 窗口 A" caption="进入练习仓库的 project/ 文件夹启动 claude。第一次要登录；信任对话框只对你清楚来源的文件夹点信任。">
-      <div style={{ display: "flex", gap: 28, height: "100%" }}>
+    <Light chapter={1}>
+      <AbsoluteFill style={{ padding: "100px 70px 130px", flexDirection: "row", gap: 30 }}>
         <Terminal
           title="窗口 A · Claude Code"
           tag="A"
-          style={{ flex: 1.25 }}
+          style={{ flex: 1 }}
           lines={[
-            { at: 6, kind: "cmd", text: "cd ~/claude-code-practice/project" },
-            { at: 44, kind: "cmd", text: "claude" },
-            { at: 70, kind: "dim", text: "→ 选账号类型，到浏览器里完成登录" },
-            { at: 120, kind: "out", text: "Claude Code  ·  版本  ·  模型  ·  文件夹" },
+            { at: 6, kind: "cmd", text: "cd ~/claude-code-practice/project", typeFrames: 24 },
+            { at: 36, kind: "cmd", text: "claude", typeFrames: 8 },
+            { at: 52, kind: "dim", text: "→ 浏览器里完成登录" },
+            { at: 70, kind: "out", text: "┌ 信任这个文件夹吗？" },
           ]}
           footer="⏵⏵ auto mode on"
-          footerAt={150}
+          footerAt={s(9)}
         />
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 18, justifyContent: "center" }}>
-          <div style={{ background: "#fff", borderRadius: 14, padding: 26, border: `3px solid ${C.yellow}`, opacity: fadeIn(frame, 84) }}>
-            <div style={{ fontSize: 26, fontWeight: 900, color: C.navy }}>信任对话框</div>
-            <div style={{ fontSize: 23, lineHeight: 1.6, marginTop: 10 }}>信任后，仓库自带的 <span style={{ fontFamily: mono }}>.claude/settings.json</span> 就能给 Claude 授权。</div>
-            <div style={{ fontSize: 23, lineHeight: 1.6, marginTop: 8 }}>自己的练习仓库：读完再选信任。<br />别人的仓库：先退出，读一遍它的 <span style={{ fontFamily: mono }}>.claude/</span>。</div>
-          </div>
-          <div style={{ fontSize: 23, color: C.muted, opacity: fadeIn(frame, 150), lineHeight: 1.5 }}>状态栏通常显示自动模式：日常操作不会来问你。</div>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 22, justifyContent: "center" }}>
+          <div style={{ fontSize: 34, fontWeight: 900, color: C.navy, opacity: appear(frame, 74) }}>信任对话框：先别急着回车</div>
+          {card("自己的仓库", "读完对话框，再选信任", C.ok, s(4.5))}
+          {card("别人的仓库", "先退出，读一遍它的 .claude/ 设置", "#c0392b", s(6.6))}
         </div>
-      </div>
-    </Scene>
+      </AbsoluteFill>
+      <TypingSfx at={6} frames={24} />
+      <Sfx at={74} name="switch" volume={0.4} />
+      <Sfx at={s(4.5)} name="whoosh" volume={0.4} />
+      <Sfx at={s(6.6)} name="whoosh" volume={0.4} />
+      <Caption text="信任后，仓库的设置就能给 Claude 授权" hi="授权" at={s(1.2)} />
+    </Light>
   );
 };
 
+// 4 · /status
 const Status: React.FC = () => {
   const frame = useCurrentFrame();
-  const rows = [
-    ["Version", "版本"],
-    ["Model", "模型"],
-    ["Login method", "登录方式"],
-    ["Email", "账号"],
-  ];
+  const rows = ["Version", "Model", "Login method", "Email"];
+  const sweep = interpolate(frame, [s(3.2), s(4.2)], [0, 100], clamp);
   return (
-    <Scene step="第 4 步 · 窗口 A" caption="输入 /status，一次看清版本、模型和账号。和同事的会话不一样时，先对比账号这几行。按 Esc 关闭。">
-      <div style={{ display: "flex", gap: 28, height: "100%" }}>
-        <Terminal title="窗口 A · Claude Code" tag="A" style={{ flex: 1 }} lines={[{ at: 6, kind: "you", text: "/status" }]} />
-        <div style={{ flex: 1.1, background: "#fff", borderRadius: 14, padding: "26px 30px", boxShadow: "0 18px 40px rgba(19,42,79,.12)", opacity: fadeIn(frame, 30) }}>
-          <div style={{ fontSize: 26, fontWeight: 900, color: C.navy, marginBottom: 14 }}>Status（示意）</div>
-          {rows.map(([en, zh], i) => (
-            <div key={en} style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid #dde2ea", padding: "12px 0", fontSize: 25, opacity: fadeIn(frame, 40 + i * 10) }}>
-              <span style={{ fontFamily: mono, fontWeight: 700 }}>{en}</span>
-              <span style={{ color: C.muted }}>{zh}</span>
-            </div>
-          ))}
-          <div style={{ marginTop: 22, display: "flex", alignItems: "center", gap: 16, fontSize: 24 }}>
-            <Key k="Esc" at={130} />
-            <span style={{ opacity: fadeIn(frame, 130) }}>关闭</span>
+    <Light chapter={2}>
+      <Cam punchAt={s(3.0)} punchTo={[50, 70]} punchScale={1.12}>
+        <AbsoluteFill style={{ padding: "100px 180px 130px", justifyContent: "center" }}>
+          <div style={{ fontFamily: mono, fontSize: 40, color: C.navy, fontWeight: 700, marginBottom: 18, opacity: appear(frame, 4) }}>&gt; /status</div>
+          <div style={{ background: "#fff", borderRadius: 18, padding: "18px 34px", boxShadow: "0 20px 46px rgba(19,42,79,.16)" }}>
+            {rows.map((r, i) => (
+              <div key={r} style={{ position: "relative", display: "flex", justifyContent: "space-between", padding: "14px 0", borderBottom: i < 3 ? "1px solid #e3e8f0" : "none", fontSize: 32, opacity: appear(frame, 14 + i * 6) }}>
+                {i >= 2 ? <div style={{ position: "absolute", left: -12, top: 6, bottom: 6, width: `calc(${sweep}% + 24px)`, background: "rgba(242,183,5,.32)", borderRadius: 8 }} /> : null}
+                <span style={{ fontFamily: mono, fontWeight: 700, position: "relative" }}>{r}</span>
+                <span style={{ color: C.muted, position: "relative" }}>{["版本", "模型", "登录方式", "账号"][i]}</span>
+              </div>
+            ))}
           </div>
-        </div>
-      </div>
-    </Scene>
+        </AbsoluteFill>
+      </Cam>
+      <TypingSfx at={4} frames={10} />
+      <Sfx at={s(3.2)} name="shutter-modern" volume={0.35} />
+      <Caption text="和同事不一样时，先对比账号这几行" hi="账号" />
+    </Light>
   );
 };
 
-const Interrupt: React.FC = () => {
+// 5 · Esc
+const Esc: React.FC = () => {
   const frame = useCurrentFrame();
+  const stop = s(2.0);
+  const text = "这个项目是一个检查 Markdown 链接的工具，它会扫描文件夹里的每个链接，然后……";
+  const n = Math.floor(interpolate(frame, [6, stop], [0, 34], clamp));
   return (
-    <Scene step="第 5 步 · 窗口 A" caption="提一个问题，在它回答到一半时按 Esc：Claude 会停下等你，已经做完的部分会保留。之后再问一次，让它答完。">
-      <div style={{ display: "flex", gap: 28, height: "100%" }}>
-        <Terminal
-          title="窗口 A · Claude Code"
-          tag="A"
-          style={{ flex: 1.4 }}
-          lines={[
-            { at: 6, kind: "you", text: "what does this project do?" },
-            { at: 50, kind: "claude", text: "● 正在读取文件…" },
-            { at: 72, kind: "claude", text: "● 这是一个检查 Markdown 链接的小工具…" },
-            { at: 120, kind: "dim", text: "（按下 Esc，回答在这里停住）" },
-            { at: 170, kind: "you", text: "which file parses linkcheck.json, and how do I run the tests?" },
-            { at: 236, kind: "claude", text: "● src/config.js … npm test" },
-          ]}
-        />
-        <div style={{ flex: 0.7, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: 22 }}>
-          <Key k="Esc" at={110} />
-          <div style={{ fontSize: 26, textAlign: "center", lineHeight: 1.5, opacity: fadeIn(frame, 116) }}>跑偏了就按 Esc，<br />再告诉它你要什么</div>
+    <Light chapter={2}>
+      <AbsoluteFill style={{ padding: "100px 120px 130px", translate: shake(frame, stop) }}>
+        <Terminal title="窗口 A · Claude Code" tag="A" style={{ height: "100%" }} lines={[{ at: 0, kind: "you", text: "what does this project do?", typeFrames: 1 }]} />
+        <div style={{ position: "absolute", left: 160, right: 160, top: 220, fontSize: 30, color: "#f0c674", fontFamily: cn, lineHeight: 1.6 }}>● {text.slice(0, n)}</div>
+      </AbsoluteFill>
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: appear(frame, stop, 4) }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 18, background: "rgba(15,21,32,.88)", padding: "40px 70px", borderRadius: 26 }}>
+          <div style={{ scale: `${interpolate(frame, [stop, stop + 6, stop + 12], [2.4, 0.9, 1.6], clamp)}` }}>
+            <Key k="Esc" at={stop} />
+          </div>
+          <div style={{ fontSize: 64, fontWeight: 900, color: "#fff", marginTop: 26 }}>立刻停下</div>
         </div>
-      </div>
-    </Scene>
+      </AbsoluteFill>
+      <Sfx at={stop} name="switch" volume={0.8} />
+      <Caption text="跑偏了就按 Esc，做好的部分还在" hi="Esc" at={s(2.6)} />
+    </Light>
   );
 };
 
+// 6 · Verify with evidence
 const Verify: React.FC = () => {
   const frame = useCurrentFrame();
   const code = [
@@ -157,108 +185,147 @@ const Verify: React.FC = () => {
     "//   ignore: link targets to skip, matched as prefixes (default [])",
     "export const DEFAULTS = { files: ['.'], ignore: [] };",
   ];
-  const hi = interpolate(frame, [40, 70], [0, 1], clamp);
+  const open = s(2.6);
+  const hi = interpolate(frame, [s(4.4), s(5.2)], [0, 1], clamp);
   return (
-    <Scene step="第 6 步 · 编辑器" caption="把它的回答当新同事的话：打开 src/config.js 自己核对。开头几行写着它解析 linkcheck.json，读取 files 和 ignore 两个字段。">
-      <div style={{ background: "#fff", borderRadius: 14, height: "100%", boxShadow: "0 18px 40px rgba(19,42,79,.12)", overflow: "hidden" }}>
-        <div style={{ background: "#e9eef6", padding: "12px 22px", fontSize: 20, fontFamily: mono, color: C.navy, fontWeight: 700 }}>src/config.js（练习仓库里的真实文件）</div>
-        <div style={{ padding: "22px 26px", fontFamily: mono, fontSize: 21, lineHeight: 1.9 }}>
-          {code.map((l, i) => (
-            <div key={i} style={{ whiteSpace: "pre", background: i > 0 && i < 3 ? `rgba(242,183,5,${0.28 * hi})` : "transparent", borderRadius: 6, padding: "0 8px", color: i < 3 ? "#5d6879" : C.ink, opacity: fadeIn(frame, 6 + i * 6) }}>
-              {l}
-            </div>
-          ))}
+    <Light chapter={3}>
+      <AbsoluteFill style={{ padding: "100px 90px 130px", justifyContent: "center" }}>
+        <div style={{ opacity: interpolate(frame, [open - 6, open], [1, 0], clamp), alignSelf: "center" }}>
+          <Bubble at={4} text="解析 linkcheck.json 的是 src/config.js" style={{ background: C.navy, color: "#fff" }} />
         </div>
-      </div>
-    </Scene>
+        <div style={{ position: "absolute", left: 90, right: 90, top: 120, background: "#fff", borderRadius: 18, overflow: "hidden", boxShadow: "0 22px 50px rgba(19,42,79,.18)", opacity: appear(frame, open), scale: `${interpolate(frame, [open, open + 14], [0.9, 1], { ...clamp, easing: out })}` }}>
+          <div style={{ background: "#e9eef6", padding: "12px 24px", fontFamily: mono, fontSize: 22, color: C.navy, fontWeight: 700 }}>src/config.js · 练习仓库里的真实文件</div>
+          <div style={{ padding: "22px 26px", fontFamily: mono, fontSize: 23, lineHeight: 1.9 }}>
+            {code.map((l, i) => (
+              <div key={i} style={{ whiteSpace: "pre", padding: "0 8px", borderRadius: 6, background: i < 3 ? `rgba(242,183,5,${0.3 * hi})` : "transparent", color: i < 3 ? "#4d5869" : C.ink }}>{l}</div>
+            ))}
+          </div>
+        </div>
+        <div style={{ position: "absolute", right: 120, bottom: 150, opacity: appear(frame, s(5.6)), translate: shake(frame, s(5.6)) }}>
+          <div style={{ border: `6px solid ${C.ok}`, color: C.ok, fontWeight: 900, fontSize: 52, padding: "6px 24px", borderRadius: 14, rotate: "-8deg", background: "rgba(255,255,255,.9)" }}>有证据 ✓</div>
+        </div>
+      </AbsoluteFill>
+      <Sfx at={open} name="page-turn" volume={0.5} />
+      <Sfx at={s(5.6)} name="ding" volume={0.5} />
+      <Caption text="它说什么，就打开对应的文件看一眼" hi="打开对应的文件" at={s(0.6)} />
+    </Light>
   );
 };
 
-const YourTurn: React.FC = () => {
+// 7 · Three takeaways
+const Takeaways: React.FC = () => {
   const frame = useCurrentFrame();
-  const steps = [
-    "用 @ 把笔记带进提示，让 Claude 逐条核对并给出文件和行号",
-    "亲自打开它引用的那一行，以代码为准判断哪条错了",
-    "在编辑器里把错的那条改成一句话，写清代码实际怎么做",
-    "/exit 后运行 git status，只剩这份笔记，然后提交",
+  const items = [
+    ["只信任", "认识的仓库"],
+    ["/status", "看清账号"],
+    ["Esc 叫停", "拿证据核对"],
   ];
   return (
-    <Scene step="自己练一遍" caption="同事的入职笔记 practice/b-1/onboarding.md 里有一条说法和代码对不上。你要找出来、改正、提交。">
-      <div style={{ display: "flex", flexDirection: "column", gap: 18, height: "100%", justifyContent: "center" }}>
-        <div style={{ background: C.term, color: C.termText, borderRadius: 12, padding: "16px 22px", fontFamily: mono, fontSize: 21, opacity: fadeIn(frame, 4) }}>
-          <span style={{ color: C.winA }}>&gt; </span>check each claim in @practice/b-1/onboarding.md against the code…
+    <Dark>
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", flexDirection: "column", gap: 34 }}>
+        <div style={{ fontSize: 40, fontWeight: 700, opacity: appear(frame, 2) }}>记住三件事</div>
+        <div style={{ display: "flex", gap: 30 }}>
+          {items.map(([a, b], i) => {
+            const at = s(1.0 + i * 1.5);
+            return (
+              <div key={a} style={{ width: 320, background: "#fff", color: C.ink, borderRadius: 22, padding: "30px 26px", textAlign: "center", opacity: appear(frame, at), translate: `0px ${interpolate(frame, [at, at + 12], [50, 0], { ...clamp, easing: out })}px` }}>
+                <div style={{ fontSize: 26, fontWeight: 900, color: C.yellow, background: C.navy, width: 50, height: 50, borderRadius: 99, display: "grid", placeItems: "center", margin: "0 auto 14px" }}>{i + 1}</div>
+                <div style={{ fontSize: 44, fontWeight: 900, color: C.navy, fontFamily: a.startsWith("/") ? mono : cn }}>{a}</div>
+                <div style={{ fontSize: 32, marginTop: 6 }}>{b}</div>
+              </div>
+            );
+          })}
         </div>
-        {steps.map((t, i) => (
-          <div key={i} style={{ display: "flex", gap: 18, alignItems: "center", fontSize: 27, opacity: fadeIn(frame, 30 + i * 28) }}>
-            <span style={{ width: 46, height: 46, borderRadius: 99, background: C.navy, color: "#fff", display: "grid", placeItems: "center", fontWeight: 900, flex: "none" }}>{i + 1}</span>
-            <span>{t}</span>
-          </div>
-        ))}
-      </div>
-    </Scene>
+      </AbsoluteFill>
+      {[0, 1, 2].map((i) => (
+        <Sfx key={i} at={s(1.0 + i * 1.5)} name="whoosh" volume={0.45} />
+      ))}
+    </Dark>
   );
 };
 
-const Check: React.FC = () => (
-  <Scene step="检查过关 · 窗口 B" caption="在练习仓库的 project/ 里运行检查。两项都显示 PASS，再去做网页上的过关小测。">
-    <Terminal
-      title="窗口 B · 终端"
-      tag="B"
-      style={{ height: "100%" }}
-      lines={[
-        { at: 6, kind: "cmd", text: "npm run check -- b-1" },
-        { at: 40, kind: "out", text: "b-1  Install, sign in and look around" },
-        { at: 52, kind: "ok", text: "  PASS  `claude --version` prints a Claude Code version" },
-        { at: 66, kind: "ok", text: "  PASS  the claim in `practice/b-1/onboarding.md` that the code contradicts is corrected" },
-        { at: 84, kind: "out", text: "" },
-        { at: 86, kind: "out", text: "2 of 2 passed" },
-      ]}
-    />
-  </Scene>
-);
+// 8 · Pause-and-think quiz with a countdown
+const Quiz: React.FC = () => {
+  const frame = useCurrentFrame();
+  const c0 = s(3.4);
+  const reveal = s(5.6);
+  const count = frame < c0 ? null : frame < c0 + 22 ? "3" : frame < c0 + 44 ? "2" : frame < reveal ? "1" : null;
+  return (
+    <Dark>
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", textAlign: "center", padding: "0 120px" }}>
+        <div style={{ fontSize: 30, background: C.yellow, color: C.ink, fontWeight: 900, padding: "6px 22px", borderRadius: 99, opacity: appear(frame, 2) }}>暂停想一想</div>
+        <div style={{ fontSize: 58, fontWeight: 900, marginTop: 30, lineHeight: 1.35, opacity: appear(frame, 8) }}>别人的仓库，信任对话框该怎么选？</div>
+        <div style={{ height: 170, display: "grid", placeItems: "center", marginTop: 20 }}>
+          {count ? <div key={count} style={{ fontSize: 140, fontWeight: 900, color: C.yellow, fontFamily: mono }}>{count}</div> : null}
+          {frame >= reveal ? (
+            <div style={{ background: "#fff", color: C.ink, borderRadius: 18, padding: "18px 34px", fontSize: 44, fontWeight: 900, scale: `${interpolate(frame, [reveal, reveal + 10], [0.7, 1], { ...clamp, easing: out })}` }}>
+              先退出，读完它的 <span style={{ fontFamily: mono, color: C.navy }}>.claude/</span> 再决定
+            </div>
+          ) : null}
+        </div>
+      </AbsoluteFill>
+      {[0, 22, 44].map((d) => (
+        <Sfx key={d} at={c0 + d} name="mouse-click" volume={0.5} />
+      ))}
+      <Sfx at={reveal} name="ding" volume={0.55} />
+    </Dark>
+  );
+};
 
-const End: React.FC = () => {
+// 9 · Outro
+const Outro: React.FC = () => {
   const frame = useCurrentFrame();
   return (
-    <AbsoluteFill style={{ background: C.navy, color: "#fff", fontFamily: cn, justifyContent: "center", alignItems: "center", textAlign: "center" }}>
-      <div style={{ fontSize: 60, fontWeight: 900, opacity: fadeIn(frame, 0) }}>现在回到网页，跟着步骤做一遍</div>
-      <div style={{ fontSize: 30, marginTop: 26, opacity: fadeIn(frame, 12) * 0.9 }}>每步做完打勾 · 检查全部 PASS · 小测全对就过关</div>
-      <div style={{ width: 120, height: 6, background: C.yellow, marginTop: 34, opacity: fadeIn(frame, 18) }} />
-    </AbsoluteFill>
+    <Light>
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", textAlign: "center" }}>
+        <div style={{ fontSize: 70, fontWeight: 900, color: C.navy, opacity: appear(frame, 0) }}>轮到你动手了</div>
+        <div style={{ fontSize: 34, marginTop: 22, opacity: appear(frame, 10) }}>网页上跟着步骤做 · 完成入职笔记纠错题 · 检查全部 PASS</div>
+        <div style={{ width: 140, height: 7, background: C.yellow, marginTop: 30, scale: `${interpolate(frame, [10, 26], [0, 1], clamp)} 1` }} />
+      </AbsoluteFill>
+      <Sfx at={0} name="ding" volume={0.4} />
+    </Light>
   );
 };
 
 export const LESSON1_SCENES: { name: string; sec: number; C: React.FC }[] = [
-  { name: "Title", sec: 5, C: Title },
-  { name: "Windows", sec: 7, C: Windows },
-  { name: "Install", sec: 8, C: Install },
+  { name: "Hook", sec: 9, C: Hook },
+  { name: "Install", sec: 6, C: Install },
   { name: "Start", sec: 10, C: Start },
-  { name: "Status", sec: 9, C: Status },
-  { name: "Interrupt", sec: 11, C: Interrupt },
-  { name: "Verify", sec: 9, C: Verify },
-  { name: "YourTurn", sec: 10, C: YourTurn },
-  { name: "Check", sec: 7, C: Check },
-  { name: "End", sec: 4, C: End },
+  { name: "Status", sec: 6, C: Status },
+  { name: "Esc", sec: 5, C: Esc },
+  { name: "Verify", sec: 8, C: Verify },
+  { name: "Takeaways", sec: 6.5, C: Takeaways },
+  { name: "Quiz", sec: 8, C: Quiz },
+  { name: "Outro", sec: 4, C: Outro },
 ];
 
-// With a voiceover, a scene lasts at least as long as its audio plus a short pause.
+// With a voiceover, a scene lasts at least as long as its voice line plus a short pause.
 const voice = (VOICE as Record<string, Record<string, number>>)["b-1"] ?? {};
-const LEAD = 6; // frames before the voice starts in each scene
-const dur = (x: { name: string; sec: number }) => Math.max(s(x.sec), voice[x.name] ? LEAD + Math.ceil((voice[x.name] / 1000 + 0.7) * FPS) : 0);
+const LEAD = 4;
+const T = 10; // transition frames
+const dur = (x: { name: string; sec: number }) => Math.max(s(x.sec), voice[x.name] ? LEAD + Math.ceil((voice[x.name] / 1000 + 0.5) * FPS) : 0) + T;
 
-export const LESSON1_FRAMES = LESSON1_SCENES.reduce((n, x) => n + dur(x), 0);
+export const LESSON1_FRAMES = LESSON1_SCENES.reduce((n, x) => n + dur(x), 0) - T * (LESSON1_SCENES.length - 1);
 
 export const Lesson1: React.FC = () => (
-  <Series>
-    {LESSON1_SCENES.map((x) => (
-      <Series.Sequence key={x.name} name={x.name} durationInFrames={dur(x)}>
-        <x.C />
-        {voice[x.name] ? (
-          <Sequence from={LEAD} name={`Voice ${x.name}`}>
-            <Audio src={staticFile(`voice/b-1/${x.name}.mp3`)} />
-          </Sequence>
-        ) : null}
-      </Series.Sequence>
-    ))}
-  </Series>
+  <TransitionSeries>
+    {LESSON1_SCENES.flatMap((x, i) => {
+      const seq = (
+        <TransitionSeries.Sequence key={x.name} name={x.name} durationInFrames={dur(x)}>
+          <x.C />
+          {voice[x.name] ? (
+            <Sequence from={LEAD} name={`Voice ${x.name}`}>
+              <Audio src={staticFile(`voice/b-1/${x.name}.mp3`)} />
+            </Sequence>
+          ) : null}
+        </TransitionSeries.Sequence>
+      );
+      if (i === 0) return [seq];
+      const dark = x.name === "Takeaways" || x.name === "Quiz";
+      return [
+        <TransitionSeries.Transition key={`t-${x.name}`} presentation={dark ? fade() : slide({ direction: "from-right" })} timing={linearTiming({ durationInFrames: T })} />,
+        seq,
+      ];
+    })}
+  </TransitionSeries>
 );

@@ -3,6 +3,18 @@ export const FACES = [
  {
   "family": "Noto Sans SC",
   "weight": "400",
+  "file": "fonts/noto-sans-sc-87-400-normal.woff2",
+  "range": "U+2651-2655,U+2658,U+265a-265b,U+265d-265e,U+2660-266d,U+266f,U+267b,U+2688,U+2693-2696,U+2698-2699,U+269c,U+26a0-26a1,U+26a4,U+26aa-26ab,U+26bd-26be,U+26c4-26c5,U+26d4,U+26e9,U+26f0-26f1,U+26f3,U+26f5,U+26fd,U+2702,U+2704-2706,U+2708-270f,U+2712-2718,U+271a-271b,U+271d,U+271f,U+2721,U+2724-2730,U+2732-2734,U+273a,U+273d-2744,U+2747-2749,U+274c,U+274e-274f,U+2753-2757,U+275b,U+275d-275e,U+2763,U+2765-2767,U+276e-276f,U+2776-277e,U+2780-2782,U+278a-278c,U+278e,U+2794-2796,U+279c"
+ },
+ {
+  "family": "Noto Sans SC",
+  "weight": "400",
+  "file": "fonts/noto-sans-sc-89-400-normal.woff2",
+  "range": "U+23f0,U+23f3,U+2445,U+2449,U+2465-2471,U+2474-249b,U+24b8,U+24c2,U+24c7,U+24c9,U+24d0,U+24d2,U+24d4,U+24d8,U+24dd-24de,U+24e3,U+24e6,U+24e8,U+2500-2509,U+250b-2526,U+2528-2534,U+2536-2537,U+253b-2548,U+254a-254b"
+ },
+ {
+  "family": "Noto Sans SC",
+  "weight": "400",
   "file": "fonts/noto-sans-sc-103-400-normal.woff2",
   "range": "U+60,U+631,U+2606,U+3014-3015,U+309c,U+33a1,U+4e52,U+4ec6,U+4f86,U+4f8d,U+4fde,U+4fef,U+500b,U+502a,U+515c,U+518a,U+51a5,U+51f3,U+5243,U+52c9,U+52d5,U+53a2,U+53ee,U+54ce,U+54fa,U+54fc,U+5580,U+5587,U+563f,U+56da,U+5792,U+5815,U+5960,U+59d7,U+5b78,U+5b9b,U+5be1,U+5c4e,U+5c51,U+5c6f,U+5c9a,U+5cfb,U+5d16,U+5ed6,U+5f27,U+5f6a,U+609a,U+60df,U+6168,U+61c8,U+6236,U+62f1,U+62fd,U+631a,U+6328,U+632b,U+6346,U+638f,U+63a0,U+63c9,U+655e,U+6590,U+6615,U+6627,U+66ae,U+66e6,U+66f0,U+67da,U+67ec,U+6813,U+6816,U+6869,U+6893,U+68ad,U+68f5,U+6977,U+6984,U+69db,U+6b72,U+6bb7,U+6ce3,U+6cfb,U+6d47,U+6da1,U+6dc4,U+6e43,U+6eaf,U+6eff,U+6f8e,U+7011,U+7063,U+7076,U+7096,U+70ba,U+70db,U+70ef,U+7119-711a,U+7172,U+718f,U+7194,U+727a,U+72d9,U+72ed,U+7325,U+73ae,U+73ba,U+73c0,U+73fe,U+7410,U+7426,U+7455,U+7554,U+7576,U+75ae,U+75b9,U+762b,U+766b,U+7682,U+7750,U+7779,U+7784,U+77eb,U+77ee,U+78f7,U+79e9,U+7a79,U+7b1b,U+7b28,U+7bf7,U+7db2,U+7ec5,U+7eee,U+7f14,U+7f1a,U+7fe1,U+8087,U+809b,U+81b3,U+8231,U+830e,U+835f,U+83e9,U+849c,U+851a,U+868a,U+8718,U+874e,U+8822,U+8910,U+8944,U+8a3b,U+8bb6,U+8bbc,U+8e72,U+8f9c,U+900d,U+904b,U+904e,U+9063,U+90a2,U+90b9,U+9119,U+94f2,U+952f,U+9576-9577,U+9593,U+95f8,U+961c,U+969b,U+96a7,U+96c1,U+9716,U+9761,U+97ad,U+97e7,U+98a4,U+997a,U+9a73,U+9b44,U+9e3d,U+9ecf,U+9ed4,U+ff11-ff12,U+fffd"
  },
@@ -99,6 +111,18 @@ export const FACES = [
  {
   "family": "Noto Sans SC",
   "weight": "700",
+  "file": "fonts/noto-sans-sc-87-700-normal.woff2",
+  "range": "U+2651-2655,U+2658,U+265a-265b,U+265d-265e,U+2660-266d,U+266f,U+267b,U+2688,U+2693-2696,U+2698-2699,U+269c,U+26a0-26a1,U+26a4,U+26aa-26ab,U+26bd-26be,U+26c4-26c5,U+26d4,U+26e9,U+26f0-26f1,U+26f3,U+26f5,U+26fd,U+2702,U+2704-2706,U+2708-270f,U+2712-2718,U+271a-271b,U+271d,U+271f,U+2721,U+2724-2730,U+2732-2734,U+273a,U+273d-2744,U+2747-2749,U+274c,U+274e-274f,U+2753-2757,U+275b,U+275d-275e,U+2763,U+2765-2767,U+276e-276f,U+2776-277e,U+2780-2782,U+278a-278c,U+278e,U+2794-2796,U+279c"
+ },
+ {
+  "family": "Noto Sans SC",
+  "weight": "700",
+  "file": "fonts/noto-sans-sc-89-700-normal.woff2",
+  "range": "U+23f0,U+23f3,U+2445,U+2449,U+2465-2471,U+2474-249b,U+24b8,U+24c2,U+24c7,U+24c9,U+24d0,U+24d2,U+24d4,U+24d8,U+24dd-24de,U+24e3,U+24e6,U+24e8,U+2500-2509,U+250b-2526,U+2528-2534,U+2536-2537,U+253b-2548,U+254a-254b"
+ },
+ {
+  "family": "Noto Sans SC",
+  "weight": "700",
   "file": "fonts/noto-sans-sc-103-700-normal.woff2",
   "range": "U+60,U+631,U+2606,U+3014-3015,U+309c,U+33a1,U+4e52,U+4ec6,U+4f86,U+4f8d,U+4fde,U+4fef,U+500b,U+502a,U+515c,U+518a,U+51a5,U+51f3,U+5243,U+52c9,U+52d5,U+53a2,U+53ee,U+54ce,U+54fa,U+54fc,U+5580,U+5587,U+563f,U+56da,U+5792,U+5815,U+5960,U+59d7,U+5b78,U+5b9b,U+5be1,U+5c4e,U+5c51,U+5c6f,U+5c9a,U+5cfb,U+5d16,U+5ed6,U+5f27,U+5f6a,U+609a,U+60df,U+6168,U+61c8,U+6236,U+62f1,U+62fd,U+631a,U+6328,U+632b,U+6346,U+638f,U+63a0,U+63c9,U+655e,U+6590,U+6615,U+6627,U+66ae,U+66e6,U+66f0,U+67da,U+67ec,U+6813,U+6816,U+6869,U+6893,U+68ad,U+68f5,U+6977,U+6984,U+69db,U+6b72,U+6bb7,U+6ce3,U+6cfb,U+6d47,U+6da1,U+6dc4,U+6e43,U+6eaf,U+6eff,U+6f8e,U+7011,U+7063,U+7076,U+7096,U+70ba,U+70db,U+70ef,U+7119-711a,U+7172,U+718f,U+7194,U+727a,U+72d9,U+72ed,U+7325,U+73ae,U+73ba,U+73c0,U+73fe,U+7410,U+7426,U+7455,U+7554,U+7576,U+75ae,U+75b9,U+762b,U+766b,U+7682,U+7750,U+7779,U+7784,U+77eb,U+77ee,U+78f7,U+79e9,U+7a79,U+7b1b,U+7b28,U+7bf7,U+7db2,U+7ec5,U+7eee,U+7f14,U+7f1a,U+7fe1,U+8087,U+809b,U+81b3,U+8231,U+830e,U+835f,U+83e9,U+849c,U+851a,U+868a,U+8718,U+874e,U+8822,U+8910,U+8944,U+8a3b,U+8bb6,U+8bbc,U+8e72,U+8f9c,U+900d,U+904b,U+904e,U+9063,U+90a2,U+90b9,U+9119,U+94f2,U+952f,U+9576-9577,U+9593,U+95f8,U+961c,U+969b,U+96a7,U+96c1,U+9716,U+9761,U+97ad,U+97e7,U+98a4,U+997a,U+9a73,U+9b44,U+9e3d,U+9ecf,U+9ed4,U+ff11-ff12,U+fffd"
  },
@@ -191,6 +215,18 @@ export const FACES = [
   "weight": "700",
   "file": "fonts/noto-sans-sc-latin-700-normal.woff2",
   "range": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+ },
+ {
+  "family": "Noto Sans SC",
+  "weight": "900",
+  "file": "fonts/noto-sans-sc-87-900-normal.woff2",
+  "range": "U+2651-2655,U+2658,U+265a-265b,U+265d-265e,U+2660-266d,U+266f,U+267b,U+2688,U+2693-2696,U+2698-2699,U+269c,U+26a0-26a1,U+26a4,U+26aa-26ab,U+26bd-26be,U+26c4-26c5,U+26d4,U+26e9,U+26f0-26f1,U+26f3,U+26f5,U+26fd,U+2702,U+2704-2706,U+2708-270f,U+2712-2718,U+271a-271b,U+271d,U+271f,U+2721,U+2724-2730,U+2732-2734,U+273a,U+273d-2744,U+2747-2749,U+274c,U+274e-274f,U+2753-2757,U+275b,U+275d-275e,U+2763,U+2765-2767,U+276e-276f,U+2776-277e,U+2780-2782,U+278a-278c,U+278e,U+2794-2796,U+279c"
+ },
+ {
+  "family": "Noto Sans SC",
+  "weight": "900",
+  "file": "fonts/noto-sans-sc-89-900-normal.woff2",
+  "range": "U+23f0,U+23f3,U+2445,U+2449,U+2465-2471,U+2474-249b,U+24b8,U+24c2,U+24c7,U+24c9,U+24d0,U+24d2,U+24d4,U+24d8,U+24dd-24de,U+24e3,U+24e6,U+24e8,U+2500-2509,U+250b-2526,U+2528-2534,U+2536-2537,U+253b-2548,U+254a-254b"
  },
  {
   "family": "Noto Sans SC",

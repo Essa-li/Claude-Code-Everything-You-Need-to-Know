@@ -1,14 +1,1 @@
-{
-  "b-1": {
-    "Title": 7848,
-    "Windows": 13140,
-    "Install": 11556,
-    "Start": 15480,
-    "Status": 10116,
-    "Interrupt": 11304,
-    "Verify": 13320,
-    "YourTurn": 15192,
-    "Check": 7236,
-    "End": 3384
-  }
-}
+{}
