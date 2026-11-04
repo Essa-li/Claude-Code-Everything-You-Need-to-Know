@@ -34,19 +34,19 @@ const Hook: React.FC = () => {
   return (
     <Dark>
       <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", gap: 34 }}>
-        <div style={{ opacity: interpolate(frame, [t(6.2), t(6.8)], [1, 0], clamp), display: "flex", flexDirection: "column", alignItems: "center", gap: 30 }}>
+        <div style={{ opacity: interpolate(frame, [t(5.8), t(6.3)], [1, 0], clamp), display: "flex", flexDirection: "column", alignItems: "center", gap: 30 }}>
           <Bubble at={t(0.3)} text="这份客户资料我核对过了，没有问题。" />
-          <Slam at={t(3.0)} text="真的吗？" color={C.yellow} size={150} />
+          <Slam at={t(3.8)} text="真的吗？" color={C.yellow} size={150} />
         </div>
-        <div style={{ position: "absolute", textAlign: "center", opacity: appear(frame, t(6.8), 12) }}>
+        <div style={{ position: "absolute", textAlign: "center", opacity: appear(frame, t(6.3), 12) }}>
           <div style={{ fontSize: 30, opacity: 0.85, letterSpacing: 2 }}>Claude Code 带练课 · 第 1 课</div>
           <div style={{ fontSize: 84, fontWeight: 900, marginTop: 14 }}>装好它，再学会核对它</div>
-          <div style={{ width: 140, height: 7, background: C.yellow, margin: "26px auto 0", scale: `${interpolate(frame, [t(7.2), t(7.8)], [0, 1], clamp)} 1` }} />
+          <div style={{ width: 140, height: 7, background: C.yellow, margin: "26px auto 0", scale: `${interpolate(frame, [t(6.7), t(7.3)], [0, 1], clamp)} 1` }} />
         </div>
       </AbsoluteFill>
       <Sfx at={t(0.3)} name="page-turn" volume={0.5} />
-      <Sfx at={t(3.0)} name="switch" volume={0.7} />
-      <Sfx at={t(6.8)} name="whoosh" volume={0.6} />
+      <Sfx at={t(3.8)} name="switch" volume={0.7} />
+      <Sfx at={t(6.3)} name="whoosh" volume={0.6} />
     </Dark>
   );
 };
@@ -105,18 +105,18 @@ const Start: React.FC = () => {
             { at: 70, kind: "out", text: "┌ 信任这个文件夹吗？" },
           ]}
           footer="⏵⏵ auto mode on"
-          footerAt={s(9)}
+          footerAt={s(12)}
         />
         <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 22, justifyContent: "center" }}>
           <div style={{ fontSize: 34, fontWeight: 900, color: C.navy, opacity: appear(frame, 74) }}>信任对话框：先别急着回车</div>
-          {card("自己的仓库", "读完对话框，再选信任", C.ok, s(4.5))}
-          {card("别人的仓库", "先退出，读一遍它的 .claude/ 设置", "#c0392b", s(6.6))}
+          {card("自己的仓库", "读完对话框，再选信任", C.ok, s(7.0))}
+          {card("别人的仓库", "先退出，读一遍它的 .claude/ 设置", "#c0392b", s(9.6))}
         </div>
       </AbsoluteFill>
       <TypingSfx at={6} frames={24} />
       <Sfx at={74} name="switch" volume={0.4} />
-      <Sfx at={s(4.5)} name="whoosh" volume={0.4} />
-      <Sfx at={s(6.6)} name="whoosh" volume={0.4} />
+      <Sfx at={s(7.0)} name="whoosh" volume={0.4} />
+      <Sfx at={s(9.6)} name="whoosh" volume={0.4} />
       <Caption text="信任后，仓库的设置就能给 Claude 授权" hi="授权" at={s(1.2)} />
     </Light>
   );
@@ -247,9 +247,9 @@ const Takeaways: React.FC = () => {
 // 8 · Pause-and-think quiz with a countdown
 const Quiz: React.FC = () => {
   const frame = useCurrentFrame();
-  const c0 = s(3.4);
-  const reveal = s(5.6);
-  const count = frame < c0 ? null : frame < c0 + 22 ? "3" : frame < c0 + 44 ? "2" : frame < reveal ? "1" : null;
+  const c0 = s(4.0);
+  const reveal = s(6.1);
+  const count = frame < c0 ? null : frame < c0 + 20 ? "3" : frame < c0 + 40 ? "2" : frame < reveal ? "1" : null;
   return (
     <Dark>
       <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", textAlign: "center", padding: "0 120px" }}>
@@ -264,7 +264,7 @@ const Quiz: React.FC = () => {
           ) : null}
         </div>
       </AbsoluteFill>
-      {[0, 22, 44].map((d) => (
+      {[0, 20, 40].map((d) => (
         <Sfx key={d} at={c0 + d} name="mouse-click" volume={0.5} />
       ))}
       <Sfx at={reveal} name="ding" volume={0.55} />
