@@ -364,6 +364,10 @@ claude</pre>
     <h2>权限模式与计划模式</h2>
     <p class="goal">学完这课，你能为一项任务选合适的权限模式，判断一个改动需不需要先出计划，并且在 Claude 动你的文件之前，用计划模式只批准你愿意合并的方案。</p>
   </div>
+  <div class="demo">
+    <video controls playsinline preload="metadata" poster="videos/b-2-poster.jpg" src="videos/b-2.mp4" aria-label="本课演示动画"></video>
+    <span class="cap">先看约 1 分半的配音演示动画，再跟着下面的步骤动手做。画面里的界面只是示意，不是真实录屏；具体操作以本页步骤为准。</span>
+  </div>
   <div class="panel idea">
     <h3>先搞懂</h3>
     <p><b>权限模式</b>决定 Claude 哪些操作可以不先问你。新会话从自动模式开始：由另一个模型（叫“分类器”）代替你审查 Claude 的操作，超出你请求范围的动作会被拦下。但工作目录里普通源码文件的修改不会送去给分类器审，自动模式直接放行。<b>这些修改该不该出现在这次改动里，要你自己判断</b>。</p>
@@ -480,6 +484,10 @@ git commit -m "Reject unknown keys in linkcheck.json"</pre>
     <h2>第一次改动：从需求到提交</h2>
     <p class="goal">学完这课，你能把一个改动从提出需求一直做到提交，并且审查得足够仔细，在提交之前就发现它哪里做错了。</p>
   </div>
+  <div class="demo">
+    <video controls playsinline preload="metadata" poster="videos/b-3-poster.jpg" src="videos/b-3.mp4" aria-label="本课演示动画"></video>
+    <span class="cap">先看约 1 分半的配音演示动画，再跟着下面的步骤动手做。画面里的界面只是示意，不是真实录屏；具体操作以本页步骤为准。</span>
+  </div>
   <div class="panel idea">
     <h3>先搞懂</h3>
     <p>提了要求就照单全收，是会话出问题最常见的原因。Anthropic 的最佳实践建议分四个阶段：探索、计划、执行、提交。自动模式不会把普通源码修改交给分类器审查，所以改得对不对，要你在两个地方把关：<b>开工前看方案，提交前看 diff</b>。</p>
@@ -592,6 +600,10 @@ npm run check -- b-3</pre>
     <h2>用 CLAUDE.md 写项目记忆</h2>
     <p class="goal">学完这课，你能写一份简短、内容属实的项目 CLAUDE.md，证明新会话会遵守它，并且判断每条说明应该写进哪个记忆文件。</p>
   </div>
+  <div class="demo">
+    <video controls playsinline preload="metadata" poster="videos/b-5-poster.jpg" src="videos/b-5.mp4" aria-label="本课演示动画"></video>
+    <span class="cap">先看约 1 分半的配音演示动画，再跟着下面的步骤动手做。画面里的界面只是示意，不是真实录屏；具体操作以本页步骤为准。</span>
+  </div>
   <div class="panel idea">
     <h3>先搞懂</h3>
     <p>每个会话都从空白的上下文开始。你的说明文件会在每次会话开始时加载，<b>写在哪个文件里，决定了谁能看到</b>：</p>
@@ -700,6 +712,10 @@ git status</pre>
     <span class="eyebrow">第 5 课 / 共 8 课 · 中级 · 约 20 分钟</span>
     <h2>把重复工作做成技能</h2>
     <p class="goal">学完这课，你能把一套反复使用的工作流程做成项目技能，决定哪些请求会自动加载它，并且审查它做出来的改动。</p>
+  </div>
+  <div class="demo">
+    <video controls playsinline preload="metadata" poster="videos/i-1-poster.jpg" src="videos/i-1.mp4" aria-label="本课演示动画"></video>
+    <span class="cap">先看约 1 分半的配音演示动画，再跟着下面的步骤动手做。画面里的界面只是示意，不是真实录屏；具体操作以本页步骤为准。</span>
   </div>
   <div class="panel idea">
     <h3>先搞懂</h3>
@@ -811,6 +827,10 @@ git rev-parse HEAD &gt; .practice/i-1-commit.txt</pre>
     <span class="eyebrow">第 6 课 / 共 8 课 · 中级 · 约 20 分钟</span>
     <h2>整理项目记忆，查看加载了什么</h2>
     <p class="goal">学完这课，你能把项目说明拆成导入文件和分范围规则；Claude 不遵守某条说明时，能查出是哪些说明文件加载了、哪些没有。</p>
+  </div>
+  <div class="demo">
+    <video controls playsinline preload="metadata" poster="videos/i-2-poster.jpg" src="videos/i-2.mp4" aria-label="本课演示动画"></video>
+    <span class="cap">先看约 1 分半的配音演示动画，再跟着下面的步骤动手做。画面里的界面只是示意，不是真实录屏；具体操作以本页步骤为准。</span>
   </div>
   <div class="panel idea">
     <h3>先搞懂</h3>
@@ -925,6 +945,10 @@ git commit -m "Split project instructions into an import and scoped rules"</pre>
     <span class="eyebrow">第 7 课 / 共 8 课 · 中级 · 约 20 分钟</span>
     <h2>权限、设置范围与沙箱</h2>
     <p class="goal">学完这课，你能挑出范围窄的权限规则，放进合适的设置文件，并且亲手验证沙箱的边界。</p>
+  </div>
+  <div class="demo">
+    <video controls playsinline preload="metadata" poster="videos/i-4-poster.jpg" src="videos/i-4.mp4" aria-label="本课演示动画"></video>
+    <span class="cap">先看约 1 分半的配音演示动画，再跟着下面的步骤动手做。画面里的界面只是示意，不是真实录屏；具体操作以本页步骤为准。</span>
   </div>
   <div class="panel idea">
     <h3>先搞懂</h3>
@@ -1047,6 +1071,10 @@ npm run check -- i-4</pre>
     <span class="eyebrow">第 8 课 / 共 8 课 · 中级 · 约 25 分钟</span>
     <h2>用 MCP 连接外部工具</h2>
     <p class="goal">学完这课，你能按合适的范围接入一个锁定了版本的 MCP 服务器，并借助它拿到的浏览器信息，找出并修好网页上的一个错误。</p>
+  </div>
+  <div class="demo">
+    <video controls playsinline preload="metadata" poster="videos/i-7-poster.jpg" src="videos/i-7.mp4" aria-label="本课演示动画"></video>
+    <span class="cap">先看约 1 分半的配音演示动画，再跟着下面的步骤动手做。画面里的界面只是示意，不是真实录屏；具体操作以本页步骤为准。</span>
   </div>
   <div class="panel idea">
     <h3>先搞懂</h3>

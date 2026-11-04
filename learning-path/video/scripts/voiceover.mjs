@@ -38,8 +38,12 @@ const genPath = join(root, "src", "voice.gen.json");
 const gen = existsSync(genPath) ? JSON.parse(readFileSync(genPath, "utf8")) : {};
 gen[lesson] = {};
 
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 for (const [scene, text] of Object.entries(lines)) {
-  const res = await fetch(`https://${host}/v1/t2a_v2`, {
+  let res, body, code;
+  for (let attempt = 0; attempt < 6; attempt++) {
+  if (attempt) await sleep(10000 * attempt); // back off on rate limits
+  res = await fetch(`https://${host}/v1/t2a_v2`, {
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -52,8 +56,11 @@ for (const [scene, text] of Object.entries(lines)) {
       audio_setting: { sample_rate: 32000, bitrate: 128000, format: "mp3", channel: 1 },
     }),
   });
-  const body = await res.json().catch(() => ({}));
-  const code = body?.base_resp?.status_code;
+  body = await res.json().catch(() => ({}));
+  code = body?.base_resp?.status_code;
+  if (code !== 1002) break; // 1002: rate limit exceeded
+  console.error(`${scene}: rate limited, retrying`);
+  }
   if (!res.ok || code !== 0 || !body?.data?.audio) {
     console.error(`${scene}: failed (HTTP ${res.status}, status_code ${code}, ${body?.base_resp?.status_msg ?? "no message"}, trace ${body?.trace_id ?? "-"})`);
     process.exit(1);
@@ -61,6 +68,7 @@ for (const [scene, text] of Object.entries(lines)) {
   writeFileSync(join(outDir, `${scene}.mp3`), Buffer.from(body.data.audio, "hex"));
   gen[lesson][scene] = body.extra_info?.audio_length ?? 0;
   console.log(`${scene}: ${gen[lesson][scene]} ms`);
+  await sleep(1500);
 }
 writeFileSync(genPath, JSON.stringify(gen, null, 2) + "\n");
 console.log(`Voice: ${voice}, model: ${model}, speed: ${speed}, emotion: ${emotion || "-"}, host: ${host}`);
