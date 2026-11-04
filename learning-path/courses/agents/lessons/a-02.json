@@ -1,0 +1,114 @@
+{
+  "id": "a-02",
+  "n": 3,
+  "part": "打基础",
+  "title": "探索 AI 智能体框架",
+  "short": "认识框架",
+  "min": 25,
+  "srcUrl": "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/02-explore-agentic-frameworks/README.md",
+  "goal": "学完这课，你能说清楚 AI 智能体框架在开发中起什么作用、它带来哪些关键能力，以及 Microsoft Agent Framework 和 Microsoft Foundry Agent Service 有什么区别。",
+  "idea": [
+    "<p>原课程的定义：<b>AI 智能体框架是一种软件平台</b>，用来简化智能体的创建、部署和管理。它提供现成的组件、抽象和工具，把开发中的常见难题用标准方法解决掉，让开发者专心做自己应用独特的部分。</p>",
+    "<p><b>智能体框架和普通 AI 框架有什么不同</b>：普通 AI 框架能让应用更好，比如个性化推荐（Netflix 按观看记录推荐）、自动化（客服聊天机器人处理常见问题）、更好的用户体验（Siri 听懂语音指令）。智能体框架更进一步，它要造出能和用户、其他智能体、环境互动，去完成目标的智能体。原课程列了三项关键能力：</p><ul><li><b>协作与协调</b>：多个智能体一起工作、互相沟通，解决复杂任务。</li><li><b>任务自动化与管理</b>：自动跑多步骤流程，在智能体之间分派和动态管理任务。</li><li><b>理解上下文并适应</b>：理解情境，适应变化，根据实时信息做决定。</li></ul>",
+    "<p><b>怎么快速做原型、迭代、改进</b>：原课程说大多数框架都有三样共同的东西：</p><div class=\"table-wrap\"><table><thead><tr><th>做法</th><th>是什么</th><th>团队怎么用</th></tr></thead><tbody><tr><td>模块化组件</td><td>现成的 AI 连接器、工具定义、智能体管理等</td><td>直接拼出能用的原型，不用从零写</td></tr><tr><td>协作工具</td><td>造多个各有分工的智能体，比如一个取数据、一个做分析</td><td>测试并改进协作流程，提高整体效率</td></tr><tr><td>实时学习</td><td>反馈循环：根据互动和结果调整行为</td><td>能力持续改进</td></tr></tbody></table></div>",
+    "<p><b>Microsoft Agent Framework（MAF）</b>：一个精简的 SDK（开发工具包），用 <code>FoundryChatClient</code> 搭智能体。原课程讲了四个核心概念：</p><ul><li><b>智能体</b>：配置名称、指令和工具；能处理用户消息、根据对话自动调用工具、在多轮对话里保持状态。</li><li><b>工具</b>：用 Python 函数定义，创建智能体时注册进去，智能体会自动调用。</li><li><b>多智能体协调</b>：造几个分工不同的智能体，比如一个“规划者”拆步骤、一个“执行者”去执行。</li><li><b>Azure 身份集成</b>：用 Azure 登录认证，不用直接管理 API 密钥。</li></ul>",
+    "<p><b>Microsoft Foundry Agent Service</b>：原课程说它是较新的服务，在 Microsoft Ignite 2024 上推出，目前是公开预览版，支持用 Python 和 C# 构建智能体。它能用更灵活的模型（包括直接调用 Llama 3、Mistral、Cohere 这类开源模型），有更强的企业安全机制和数据存储方式。核心概念：</p><ul><li><b>智能体</b>：在 Microsoft Foundry 里像一个“智能”微服务，可以回答问题（RAG）、执行操作或完全自动化工作流。</li><li><b>线程和消息</b>：线程代表智能体和用户之间的一次对话，用来跟踪进展、保存上下文；消息可以是文字、图片或文件。</li><li><b>和 MAF 配合</b>：用 MAF 搭好的智能体，可以通过 Agent Service 部署到生产环境。</li></ul>",
+    "<p><b>两者的区别和怎么选</b>：</p><div class=\"table-wrap\"><table><thead><tr><th>名称</th><th>是什么</th><th>适合</th></tr></thead><tbody><tr><td>Microsoft Agent Framework</td><td>构建智能体的 SDK：工具调用、会话管理、Azure 身份</td><td>想快速上手，几行代码定义带工具和指令的智能体</td></tr><tr><td>Microsoft Foundry Agent Service</td><td>Foundry 里的智能体平台和部署服务，内置连接 Azure OpenAI、Azure AI Search、Bing 搜索、代码执行</td><td>需要企业级部署，并接入搜索、代码执行等 Azure 能力</td></tr></tbody></table></div><p>原课程给“还是拿不定”的建议：<b>先用 MAF 搭智能体，需要在生产环境部署和扩展时，再用 Agent Service</b>。</p>",
+    "<p><b>能不能直接接已有的 Azure 工具</b>：能。原课程说尤其是 Agent Service，本来就为配合其他 Azure 服务而设计，比如 Bing、Azure AI Search、Azure Functions；MAF 也能通过 <code>FoundryChatClient</code> 和 Azure 身份，在工具里直接调用 Azure 服务。</p>"
+  ],
+  "main": [
+    {
+      "w": "web",
+      "html": "<p>打开原课程这一课的官方中文版，先看页面顶部的介绍视频（英文，可开字幕），再把正文读一遍：</p>",
+      "code": [{ "lang": "网址", "text": "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/02-explore-agentic-frameworks/README.md" }],
+      "expect": "页面标题是“探索AI代理框架”。正文后半部分分别介绍 Microsoft Agent Framework 和 Microsoft Foundry Agent Service，最后有一张对比表。"
+    },
+    {
+      "w": "claude",
+      "html": "<p>在课程文件夹里启动 Claude Code，让它讲解本课的 Python 示例。只读，不运行，不需要密钥：</p>",
+      "code": [
+        { "lang": "终端", "text": "cd {{DIR}}\nclaude" },
+        { "lang": "Claude", "text": "用中文给一个不会编程的人讲解 @02-explore-agentic-frameworks/code_samples/02-python-agent-framework.ipynb ：笔记本开头说 Microsoft Agent Framework 有四个基本构件，分别是什么？每个在代码里对应哪一段？不要运行任何代码。" }
+      ],
+      "expect": "Claude 会讲到四个构件：Client（连接模型）、Agent（指令加工具）、Tools（智能体能调用的函数）、Session（保存多轮对话的历史）。"
+    },
+    {
+      "w": "look",
+      "html": "<p>对照 Claude 的讲解，在示例里认出这四块：</p><ul><li><b>Client</b>：<code>provider = FoundryChatClient(...)</code>，连到你的 Foundry 项目和模型。</li><li><b>Tools</b>：<code>@tool</code> 标记的 <code>check_destination_availability</code>，查一个目的地能不能订（示例里写死了：Barcelona 可订，Cape Town 不可订等）。</li><li><b>Agent</b>：<code>provider.as_agent(...)</code>，指令里写着“推荐之前一定先查是否可订”。</li><li><b>Session</b>：<code>session = agent.create_session()</code>，两轮提问都传入同一个 session，第二轮问“想去暖和的地方”时，智能体记得第一轮聊过什么。</li></ul>",
+      "after": "<p class=\"tr\">这正对应“先搞懂”里 MAF 的核心概念：智能体、工具，以及在多轮对话里保持状态。</p>"
+    },
+    {
+      "w": "claude",
+      "html": "<p>再问一个问题，把示例和 README 里的两种做法对上号：</p>",
+      "code": [{ "lang": "Claude", "text": "对照 @02-explore-agentic-frameworks/README.md ：这个笔记本用的是 Microsoft Agent Framework，还是 Foundry Agent Service 的 SDK 写法？README 里 Agent Service 示例中的“线程（thread）”，和笔记本里的 session 有什么相似之处？用中文回答，不要运行代码。" }],
+      "expect": "答案大意：笔记本用的是 MAF 的 <code>FoundryChatClient</code>；thread 和 session 都用来保存一次对话的上下文，让智能体记得前面说过的话。具体措辞每次不同。"
+    },
+    {
+      "w": "look",
+      "html": "<p>了解一下：如果想<b>真正运行</b>这个示例，要先按第 0 课准备好 Microsoft Foundry 项目、<code>az login</code> 和 <code>.env</code> 里的两个变量。本课还有一个 Azure OpenAI 版的笔记本 <code>02-python-agent-framework-azure-openai.ipynb</code>，它读的是另外两个变量：<code>AZURE_OPENAI_ENDPOINT</code> 和 <code>AZURE_OPENAI_DEPLOYMENT</code>。本页的练习都不需要运行。</p>"
+    }
+  ],
+  "turn": [
+    {
+      "w": "look",
+      "html": "<p><b>任务</b>：原课程的“协作工具”一节用了两个分工的智能体：一个负责取数据，一个负责分析。用同样的思路，设计一个“客户背调”小团队：一个智能体收集客户的公开信息，另一个根据这些信息做风险分析。先只做设计，不写代码。</p>"
+    },
+    {
+      "w": "claude",
+      "html": "<p>在 Claude Code 里让 Claude 陪你拆解。下面这段可以直接复制，方括号里换成你的实际情况：</p>",
+      "code": [{ "lang": "Claude", "text": "我是工程机械销售公司的总经理，想设计一个“客户背调”的双智能体方案：智能体 A 负责收集客户的公开信息，智能体 B 根据 A 的结果做风险分析。请按 Microsoft Agent Framework 的概念帮我拆解：每个智能体叫什么名字、指令写什么、需要哪些工具？B 需要记住多轮对话吗？哪些结论必须由人确认后才能用？我们的客户主要是 [施工企业、设备租赁公司、经销商]。只讨论设计，不要写代码。" }]
+    },
+    {
+      "w": "edit",
+      "html": "<p>把讨论结果整理成一张表，记在你自己的笔记里：</p><div class=\"table-wrap\"><table><thead><tr><th>智能体</th><th>指令（一句话）</th><th>工具</th></tr></thead><tbody><tr><td>A：信息收集</td><td>……</td><td>……</td></tr><tr><td>B：风险分析</td><td>……</td><td>……</td></tr><tr><td>需要人确认的结论</td><td>……</td><td>……</td></tr></tbody></table></div>"
+    },
+    {
+      "w": "look",
+      "html": "<p>用原课程“怎么选”的三问，判断你现在处在哪一步：只是想快速做个原型验证想法？还是已经需要企业级部署、接入搜索和代码执行？拿不准时，原课程的建议是先用 MAF 搭，需要部署和扩展时再上 Agent Service。把你的判断写在表下面一句话。</p>"
+    }
+  ],
+  "check": [
+    { "w": "look", "html": "<p>你能说出智能体框架带来的三项关键能力：协作与协调、任务自动化与管理、理解上下文并适应。</p>" },
+    { "w": "look", "html": "<p>你能用一句话分别说出 Microsoft Agent Framework 和 Microsoft Foundry Agent Service 是什么，以及原课程建议怎么选。</p>" },
+    { "w": "look", "html": "<p>你的客户背调双智能体设计表已经填好，并标出了哪些结论必须由人确认。</p>" }
+  ],
+  "warn": [
+    "<p>原课程说这是一个变化很快的领域，Foundry Agent Service 在原课程里也还是公开预览版。具体功能以原课程仓库的最新版本为准。</p>",
+    "<p>官方中文版是机器翻译，把 agent 译作“代理”，个别句子不顺。看不懂时以英文原版为准。</p>"
+  ],
+  "quiz": [
+    { "q": "原课程说，AI 智能体框架最主要的作用是什么？", "o": ["替代大模型本身", "提供现成组件和工具，简化智能体的创建、部署和管理", "只用来做聊天界面"], "a": 1, "e": "框架用标准方法解决常见难题，让开发者专心做应用独特的部分。" },
+    { "q": "“一个智能体取数据，另一个智能体分析数据”，体现了框架的哪种做法？", "o": ["协作工具", "实时学习", "Azure 身份集成"], "a": 0, "e": "协作工具：造多个各有分工的智能体，一起完成任务。" },
+    { "q": "在 MAF 示例里，让智能体记住前一轮对话的是哪个构件？", "o": ["Client", "Tools", "Session"], "a": 2, "e": "Session（agent.create_session()）保存对话历史，多轮调用传同一个 session，智能体就记得前面说过的话。" },
+    { "q": "拿不定用哪个时，原课程的建议是？", "o": ["只用 Foundry Agent Service", "先用 MAF 搭智能体，需要生产部署和扩展时再用 Agent Service", "两个都不用"], "a": 1, "e": "这样既能快速迭代智能体逻辑，又有一条通向企业级部署的清晰路径。" }
+  ],
+  "cards": [
+    ["AI 智能体框架", "提供现成组件和工具，简化智能体的创建、部署和管理"],
+    ["Microsoft Agent Framework", "构建智能体的 SDK：智能体、工具、多智能体协调、Azure 身份"],
+    ["Foundry Agent Service", "Foundry 里的智能体平台和部署服务，面向企业应用"],
+    ["线程 / Session", "保存一次对话的上下文，让智能体记得前面说过的话"]
+  ],
+  "video": {
+    "hook": { "bubble": "每次都从零搭智能体？太慢了。", "slam": "用框架！", "title": "探索 AI 智能体框架" },
+    "chapters": ["作用", "做法", "代码", "选择"],
+    "scenes": [
+      { "type": "cards", "chapter": 0, "caption": "框架带来三项关键能力", "hi": "三项", "heading": "智能体框架能做什么", "cards": [{ "t": "协作与协调", "b": "多个智能体一起干活", "color": "navy" }, { "t": "任务自动化", "b": "多步流程、分派任务", "color": "navy" }, { "t": "理解上下文", "b": "适应变化、实时决策", "color": "ok" }] },
+      { "type": "panel", "chapter": 1, "caption": "快速做原型的三样东西", "hi": "原型", "heading": "大多数框架都有", "rows": [["模块化组件", "拼出原型"], ["协作工具", "分工的智能体"], ["实时学习", "反馈循环"]], "hiRows": [0] },
+      { "type": "code", "chapter": 2, "caption": "客户端、智能体、工具、会话", "hi": "会话", "file": "02-python-agent-framework.ipynb · 原课程示例", "lines": ["provider = FoundryChatClient(", "    project_endpoint=endpoint, model=model, …)", "", "agent = provider.as_agent(", "    name=\"TravelAvailabilityAgent\",", "    instructions=(\"You are a travel booking agent. …\"),", "    tools=[check_destination_availability])", "", "session = agent.create_session()"], "hiLines": [0, 3, 8], "stamp": { "text": "四个构件", "color": "ok", "f": 0.65 } },
+      { "type": "cards", "chapter": 3, "caption": "拿不准？先 MAF，后上平台", "hi": "先 MAF", "heading": "两种微软方案", "cards": [{ "t": "Agent Framework", "b": "SDK，几行代码搭智能体", "color": "navy" }, { "t": "Agent Service", "b": "平台，企业级部署", "color": "navy" }, { "t": "原课程建议", "b": "先搭后部署", "color": "ok" }] }
+    ],
+    "takeaways": [["框架", "现成组件"], ["四个构件", "客户端到会话"], ["先 MAF", "再上平台"]],
+    "quiz": { "q": "让智能体记住上一轮对话的是？", "a": "Session，会话" },
+    "outro": "网页上读懂示例 · 设计客户背调双智能体 · 完成小测",
+    "narration": {
+      "Hook": "每次都从零开始搭智能体，太慢了。智能体框架给你现成的组件和工具。这一课：探索 AI 智能体框架，以及微软的两种方案。",
+      "S1": "原课程说，智能体框架带来三项关键能力：多个智能体协作与协调，多步骤任务的自动化和管理，还有理解上下文、适应变化。",
+      "S2": "想快速做原型，大多数框架都有三样东西：现成的模块化组件，让多个分工智能体协作的工具，以及根据反馈不断调整的实时学习。",
+      "S3": "看示例：先建客户端连到模型，再用指令和工具造出智能体，最后建一个会话。两轮提问用同一个会话，智能体就记得前面聊过什么。",
+      "S4": "Agent Framework 是开发工具包，Agent Service 是企业级的部署平台。拿不准时，原课程建议先用框架搭，需要部署和扩展时再上平台。",
+      "Takeaways": "记住三件事：框架提供现成组件；四个构件是客户端、智能体、工具、会话；先用框架，再上平台。",
+      "Quiz": "考你一题：让智能体记住上一轮对话的，是哪个构件？三，二，一。答案：会话，Session。",
+      "Outro": "现在回到网页，读懂示例，再设计你的客户背调双智能体。"
+    }
+  }
+}

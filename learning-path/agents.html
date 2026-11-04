@@ -215,7 +215,7 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line)
     <nav class="nav" aria-label="主导航">
       <a href="index.html#courses">全部课程</a>
       <a href="#home" data-nav="home">路线</a>
-      <a href="#a-01" data-nav="lesson" id="nav-lesson">继续学习</a>
+      <a href="#a-00" data-nav="lesson" id="nav-lesson">继续学习</a>
       <a href="#review" data-nav="review">复习<span class="due-pill" id="due-pill" hidden></span></a>
       <a href="#ref" data-nav="ref">速查</a>
     </nav>
@@ -229,11 +229,11 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line)
 
 <section class="view" id="v-home" data-view="home">
   <div class="hero">
-    <span class="eyebrow">1 课 · 约 0.4 小时 · 改编自 微软 AI Agents for Beginners</span>
+    <span class="eyebrow">13 课 · 约 6.2 小时 · 改编自 微软 AI Agents for Beginners</span>
     <h1>从会用 AI，到会设计 AI 智能体</h1>
     <p>19 课，讲清楚智能体是什么、它用哪些设计模式、怎么接工具和资料、怎么规划、协作、记忆，以及怎么做到可信、安全、能上线。每课先讲概念，再带你用 Claude Code 读懂原课程的示例代码，最后用你自己的业务做一道设计练习。</p>
     <div class="stats" id="home-stats"></div>
-    <a class="btn" id="start-btn" href="#a-01">开始第 1 课</a>
+    <a class="btn" id="start-btn" href="#a-00">开始第 1 课</a>
   </div>
   <div class="panel">
     <div class="section-title"><h3>掌握路径</h3><span class="count" id="map-count"></span></div>
@@ -257,10 +257,136 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line)
   </div>
   <p class="small muted">本课程改编自微软 AI Agents for Beginners（MIT 许可），以官方简体中文译本为底稿，对照英文原版改写成带练格式。原版的示例代码、视频和英文说明以原仓库为准。你的学习进度只保存在这台设备的浏览器里。</p>
 </section>
+<!-- ============ a-00 ============ -->
+<section class="view lesson" id="v-a-00" data-view="a-00" hidden>
+  <div class="lhead">
+    <span class="eyebrow">第 1 课 / 共 13 课 · 打基础 · 约 25 分钟</span>
+    <h2>课程设置：把课程下载到电脑上</h2>
+    <p class="goal">学完这课，你能把原课程下载到自己电脑上、用 Claude Code 打开它，并说清楚真正运行示例代码需要准备哪些东西。</p>
+  </div>
+  
+  <div class="panel idea">
+    <h3>先搞懂</h3>
+    <p>原课程第 0 课只讲一件事：<b>怎么运行本课程的代码示例</b>。本页把它分成两层：</p><ul><li><b>必做</b>：把课程下载到电脑上，用 Claude Code 打开、读懂。读代码不需要任何账号和密钥。</li><li><b>可选</b>：真正运行示例。这需要 Azure 账号和微软的云服务，后面会照原课程列清楚。</li></ul>
+    <p><b>克隆和派生（fork）</b>：原课程让你先克隆或派生这个 GitHub 仓库。</p><ul><li><b>派生（fork）</b>：在你自己的 GitHub 账号下生成一份副本，以后可以改代码、提交修改。</li><li><b>克隆（clone）</b>：把仓库下载到你的电脑上。</li></ul><p>原课程的提示：想修改并提交，克隆时要用你自己 fork 的地址。本页只读不改，直接克隆原仓库就够了。</p>
+    <p><b>仓库很大</b>：原课程说，带完整历史和全部文件时，仓库约 3 GB。它给了几种少下载的办法：</p><div class="table-wrap"><table><thead><tr><th>办法</th><th>做法</th><th>下载什么</th></tr></thead><tbody><tr><td>浅克隆</td><td><code>--depth 1</code></td><td>全部文件，只要最新一次提交</td></tr><tr><td>稀疏克隆</td><td><code>--filter=blob:none --sparse</code>，再用 <code>sparse-checkout</code> 选文件夹</td><td>只下你选的文件夹（需要 Git 2.25 以上）</td></tr><tr><td>不要翻译</td><td>课程主页 README 给的稀疏克隆命令</td><td>除了 50 多种语言的翻译，其余都下</td></tr><tr><td>GitHub Codespaces</td><td>在云端开一个环境，再在里面克隆</td><td>不占你电脑的空间</td></tr></tbody></table></div><p>本页用第三种：课程主页说翻译会显著增加下载量，去掉翻译也能学完全部课程。中文版可以直接在网页上看。</p>
+    <p><b>示例代码长什么样</b>：每课的示例放在课程文件夹的 <code>code_samples</code> 里，主要是 Jupyter 笔记本，Python 版的文件名都以 <code>-python-agent-framework.ipynb</code> 结尾。它们用 <b>Microsoft Agent Framework（MAF）</b>的 <code>FoundryChatClient</code>，通过 Microsoft Foundry 连到 <b>Microsoft Foundry Agent Service V2</b>（Responses API）。</p>
+    <p><b>真正运行需要准备什么（可选）</b>，原课程列的要求：</p><ul><li><b>Python 3.12 以上</b>，建议建一个虚拟环境（venv），再用 <code>pip install -r requirements.txt</code> 装好依赖；</li><li><b>.NET 10 以上</b>：只有运行 .NET 版示例时才需要；</li><li><b>Azure CLI</b>：用来登录认证；</li><li><b>Azure 订阅</b>：用来访问 Microsoft Foundry 和 Agent Service；</li><li><b>Microsoft Foundry 项目</b>：里面部署好一个模型（原课程举例 <code>gpt-5-mini</code>）。</li></ul>
+    <p><b>原课程的五步准备</b>：① 在 ai.azure.com 创建 Foundry 项目并部署模型；② 记下项目端点和模型部署名称；③ 用 <code>az login</code> 登录 Azure；④ 把 <code>.env.example</code> 复制成 <code>.env</code>，填两个值：<code>AZURE_AI_PROJECT_ENDPOINT</code> 和 <code>AZURE_AI_MODEL_DEPLOYMENT_NAME</code>；⑤ 安装 Python 依赖。</p><p>为什么用 <code>az login</code>：大多数笔记本靠你的 Azure 登录状态认证，<b>不需要 API 密钥</b>，原课程说这是安全上的最佳做法。少数课程和可选功能会用到密钥，各课会单独说明。</p>
+    <p><b>个别课程的额外设置</b>（用到时再看）：第 5、16 课默认用内存里的知识库，想接真实的 Azure AI Search 才要额外配置；第 6、8 课有些笔记本直接调用 Azure OpenAI；第 8 课有一个笔记本用 Bing 搜索。原课程还介绍了几种替代方案：MiniMax、Novita AI（兼容 OpenAI 的接口），以及 <b>Foundry Local</b>（把模型下载到你自己电脑上运行，不用云）。</p>
+  </div>
+  <div class="section-title"><h3>跟着看</h3><span class="count" data-count="main"></span></div>
+  <ol class="steps" data-part="main">
+    <li data-w="web">
+      <p>打开原课程第 0 课的官方中文版，从头到尾扫一遍，知道它讲了哪些部分就行，不用照着做：</p>
+      <pre data-lang="网址">https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/00-course-setup/README.md</pre>
+      
+      <p class="expect">页面标题是“课程设置”，下面依次是克隆或派生代码库、运行代码、要求、设置 Microsoft Foundry 等小节。</p>
+      
+    </li>
+    <li data-w="term">
+      <p>打开终端，先确认电脑上装了 Git：</p>
+      <pre data-lang="终端">git --version</pre>
+      
+      <p class="expect">显示类似 <code>git version 2.4x.x</code> 的版本号。下一步的稀疏克隆需要 2.25 或更高。</p>
+      <details class="stuck"><summary>提示找不到 git 命令？</summary><p>先安装 Git（官网 git-scm.com）。也可以在 Claude Code 里说“帮我检查这台电脑有没有装 Git，没有的话告诉我怎么装”，让它一步步带你，每条命令它都会先问你同意。</p></details>
+    </li>
+    <li data-w="term">
+      <p>用课程主页 README 给的命令，把课程下载到 <code>{{DIR}}</code>，并跳过 50 多种语言的翻译（三行一行一行地执行）：</p>
+      <pre data-lang="终端">git clone --filter=blob:none --sparse https://github.com/microsoft/ai-agents-for-beginners.git {{DIR}}
+cd {{DIR}}
+git sparse-checkout set --no-cone '/*' '!translations' '!translated_images'</pre>
+      
+      <p class="expect">文件夹里出现 <code>00-course-setup</code> 到 <code>18-securing-ai-agents</code> 共 19 个课程文件夹，还有 <code>README.md</code>、<code>requirements.txt</code>、<code>.env.example</code> 等文件。</p>
+      <details class="stuck"><summary>我用的是 Windows 的命令提示符（CMD），第三行报错？</summary><p>原课程给 CMD 的写法是双引号：</p><p><code>git sparse-checkout set --no-cone "/*" "!translations" "!translated_images"</code></p></details>
+      <details class="stuck"><summary>有没有更简单的一条命令？</summary><p>可以用原课程第 0 课的浅克隆：<code>git clone --depth 1 https://github.com/microsoft/ai-agents-for-beginners.git {{DIR}}</code>。它会连翻译一起下，下载量更大。</p></details>
+      <details class="stuck"><summary>要不要先 fork？</summary><p>只读的话不需要。以后想改代码并提交，再去 GitHub 上点 Fork，克隆时把地址换成你自己的 fork。</p></details>
+    </li>
+    <li data-w="claude">
+      <p>在课程文件夹里启动 Claude Code，让它用中文讲讲第 0 课。这一步只读，不运行、不安装：</p>
+      <pre data-lang="终端">cd {{DIR}}
+claude</pre>
+      <pre data-lang="Claude">读 @00-course-setup/README.md ，用中文给不会编程的人讲：真正运行这门课的示例代码，需要准备哪些账号、软件和设置？哪些是所有课程都要的，哪些只有个别课程才要？只读文件，不要运行任何命令，也不要安装任何东西。</pre>
+      
+      <p class="expect">Claude 会列出 Python 3.12、Azure CLI、Azure 订阅、Microsoft Foundry 项目和 <code>.env</code> 里的两个变量，并说明第 5、6、8、16 课有额外设置。</p>
+      
+    </li>
+    <li data-w="look">
+      <p>对照 Claude 的讲解，看一眼文件夹里的 <code>.env.example</code>：它是原课程给的配置模板，里面只有占位内容（比如 <code>AZURE_AI_PROJECT_ENDPOINT="https://..."</code>）。真正运行时才复制成 <code>.env</code> 填上自己的值。本页的所有练习都不需要它。</p>
+      
+      
+      
+      <details class="stuck"><summary>我想真的跑一遍示例，要花钱吗？</summary><p>原课程要求有 Azure 订阅，模型部署在你自己的 Microsoft Foundry 项目里，费用按 Azure 的规则算，原课程没有给价格。想不用云，原课程介绍了 Foundry Local，可以把模型放在自己电脑上运行。</p></details>
+    </li>
+  </ol>
+  <div class="section-title"><h3>自己练一遍</h3><span class="count" data-count="turn"></span></div>
+  <ol class="steps" data-part="turn">
+    <li data-w="look">
+      <p><b>任务</b>：课程一共 19 课，你不一定每课都同样需要。让 Claude Code 先帮你把课程结构理一遍，再挑出和销售工作最相关的 3 课，作为你的重点。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>在 Claude Code 里复制下面这段，方括号里换成你的实际情况：</p>
+      <pre data-lang="Claude">读 @README.md 里的课程目录。用中文列出全部课程，每课一句话说明讲什么；拿不准的，可以打开对应课程文件夹里的 README.md 看。然后，我是工程机械销售分公司的总经理，产品是 [起重设备、混凝土设备、破碎设备]，日常工作是 [处理客户询盘、做客户背调、管理经销商]。请帮我挑出和我的工作最相关的 3 课，说明理由。只读文件，不要运行任何命令。</pre>
+      
+      <p class="expect">一张 19 课的中文清单，加上 3 课推荐和理由。推荐结果每次可能不同。</p>
+      
+    </li>
+    <li data-w="edit">
+      <p>把结果记在你自己的笔记里：</p><div class="table-wrap"><table><thead><tr><th>课程</th><th>为什么和我相关</th><th>想用它解决的一件事</th></tr></thead><tbody><tr><td>……</td><td>……</td><td>……</td></tr><tr><td>……</td><td>……</td><td>……</td></tr><tr><td>……</td><td>……</td><td>……</td></tr></tbody></table></div>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>核对一下：挑一课，打开它的 <code>README.md</code> 看开头的“本课内容”，确认 Claude 的一句话说明和原文对得上。Claude 有时会凭课名猜内容，以原文为准。</p>
+      
+      
+      
+      
+    </li>
+  </ol>
+  <div class="section-title"><h3>检查过关</h3><span class="count" data-count="check"></span></div>
+  <ol class="steps" data-part="check">
+    <li data-w="look">
+      <p><code>{{DIR}}</code> 里能看到 19 个课程文件夹，Claude Code 能在这个文件夹里启动。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你能说出真正运行示例需要的几样东西：Python、Azure CLI、Azure 订阅、部署了模型的 Microsoft Foundry 项目，以及 <code>.env</code> 里的两个值。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你的“重点 3 课”表已经填好，至少核对过其中一课的原文。</p>
+      
+      
+      
+      
+    </li>
+  </ol>
+  <div class="warnbox">
+    <h3>容易踩的坑</h3>
+    <p>原课程提到，下载后可以删掉 <code>.git</code> 文件夹来省空间，但这一步<b>不可逆</b>，删了就不能再用 Git 更新课程。本页不建议这么做。</p>
+    <p>密钥和端点只写进你电脑上的 <code>.env</code> 文件，不要贴进任何聊天窗口。原课程的大多数笔记本用 <code>az login</code> 登录，本来就不需要 API 密钥。</p>
+  </div>
+  <div class="panel"><div class="section-title"><h3>过关小测</h3><span class="count">全部答对才算过关</span></div><div class="quiz" data-quiz="a-00"></div></div>
+  <nav class="pager" aria-label="课程翻页"></nav>
+</section>
+
 <!-- ============ a-01 ============ -->
 <section class="view lesson" id="v-a-01" data-view="a-01" hidden>
   <div class="lhead">
-    <span class="eyebrow">第 2 课 / 共 1 课 · 打基础 · 约 25 分钟</span>
+    <span class="eyebrow">第 2 课 / 共 13 课 · 打基础 · 约 25 分钟</span>
     <h2>什么是 AI 智能体</h2>
     <p class="goal">学完这课，你能说清楚什么是 AI 智能体、它和普通 AI 应用有什么不同，判断什么时候该用（什么时候不该用）智能体，并为一个真实问题画出智能体的基本设计。</p>
   </div>
@@ -377,6 +503,1381 @@ claude</pre>
   <div class="panel"><div class="section-title"><h3>过关小测</h3><span class="count">全部答对才算过关</span></div><div class="quiz" data-quiz="a-01"></div></div>
   <nav class="pager" aria-label="课程翻页"></nav>
 </section>
+
+<!-- ============ a-02 ============ -->
+<section class="view lesson" id="v-a-02" data-view="a-02" hidden>
+  <div class="lhead">
+    <span class="eyebrow">第 3 课 / 共 13 课 · 打基础 · 约 25 分钟</span>
+    <h2>探索 AI 智能体框架</h2>
+    <p class="goal">学完这课，你能说清楚 AI 智能体框架在开发中起什么作用、它带来哪些关键能力，以及 Microsoft Agent Framework 和 Microsoft Foundry Agent Service 有什么区别。</p>
+  </div>
+  
+  <div class="panel idea">
+    <h3>先搞懂</h3>
+    <p>原课程的定义：<b>AI 智能体框架是一种软件平台</b>，用来简化智能体的创建、部署和管理。它提供现成的组件、抽象和工具，把开发中的常见难题用标准方法解决掉，让开发者专心做自己应用独特的部分。</p>
+    <p><b>智能体框架和普通 AI 框架有什么不同</b>：普通 AI 框架能让应用更好，比如个性化推荐（Netflix 按观看记录推荐）、自动化（客服聊天机器人处理常见问题）、更好的用户体验（Siri 听懂语音指令）。智能体框架更进一步，它要造出能和用户、其他智能体、环境互动，去完成目标的智能体。原课程列了三项关键能力：</p><ul><li><b>协作与协调</b>：多个智能体一起工作、互相沟通，解决复杂任务。</li><li><b>任务自动化与管理</b>：自动跑多步骤流程，在智能体之间分派和动态管理任务。</li><li><b>理解上下文并适应</b>：理解情境，适应变化，根据实时信息做决定。</li></ul>
+    <p><b>怎么快速做原型、迭代、改进</b>：原课程说大多数框架都有三样共同的东西：</p><div class="table-wrap"><table><thead><tr><th>做法</th><th>是什么</th><th>团队怎么用</th></tr></thead><tbody><tr><td>模块化组件</td><td>现成的 AI 连接器、工具定义、智能体管理等</td><td>直接拼出能用的原型，不用从零写</td></tr><tr><td>协作工具</td><td>造多个各有分工的智能体，比如一个取数据、一个做分析</td><td>测试并改进协作流程，提高整体效率</td></tr><tr><td>实时学习</td><td>反馈循环：根据互动和结果调整行为</td><td>能力持续改进</td></tr></tbody></table></div>
+    <p><b>Microsoft Agent Framework（MAF）</b>：一个精简的 SDK（开发工具包），用 <code>FoundryChatClient</code> 搭智能体。原课程讲了四个核心概念：</p><ul><li><b>智能体</b>：配置名称、指令和工具；能处理用户消息、根据对话自动调用工具、在多轮对话里保持状态。</li><li><b>工具</b>：用 Python 函数定义，创建智能体时注册进去，智能体会自动调用。</li><li><b>多智能体协调</b>：造几个分工不同的智能体，比如一个“规划者”拆步骤、一个“执行者”去执行。</li><li><b>Azure 身份集成</b>：用 Azure 登录认证，不用直接管理 API 密钥。</li></ul>
+    <p><b>Microsoft Foundry Agent Service</b>：原课程说它是较新的服务，在 Microsoft Ignite 2024 上推出，目前是公开预览版，支持用 Python 和 C# 构建智能体。它能用更灵活的模型（包括直接调用 Llama 3、Mistral、Cohere 这类开源模型），有更强的企业安全机制和数据存储方式。核心概念：</p><ul><li><b>智能体</b>：在 Microsoft Foundry 里像一个“智能”微服务，可以回答问题（RAG）、执行操作或完全自动化工作流。</li><li><b>线程和消息</b>：线程代表智能体和用户之间的一次对话，用来跟踪进展、保存上下文；消息可以是文字、图片或文件。</li><li><b>和 MAF 配合</b>：用 MAF 搭好的智能体，可以通过 Agent Service 部署到生产环境。</li></ul>
+    <p><b>两者的区别和怎么选</b>：</p><div class="table-wrap"><table><thead><tr><th>名称</th><th>是什么</th><th>适合</th></tr></thead><tbody><tr><td>Microsoft Agent Framework</td><td>构建智能体的 SDK：工具调用、会话管理、Azure 身份</td><td>想快速上手，几行代码定义带工具和指令的智能体</td></tr><tr><td>Microsoft Foundry Agent Service</td><td>Foundry 里的智能体平台和部署服务，内置连接 Azure OpenAI、Azure AI Search、Bing 搜索、代码执行</td><td>需要企业级部署，并接入搜索、代码执行等 Azure 能力</td></tr></tbody></table></div><p>原课程给“还是拿不定”的建议：<b>先用 MAF 搭智能体，需要在生产环境部署和扩展时，再用 Agent Service</b>。</p>
+    <p><b>能不能直接接已有的 Azure 工具</b>：能。原课程说尤其是 Agent Service，本来就为配合其他 Azure 服务而设计，比如 Bing、Azure AI Search、Azure Functions；MAF 也能通过 <code>FoundryChatClient</code> 和 Azure 身份，在工具里直接调用 Azure 服务。</p>
+  </div>
+  <div class="section-title"><h3>跟着看</h3><span class="count" data-count="main"></span></div>
+  <ol class="steps" data-part="main">
+    <li data-w="web">
+      <p>打开原课程这一课的官方中文版，先看页面顶部的介绍视频（英文，可开字幕），再把正文读一遍：</p>
+      <pre data-lang="网址">https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/02-explore-agentic-frameworks/README.md</pre>
+      
+      <p class="expect">页面标题是“探索AI代理框架”。正文后半部分分别介绍 Microsoft Agent Framework 和 Microsoft Foundry Agent Service，最后有一张对比表。</p>
+      
+    </li>
+    <li data-w="claude">
+      <p>在课程文件夹里启动 Claude Code，让它讲解本课的 Python 示例。只读，不运行，不需要密钥：</p>
+      <pre data-lang="终端">cd {{DIR}}
+claude</pre>
+      <pre data-lang="Claude">用中文给一个不会编程的人讲解 @02-explore-agentic-frameworks/code_samples/02-python-agent-framework.ipynb ：笔记本开头说 Microsoft Agent Framework 有四个基本构件，分别是什么？每个在代码里对应哪一段？不要运行任何代码。</pre>
+      
+      <p class="expect">Claude 会讲到四个构件：Client（连接模型）、Agent（指令加工具）、Tools（智能体能调用的函数）、Session（保存多轮对话的历史）。</p>
+      
+    </li>
+    <li data-w="look">
+      <p>对照 Claude 的讲解，在示例里认出这四块：</p><ul><li><b>Client</b>：<code>provider = FoundryChatClient(...)</code>，连到你的 Foundry 项目和模型。</li><li><b>Tools</b>：<code>@tool</code> 标记的 <code>check_destination_availability</code>，查一个目的地能不能订（示例里写死了：Barcelona 可订，Cape Town 不可订等）。</li><li><b>Agent</b>：<code>provider.as_agent(...)</code>，指令里写着“推荐之前一定先查是否可订”。</li><li><b>Session</b>：<code>session = agent.create_session()</code>，两轮提问都传入同一个 session，第二轮问“想去暖和的地方”时，智能体记得第一轮聊过什么。</li></ul>
+      
+      <p class="tr">这正对应“先搞懂”里 MAF 的核心概念：智能体、工具，以及在多轮对话里保持状态。</p>
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>再问一个问题，把示例和 README 里的两种做法对上号：</p>
+      <pre data-lang="Claude">对照 @02-explore-agentic-frameworks/README.md ：这个笔记本用的是 Microsoft Agent Framework，还是 Foundry Agent Service 的 SDK 写法？README 里 Agent Service 示例中的“线程（thread）”，和笔记本里的 session 有什么相似之处？用中文回答，不要运行代码。</pre>
+      
+      <p class="expect">答案大意：笔记本用的是 MAF 的 <code>FoundryChatClient</code>；thread 和 session 都用来保存一次对话的上下文，让智能体记得前面说过的话。具体措辞每次不同。</p>
+      
+    </li>
+    <li data-w="look">
+      <p>了解一下：如果想<b>真正运行</b>这个示例，要先按第 0 课准备好 Microsoft Foundry 项目、<code>az login</code> 和 <code>.env</code> 里的两个变量。本课还有一个 Azure OpenAI 版的笔记本 <code>02-python-agent-framework-azure-openai.ipynb</code>，它读的是另外两个变量：<code>AZURE_OPENAI_ENDPOINT</code> 和 <code>AZURE_OPENAI_DEPLOYMENT</code>。本页的练习都不需要运行。</p>
+      
+      
+      
+      
+    </li>
+  </ol>
+  <div class="section-title"><h3>自己练一遍</h3><span class="count" data-count="turn"></span></div>
+  <ol class="steps" data-part="turn">
+    <li data-w="look">
+      <p><b>任务</b>：原课程的“协作工具”一节用了两个分工的智能体：一个负责取数据，一个负责分析。用同样的思路，设计一个“客户背调”小团队：一个智能体收集客户的公开信息，另一个根据这些信息做风险分析。先只做设计，不写代码。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>在 Claude Code 里让 Claude 陪你拆解。下面这段可以直接复制，方括号里换成你的实际情况：</p>
+      <pre data-lang="Claude">我是工程机械销售公司的总经理，想设计一个“客户背调”的双智能体方案：智能体 A 负责收集客户的公开信息，智能体 B 根据 A 的结果做风险分析。请按 Microsoft Agent Framework 的概念帮我拆解：每个智能体叫什么名字、指令写什么、需要哪些工具？B 需要记住多轮对话吗？哪些结论必须由人确认后才能用？我们的客户主要是 [施工企业、设备租赁公司、经销商]。只讨论设计，不要写代码。</pre>
+      
+      
+      
+    </li>
+    <li data-w="edit">
+      <p>把讨论结果整理成一张表，记在你自己的笔记里：</p><div class="table-wrap"><table><thead><tr><th>智能体</th><th>指令（一句话）</th><th>工具</th></tr></thead><tbody><tr><td>A：信息收集</td><td>……</td><td>……</td></tr><tr><td>B：风险分析</td><td>……</td><td>……</td></tr><tr><td>需要人确认的结论</td><td>……</td><td>……</td></tr></tbody></table></div>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>用原课程“怎么选”的三问，判断你现在处在哪一步：只是想快速做个原型验证想法？还是已经需要企业级部署、接入搜索和代码执行？拿不准时，原课程的建议是先用 MAF 搭，需要部署和扩展时再上 Agent Service。把你的判断写在表下面一句话。</p>
+      
+      
+      
+      
+    </li>
+  </ol>
+  <div class="section-title"><h3>检查过关</h3><span class="count" data-count="check"></span></div>
+  <ol class="steps" data-part="check">
+    <li data-w="look">
+      <p>你能说出智能体框架带来的三项关键能力：协作与协调、任务自动化与管理、理解上下文并适应。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你能用一句话分别说出 Microsoft Agent Framework 和 Microsoft Foundry Agent Service 是什么，以及原课程建议怎么选。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你的客户背调双智能体设计表已经填好，并标出了哪些结论必须由人确认。</p>
+      
+      
+      
+      
+    </li>
+  </ol>
+  <div class="warnbox">
+    <h3>容易踩的坑</h3>
+    <p>原课程说这是一个变化很快的领域，Foundry Agent Service 在原课程里也还是公开预览版。具体功能以原课程仓库的最新版本为准。</p>
+    <p>官方中文版是机器翻译，把 agent 译作“代理”，个别句子不顺。看不懂时以英文原版为准。</p>
+  </div>
+  <div class="panel"><div class="section-title"><h3>过关小测</h3><span class="count">全部答对才算过关</span></div><div class="quiz" data-quiz="a-02"></div></div>
+  <nav class="pager" aria-label="课程翻页"></nav>
+</section>
+
+<!-- ============ a-04 ============ -->
+<section class="view lesson" id="v-a-04" data-view="a-04" hidden>
+  <div class="lhead">
+    <span class="eyebrow">第 5 课 / 共 13 课 · 打基础 · 约 30 分钟</span>
+    <h2>工具使用设计模式</h2>
+    <p class="goal">学完这课，你能说清楚什么是工具使用设计模式、它适合哪些场景、实现它需要哪些关键部分，以及用工具时怎样让智能体保持可信。</p>
+  </div>
+  
+  <div class="panel idea">
+    <h3>先搞懂</h3>
+    <p><b>工具使用设计模式</b>：让大模型能和外部工具打交道，去完成具体目标。<b>工具就是智能体可以执行的代码</b>，可以是一个简单函数（比如计算器），也可以是调用第三方服务的接口（比如查股价、查天气）。在智能体里，工具是在<b>模型生成“函数调用”</b>之后才被执行的。</p>
+    <p>原课程列了五类常见用途：</p><ul><li><b>动态信息检索</b>：查外部接口或数据库拿最新数据，比如查 SQLite 数据库做分析、查股价或天气。</li><li><b>代码执行与解释</b>：运行代码或脚本，解数学题、生成报告、做模拟。</li><li><b>工作流自动化</b>：接上任务调度、邮件服务、数据管道，把重复或多步骤的流程自动化。</li><li><b>客户支持</b>：和 CRM、工单平台、知识库交互，解决用户问题。</li><li><b>内容生成与编辑</b>：借助语法检查、文本摘要、内容安全评估等工具协助创作。</li></ul>
+    <p>实现这个模式需要六个部分：</p><ul><li><b>函数/工具说明（schema）</b>：每个工具的名字、用途、必填参数、预期输出。大模型靠它知道有哪些工具、该怎么调用。</li><li><b>函数执行逻辑</b>：根据用户意图和上下文，决定何时调用哪个工具。</li><li><b>消息处理</b>：管理用户输入、模型回复、工具调用、工具结果之间的来回。</li><li><b>工具集成框架</b>：把智能体接到各种工具上，不管是简单函数还是复杂的外部服务。</li><li><b>错误处理与校验</b>：工具失败、参数不对、返回意外结果时怎么办。</li><li><b>状态管理</b>：记住对话上下文、之前的工具调用，让多轮对话前后一致。</li></ul>
+    <p><b>函数调用</b>是让大模型用工具的主要方式（所以“函数”和“工具”常混着说）。原课程用“查某个城市当前时间”演示了整个过程：</p><ol><li>把所有可用函数的说明（schema）和用户问题一起发给模型；</li><li>模型对比问题和说明，挑出最合适的函数，<b>返回的是函数名和参数，不是最终答案</b>，比如 <code>get_current_time</code>，参数 <code>location="San Francisco"</code>；</li><li>你的代码真正执行这个函数，把结果发回模型；</li><li>模型用这个结果回答用户：“旧金山现在是上午 9:24。”</li></ol><p>要做到这一点需要三样东西：支持函数调用的模型（不是所有模型都支持）、函数说明、每个函数的代码。</p>
+    <p>从零写函数调用有点麻烦，所以要用框架。原课程介绍了两个：</p><ul><li><b>Microsoft Agent Framework</b>：用 <code>@tool</code> 标记一个普通函数，框架自动生成说明发给模型，并处理模型和代码之间的来回。工具也可以来自 <b>M C P 服务器</b>：服务器连同说明一起发布自己的工具，框架像加载本地函数一样加载它们（原课程示例接了一个网页搜索服务器，并提醒：模型写的查询会发给那台服务器）。</li><li><b>Microsoft Foundry Agent Service</b>：全托管服务，工具调用在服务端自动完成，用“线程”（threads）保存对话历史，并自带现成工具。工具分两类：<b>知识类</b>（Bing 搜索、文件搜索、Azure AI Search）和<b>动作类</b>（函数调用、代码解释器、OpenAPI 定义的工具、Azure Functions），可以组合成一个工具集（toolset）。</li></ul>
+    <p><b>用工具时怎样保持可信</b>：原课程举的例子是大模型动态生成 SQL 查询，担心 SQL 注入或删改数据库。办法是<b>把数据库访问权限配成只读</b>（比如只给 SELECT 角色），并让程序运行在安全环境里。企业里通常会把业务系统的数据抽到一个只读的数据库或数据仓库，让智能体只能读、不能改。</p>
+  </div>
+  <div class="section-title"><h3>跟着看</h3><span class="count" data-count="main"></span></div>
+  <ol class="steps" data-part="main">
+    <li data-w="web">
+      <p>打开原课程这一课的官方中文版，先看页面顶部的介绍视频（英文，可开字幕），再读一遍正文：</p>
+      <pre data-lang="网址">https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/04-tool-use/README.md</pre>
+      
+      <p class="expect">页面标题是“工具使用设计模式”。正文里有一段“查旧金山当前时间”的完整函数调用演示。</p>
+      
+    </li>
+    <li data-w="claude">
+      <p>在课程文件夹里启动 Claude Code，让它讲解本课的 Python 示例。只读代码，不运行，不需要任何密钥：</p>
+      <pre data-lang="终端">cd {{DIR}}
+claude</pre>
+      <pre data-lang="Claude">用中文给一个不会编程的人讲解 @04-tool-use/code_samples/04-python-agent-framework.ipynb ：这个旅行智能体有哪几个工具？每个工具的“说明”（模型看到的描述和参数）写在哪里？不要运行任何代码。</pre>
+      
+      <p class="expect">Claude 会讲到三个工具：<code>get_destinations</code>（列出目的地）、<code>check_availability</code>（查某地还有没有位子）、<code>get_flight_info</code>（查两地之间的航班）。函数下面那行三引号文字就是模型看到的工具描述，参数旁边的 <code>Annotated[...]</code> 是参数说明。</p>
+      
+    </li>
+    <li data-w="look">
+      <p>对照“先搞懂”里的六个部分，在示例里认出其中几个：</p><ul><li><b>工具说明</b>：<code>@tool</code> 加上函数的描述文字和带说明的参数，框架据此自动生成 schema。</li><li><b>工具集成</b>：<code>tools=travel_tools</code> 把三个工具一起交给智能体。</li><li><b>执行逻辑</b>：用户问“有哪些目的地、哪些还有位子”，由模型自己决定先调用哪个工具、调用几次。</li></ul>
+      
+      
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>再问示例后半部分的两个要点：结构化输出和工具审批。</p>
+      <pre data-lang="Claude">这个 notebook 后半部分的 response_format 和 approval_mode 分别是干什么的？为什么 book_flight 用的是 always_require，而查目的地的工具用 never_require？</pre>
+      
+      <p class="expect">答案大意：<code>response_format</code> 让智能体按固定格式（目的地、是否有位、航班信息、预估费用）返回结果，方便后续程序直接使用；<code>approval_mode="always_require"</code> 表示每次调用前必须经用户批准，用在订机票、扣款这类有副作用的工具上，让人留在流程里。</p>
+      
+    </li>
+    <li data-w="look">
+      <p>了解一下：要<b>真正运行</b>这个示例，原课程要求有一个部署了模型的 Microsoft Foundry 项目，用 <code>az login</code> 登录 Azure，并设置 <code>AZURE_AI_PROJECT_ENDPOINT</code> 和 <code>AZURE_AI_MODEL_DEPLOYMENT_NAME</code> 两个环境变量。本页的练习不需要这些。</p>
+      
+      
+      
+      <details class="stuck"><summary>README 里那段 get_current_time 代码，和 notebook 里的不一样？</summary><p>对。README 前半部分是直接调用 Azure OpenAI 接口、自己处理函数调用的写法，用来讲清原理；notebook 用的是 Microsoft Agent Framework，<code>@tool</code> 帮你把这些来回都处理掉了。两种写法讲的是同一件事。</p></details>
+    </li>
+  </ol>
+  <div class="section-title"><h3>自己练一遍</h3><span class="count" data-count="turn"></span></div>
+  <ol class="steps" data-part="turn">
+    <li data-w="look">
+      <p><b>任务</b>：为一个“报价助手智能体”设计它的工具清单。它收到客户询价后，要查产品、查交期、起草报价单。先不写代码，只把“它能用哪些工具、每个工具怎么描述、哪些要人批准”想清楚。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>让 Claude 陪你按本课的“工具说明”格式设计。方括号里换成你的实际情况：</p>
+      <pre data-lang="Claude">我是工程机械销售公司的总经理，想设计一个“报价助手智能体”。请按“工具使用设计模式”帮我列出它需要的工具，每个工具写清：名字、用途（一句话，模型能看懂）、需要的参数、返回什么。可能的工具有：[查产品目录和规格、查库存和交期、查历史成交价、生成报价草稿、把报价发给客户]。再标出每个工具是“自动执行”还是“每次都要人批准”，以及它访问的数据应该是只读还是可写。只讨论设计，不要写代码。</pre>
+      
+      
+      
+    </li>
+    <li data-w="edit">
+      <p>把结果整理成一张表，记在你自己的笔记里：</p><div class="table-wrap"><table><thead><tr><th>工具</th><th>用途和参数</th><th>审批 / 权限</th></tr></thead><tbody><tr><td>查产品目录</td><td>……</td><td>自动 / 只读</td></tr><tr><td>查库存和交期</td><td>……</td><td>……</td></tr><tr><td>生成报价草稿</td><td>……</td><td>……</td></tr><tr><td>发送报价给客户</td><td>……</td><td>……</td></tr></tbody></table></div>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>自查两点：</p><ul><li>每个工具的“用途”写得够不够清楚？模型是靠这段描述来决定选哪个工具的，描述含糊，它就会选错。</li><li>价格表、客户记录这类数据，智能体是不是只能读？像发报价这种对外、改不回来的动作，有没有设成必须你批准？</li></ul>
+      
+      
+      
+      
+    </li>
+  </ol>
+  <div class="section-title"><h3>检查过关</h3><span class="count" data-count="check"></span></div>
+  <ol class="steps" data-part="check">
+    <li data-w="look">
+      <p>你能说清楚：函数调用时，模型第一次返回的是函数名和参数，不是最终答案，真正执行函数的是你的代码。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你能说出实现工具使用模式的六个部分中的至少四个。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你的报价助手工具表已经填好，每个工具都标了审批方式和数据权限。</p>
+      
+      
+      
+      
+    </li>
+  </ol>
+  <div class="warnbox">
+    <h3>容易踩的坑</h3>
+    <p>不是所有模型都支持函数调用，用之前要先确认。原课程示例用的是 Azure OpenAI 和 Microsoft Foundry 上部署的模型，运行会产生 Azure 费用。</p>
+    <p>接远程工具（比如 M C P 服务器）时，模型写的查询内容会发送到那台服务器。原课程特意提醒了这一点，涉及客户信息时要想清楚。</p>
+    <p>让大模型自己生成数据库查询有被注入、被删改数据的风险。原课程给的办法是权限配成只读，而不是指望模型自己守规矩。</p>
+  </div>
+  <div class="panel"><div class="section-title"><h3>过关小测</h3><span class="count">全部答对才算过关</span></div><div class="quiz" data-quiz="a-04"></div></div>
+  <nav class="pager" aria-label="课程翻页"></nav>
+</section>
+
+<!-- ============ a-05 ============ -->
+<section class="view lesson" id="v-a-05" data-view="a-05" hidden>
+  <div class="lhead">
+    <span class="eyebrow">第 6 课 / 共 13 课 · 核心模式 · 约 30 分钟</span>
+    <h2>Agentic RAG：会自己查资料的智能体</h2>
+    <p class="goal">学完这课，你能说清楚 Agentic RAG 和普通“先检索再回答”的区别，理解它“查、评估、再查”的循环、自我纠错和自主性的边界，并判断哪些场景适合用它。</p>
+  </div>
+  
+  <div class="panel idea">
+    <h3>先搞懂</h3>
+    <p><b>RAG</b> 是“检索增强生成”：先从外部资料里查出相关内容，再让大模型据此回答。普通 RAG 是一条固定流水线：查一次，读一次，答一次。</p><p><b>Agentic RAG</b> 不一样：大模型在从外部资料取信息的同时，<b>自己规划下一步</b>。它会反复调用大模型，中间穿插工具调用和结构化输出；每一轮都评估查到的结果，决定要不要改写查询、换一个工具，一直循环到得出满意的答案。</p>
+    <p>原课程把这种工作方式叫<b>“制作者-检查者”（maker-checker）</b>风格：先做出来，再检查，不行就再来。它能提高正确率，处理写坏了的数据库查询（比如把自然语言转成 SQL 时出错），保证结果质量。不需要复杂的编排框架，一个简单的循环就够了：<b>调用大模型 → 用工具 → 再调用大模型 → ……</b></p>
+    <p><b>掌控推理过程</b>是“智能体式”的关键。普通 RAG 往往要人提前规定好查什么、什么时候查；智能体式的系统自己决定怎么解决问题。原课程的例子：让它制定一个产品上市策略，它会自己决定：</p><ol><li>用 Bing 网页搜索查当前的市场趋势报告；</li><li>用 Azure AI Search 找相关的竞争对手数据；</li><li>用 Azure SQL 数据库关联历史内部销售数据；</li><li>用 Azure OpenAI 把这些整合成策略；</li><li>检查策略有没有漏洞或矛盾，必要时再查一轮。</li></ol><p>这些步骤都是模型决定的，不是人写死的。</p>
+    <p><b>循环的五个环节</b>：</p><ul><li><b>初始调用</b>：把用户的目标交给大模型。</li><li><b>调用工具</b>：发现缺信息或指令含糊，就选一个工具或检索方式（比如向量检索私有数据、或结构化的 SQL 查询）去补充。</li><li><b>评估与改进</b>：看返回的数据够不够；不够就改写查询、换工具、调整方法。</li><li><b>重复直到满意</b>：直到有足够的证据给出有依据的回答。</li><li><b>记忆与状态</b>：系统记得之前试过什么、结果如何，避免原地打转。</li></ul>
+    <p><b>出错时怎么自我纠正</b>：查到无关文档、查询写错时，它可以：</p><ul><li><b>迭代和重新查询</b>：不交出低价值的回答，而是换搜索策略、改写数据库查询、看别的数据集。</li><li><b>用诊断工具</b>：调用专门的函数来检查推理步骤、确认数据是否正确（原课程提到 Azure AI Tracing 这类可观测工具）。</li><li><b>求助人工</b>：高风险或反复失败时，标出不确定，请人指导；人给出纠正后，它在后续过程中吸取这个教训。</li></ul>
+    <p><b>自主性有边界</b>：Agentic RAG 不是通用人工智能。它的能力被限定在开发者给它的工具、数据源和规则之内，不能自己发明工具，也不能越出设定的领域。原课程列了三点：</p><ul><li><b>限于特定领域</b>：在已知领域里完成用户定的目标。</li><li><b>依赖基础设施</b>：能力取决于开发者接入的工具和数据。</li><li><b>遵守护栏</b>：伦理准则、合规规则、业务政策始终约束着它。</li></ul>
+    <p><b>适合的场景</b>和<b>治理要求</b>：</p><div class="table-wrap"><table><thead><tr><th>方面</th><th>原课程的要点</th><th>例子</th></tr></thead><tbody><tr><td>正确性优先</td><td>反复核实、查多个来源，直到答案经得起推敲</td><td>合规检查、法规分析、法律研究</td></tr><tr><td>复杂数据库交互</td><td>查询常出错时自己改写</td><td>Azure SQL、Microsoft Fabric OneLake</td></tr><tr><td>长流程</td><td>新信息出现时调整策略</td><td>长时间运行的会话</td></tr><tr><td>可解释的推理</td><td>留下查了什么、看了哪些来源、怎么推理的记录</td><td>审计记录、执行追踪</td></tr><tr><td>偏差控制</td><td>调整检索策略，定期审核输出</td><td>保证来源平衡、有代表性</td></tr><tr><td>人工监督</td><td>高风险决定不替代人，而是给人更可靠的选项</td><td>敏感任务需人审核</td></tr></tbody></table></div><p>原课程特别强调：没有清楚的行动记录，多步骤流程出了问题很难排查。</p>
+  </div>
+  <div class="section-title"><h3>跟着看</h3><span class="count" data-count="main"></span></div>
+  <ol class="steps" data-part="main">
+    <li data-w="web">
+      <p>打开原课程这一课的官方中文版，先看介绍视频（英文，可开字幕），再读正文，重点看“迭代循环、工具集成与记忆”和“处理失败模式与自我纠正”两节的图：</p>
+      <pre data-lang="网址">https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/05-agentic-rag/README.md</pre>
+      
+      <p class="expect">页面标题是“Agentic RAG”。官方中文版保留了英文术语，本页也沿用。</p>
+      
+    </li>
+    <li data-w="claude">
+      <p>在课程文件夹里启动 Claude Code，让它讲解本课的 Python 示例。只读，不运行，不需要密钥：</p>
+      <pre data-lang="终端">cd {{DIR}}
+claude</pre>
+      <pre data-lang="Claude">用中文给一个不会编程的人讲解 @05-agentic-rag/code_samples/05-python-agent-framework.ipynb ：知识库在哪里？它是怎么变成智能体可以调用的工具的？智能体的指令里对“查资料”提了哪些要求？不要运行任何代码。</pre>
+      
+      <p class="expect">Claude 会讲到：知识库是一个写在代码里的小字典 <code>TRAVEL_KNOWLEDGE_BASE</code>（巴塞罗那、东京、巴黎、开普敦四个目的地的介绍），用 <code>@tool</code> 包成 <code>search_travel_knowledge</code> 工具；指令要求它回答前一定先查知识库、只根据查到的内容回答、查不到要明说。</p>
+      
+    </li>
+    <li data-w="look">
+      <p>注意一个关键思路：在 Agentic RAG 里，<b>检索被做成了一个工具</b>。智能体把“查资料”当成它可以选择的一个动作，而不是每次必经的固定步骤。这正是本课和普通 RAG 的区别。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>再让它对比示例里的两个智能体：</p>
+      <pre data-lang="Claude">这个 notebook 里 TravelRAGAgent 和 TravelRAGCheckerAgent 的指令有什么不同？后者怎样体现了 README 里说的 maker-checker（制作者-检查者）风格？</pre>
+      
+      <p class="expect">答案大意：第二个智能体的指令要求它先搜相关目的地，再按每个目的地名字逐个再搜一遍拿全细节，用核实过的信息对比，细节不全时再查一次确认。先查出初稿是“制作者”，再查核实是“检查者”。</p>
+      
+    </li>
+    <li data-w="look">
+      <p>了解一下：示例用的是写在代码里的小知识库，所以<b>不需要</b> Azure AI Search；但运行它仍然需要一个部署了模型的 Microsoft Foundry 项目、<code>az login</code> 登录，以及 <code>AZURE_AI_PROJECT_ENDPOINT</code>、<code>AZURE_AI_MODEL_DEPLOYMENT_NAME</code> 两个环境变量。本页练习不需要这些。</p>
+      
+      
+      
+      <details class="stuck"><summary>真实项目里知识库也写在代码里吗？</summary><p>不是。示例的总结里说，生产环境要把这个内存里的小知识库换成真正的 Azure AI Search 索引，才能处理大量文档。原课程的 <code>00-course-setup/AzureSearch.md</code> 有可选的配置说明。</p></details>
+    </li>
+  </ol>
+  <div class="section-title"><h3>自己练一遍</h3><span class="count" data-count="turn"></span></div>
+  <ol class="steps" data-part="turn">
+    <li data-w="look">
+      <p><b>任务</b>：客户背景调查（尽调）正好是原课程说的“正确性优先”场景。设计一个“客户尽调智能体”：收到一个新客户名称后，自己决定查哪些资料、查到的够不够、什么时候必须交给你。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>让 Claude 按本课的循环陪你设计。方括号里换成你的实际情况：</p>
+      <pre data-lang="Claude">我是工程机械销售公司的总经理，想设计一个 Agentic RAG 式的“客户尽调智能体”。请按“初始调用、调用工具、评估与改进、重复直到满意、记忆与状态”这五个环节帮我设计：它可以查的资料来源有 [我们 CRM 里的往来记录、过往合同和付款记录、公开网页信息]；每一轮它怎么判断信息够不够？查不到或信息互相矛盾时怎么改写查询或换来源？哪些情况必须停下来交给我判断？它最后要给我留下什么样的查询记录？只讨论设计，不要写代码。</pre>
+      
+      
+      
+    </li>
+    <li data-w="edit">
+      <p>把结果整理成一张表，记在你自己的笔记里：</p><div class="table-wrap"><table><thead><tr><th>环节</th><th>客户尽调智能体怎么做</th></tr></thead><tbody><tr><td>可用的资料来源（工具）</td><td>……</td></tr><tr><td>“信息够了”的标准</td><td>……</td></tr><tr><td>查不到 / 矛盾时怎么办</td><td>……</td></tr><tr><td>必须交给人的情况</td><td>……</td></tr><tr><td>留下的查询记录</td><td>……</td></tr></tbody></table></div>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>用“自主性的边界”检查一遍：这个智能体只能用你给它的资料来源，查不到的东西它不会凭空知道。哪些判断（比如给不给账期、要不要合作）最终还是你来做？把它写进表的“必须交给人”一栏。</p>
+      
+      
+      
+      
+    </li>
+  </ol>
+  <div class="section-title"><h3>检查过关</h3><span class="count" data-count="check"></span></div>
+  <ol class="steps" data-part="check">
+    <li data-w="look">
+      <p>你能用一句话说出 Agentic RAG 和普通 RAG 的区别：普通 RAG 按固定路径查一次就答，Agentic RAG 自己决定查什么、查得够不够、要不要再查。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你能说出出错时自我纠正的三种方式：重新查询、用诊断工具、求助人工。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你的客户尽调智能体设计表已经填好，写明了“必须交给人”的情况和要留下的查询记录。</p>
+      
+      
+      
+      
+    </li>
+  </ol>
+  <div class="warnbox">
+    <h3>容易踩的坑</h3>
+    <p>Agentic RAG 不是通用人工智能。它不能发明工具、不能越出你给它的数据和领域。资料来源没接进来，它就查不到。</p>
+    <p>它不替代人在高风险决定上的判断。原课程的说法是：它给人提供核实得更充分的选项，敏感任务仍需人工审核。</p>
+    <p>多步骤流程如果没有清楚的行动记录，出了问题很难排查。设计时就要想好它要留下哪些查询和来源记录。</p>
+  </div>
+  <div class="panel"><div class="section-title"><h3>过关小测</h3><span class="count">全部答对才算过关</span></div><div class="quiz" data-quiz="a-05"></div></div>
+  <nav class="pager" aria-label="课程翻页"></nav>
+</section>
+
+<!-- ============ a-06 ============ -->
+<section class="view lesson" id="v-a-06" data-view="a-06" hidden>
+  <div class="lhead">
+    <span class="eyebrow">第 7 课 / 共 13 课 · 核心模式 · 约 30 分钟</span>
+    <h2>构建可信赖的 AI 智能体</h2>
+    <p class="goal">学完这课，你能用“系统消息框架”写出更可靠的智能体指令，认出智能体面临的五类主要威胁和对应的防范办法，并用“人在回路中”让关键动作经过人的批准。</p>
+  </div>
+  
+  <div class="panel idea">
+    <h3>先搞懂</h3>
+    <p>原课程说的<b>安全</b>，意思是<b>智能体按设计去做事</b>。作为搭建者，我们有方法和工具来尽量做到这一点。本课讲三块：系统消息框架、理解威胁、人在回路中。</p>
+    <p><b>系统消息（system message）</b>是给大模型定下规则、指令和准则的那段话。对智能体来说它更重要，因为智能体要靠非常具体的指令去完成任务。原课程给了一个能批量、持续改进系统消息的<b>四步框架</b>：</p><ol><li><b>写一段“元系统消息”</b>：一个模板，交给大模型，让它负责生成智能体的系统消息。原文大意：你是创建 AI 助手的专家，会拿到公司名、角色、职责等信息，请写出尽量详细、结构清楚的系统提示。</li><li><b>写一段基础提示</b>：说明智能体的角色、要完成的任务和其他职责。原课程例子：Contoso Travel 的旅行顾问，能查航班、订航班、问座位和时间偏好、取消已订航班、提醒延误或取消。</li><li><b>把两者交给大模型</b>：元系统消息作为系统消息，基础提示作为输入，得到一份结构完整的系统消息（公司、角色、目标、主要职责、语气风格、交互要求、补充说明）。</li><li><b>迭代改进</b>：很少有一次就完全好用的系统消息。改基础提示、重新生成、对比结果，一点点改好。</li></ol>
+    <p><b>理解威胁</b>：原课程列了五类（并说明这只是其中一部分）：</p><div class="table-wrap"><table><thead><tr><th>威胁</th><th>是什么</th><th>怎么防</th></tr></thead><tbody><tr><td>任务与指令</td><td>通过提示或篡改输入，改变智能体的指令或目标</td><td>输入校验和过滤；限制对话轮数</td></tr><tr><td>访问关键系统</td><td>智能体能碰敏感数据时，攻击它和这些系统之间的通信</td><td>按需授权；通信要安全；身份验证和访问控制</td></tr><tr><td>资源和服务过载</td><td>借智能体大量请求外部服务，导致系统故障或高额费用</td><td>限制它对服务的请求次数；限制对话轮数和请求数</td></tr><tr><td>知识库投毒</td><td>不直接攻击智能体，而是篡改它要用的知识库和数据</td><td>定期核查数据；只让可信的人修改</td></tr><tr><td>连锁错误</td><td>一处错误传到它连接的其他系统，越扩越大、难以排查</td><td>在受限环境（如 Docker 容器）中运行；设回退和重试机制</td></tr></tbody></table></div>
+    <p><b>人在回路中（Human-in-the-loop）</b>：在智能体运行过程中，让用户能给反馈。用户相当于多智能体系统里的一员，可以<b>批准或终止</b>正在运行的流程。README 里的示例很简单：智能体先写一首四行诗，再问用户 APPROVE 还是 REJECT。</p>
+    <p>本课的示例代码在这个基础上更进一步，讲了生产中常用的三件事：</p><ul><li><b>动作前把关</b>：在智能体执行有风险的一步<b>之前</b>就拦下来请人批准，而不是事后再看。事后批准时，邮件可能已经发出去了。</li><li><b>风险分级</b>：低风险（只读，如查资料）自动执行并记录；中风险（如设提醒）自动执行，但每天集中复核；高风险（对外或不可撤销，如发邮件、扣款）必须等人批准。认不出的动作默认按中风险处理，而不是低风险。</li><li><b>审计日志和修改循环</b>：每次批准或拒绝都记成一条带时间、动作、风险级别、理由的记录；被拒绝时，把拒绝理由交回智能体，让它换一个方案再提。</li></ul>
+    <p>原课程的结论：可信的智能体需要仔细的设计、可靠的安全措施和持续迭代。用结构化的元提示、理解威胁并采取防范措施、加上人在回路中，智能体才能既安全又有效。随着 AI 发展，持续关注安全、隐私和伦理，是建立信任的关键。</p>
+  </div>
+  <div class="section-title"><h3>跟着看</h3><span class="count" data-count="main"></span></div>
+  <ol class="steps" data-part="main">
+    <li data-w="web">
+      <p>打开原课程这一课的官方中文版，先看介绍视频（英文，可开字幕），再读正文，重点看“理解威胁”一节：</p>
+      <pre data-lang="网址">https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/06-building-trustworthy-agents/README.md</pre>
+      
+      <p class="expect">页面标题是“构建可信赖的 AI 代理”。官方中文版把 agent 译作“代理”，本页叫“智能体”，是同一个意思。</p>
+      
+    </li>
+    <li data-w="claude">
+      <p>在课程文件夹里启动 Claude Code，先看系统消息框架的示例。只读，不运行，不需要密钥：</p>
+      <pre data-lang="终端">cd {{DIR}}
+claude</pre>
+      <pre data-lang="Claude">用中文给一个不会编程的人讲解 @06-building-trustworthy-agents/code_samples/06-system-message-framework.ipynb ：哪一段是“元系统消息”，哪一段是“基础提示”？它们是怎样一起交给大模型的？不要运行任何代码。</pre>
+      
+      <p class="expect">Claude 会讲到：代码先设了三个变量（角色 travel agent、公司 contoso travel、职责 booking flights）；“You are an expert at creating AI agent assistants……”那段作为系统消息，就是元系统消息；用三个变量拼成的一句话作为用户输入，就是基础提示。大模型返回的就是生成好的系统消息。</p>
+      
+    </li>
+    <li data-w="claude">
+      <p>再看人在回路中的示例：</p>
+      <pre data-lang="Claude">接着讲解 @06-building-trustworthy-agents/code_samples/06-human-in-the-loop.ipynb ：“动作前把关”和 README 里那种事后批准有什么区别？风险分成哪三级，各举什么例子？为什么认不出的动作默认算中风险？不要运行任何代码。</pre>
+      
+      <p class="expect">答案大意：事后批准时动作可能已经发生（邮件已发出），动作前把关在执行前就拦下；三级是低（查资料、看天气）、中（设提醒、缓存结果）、高（发邮件、扣款、对外发布）；认不出的动作默认中风险，是因为关键词列表总有漏网的，送去集中复核比直接自动执行更安全。</p>
+      
+    </li>
+    <li data-w="look">
+      <p>对照示例最后的演示，看三个目标分别怎么走：</p><ul><li>“查西雅图的天气”：低风险，自动通过。</li><li>“给客户设一个值机提醒”：中风险，自动通过，排队等集中复核。</li><li>“给客户发一封升级营销邮件”：高风险，第一次被拒，理由交回智能体，再提一次。</li></ul><p>每一步都写进一个审计日志文件。注意：示例默认在演示模式下运行，第二次的“批准”是写好的脚本，用来展示循环过程，不是真人判断。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>了解一下：要<b>真正运行</b>这两个示例，需要一个 Azure OpenAI 资源和支持 Responses API 的模型部署，设置 <code>AZURE_OPENAI_ENDPOINT</code> 和 <code>AZURE_OPENAI_DEPLOYMENT</code>，并先 <code>az login</code>。本页练习不需要这些。</p>
+      
+      
+      
+      <details class="stuck"><summary>示例里没有讲身份验证和访问控制？</summary><p>对。人在回路中的示例开头写明了：身份验证和访问控制（README 里的第二类威胁）不在这个示例的范围内，由其他课程处理。</p></details>
+    </li>
+  </ol>
+  <div class="section-title"><h3>自己练一遍</h3><span class="count" data-count="turn"></span></div>
+  <ol class="steps" data-part="turn">
+    <li data-w="look">
+      <p><b>任务</b>：为一个“售后服务智能体”做一套可信设计：它回答客户的售后问题、查订单和维修记录、安排回访、给客户发邮件。分三步：用元提示生成它的系统消息，列出它面临的威胁，再给它的动作分风险等级。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>第一步，用本课的四步框架，让 Claude 扮演“大模型”来生成系统消息。先把元系统消息交给它，再给基础提示：</p>
+      <pre data-lang="Claude">You are an expert at creating AI agent assistants. You will be provided a company name, role, responsibilities and other information that you will use to provide a system prompt for. To create the system prompt, be descriptive as possible and provide a structure that a system using an LLM can better understand the role and responsibilities of the AI assistant.
+
+基础提示：你是 [公司名] 的售后服务助手，负责起重设备、混凝土设备、破碎设备的售后。你可以：查询订单和维修记录、解答常见故障问题、安排售后回访、给客户发送服务通知邮件。请用中文写出完整的系统消息。</pre>
+      <p class="tr">意思：你是创建 AI 智能体助手的专家。你会拿到公司名、角色、职责等信息，据此写出系统提示。写得尽量详细，结构清楚，让使用大模型的系统能更好理解这个助手的角色和职责。（这就是原课程的元系统消息原文。）</p>
+      <p class="expect">Claude 给出一份有“公司、角色、目标、主要职责、语气风格、交互要求、补充说明”等部分的系统消息。改一改基础提示再生成一次，对比两版，这就是第四步“迭代改进”。</p>
+      
+    </li>
+    <li data-w="claude">
+      <p>第二步和第三步，接着问：</p>
+      <pre data-lang="Claude">针对这个售后服务智能体，按原课程的五类威胁（任务与指令、访问关键系统、资源和服务过载、知识库投毒、连锁错误），各说一个可能发生的情况和防范办法。然后把它的每个动作按“低风险自动执行、中风险自动执行但每天复核、高风险必须我批准”分级。只讨论设计，不要写代码。</pre>
+      
+      
+      
+    </li>
+    <li data-w="edit">
+      <p>把风险分级结果整理成一张表，记在你自己的笔记里：</p><div class="table-wrap"><table><thead><tr><th>动作</th><th>风险等级</th><th>处理方式</th></tr></thead><tbody><tr><td>查订单和维修记录</td><td>……</td><td>……</td></tr><tr><td>安排回访提醒</td><td>……</td><td>……</td></tr><tr><td>给客户发邮件</td><td>……</td><td>……</td></tr><tr><td>承诺免费维修或退款</td><td>……</td><td>……</td></tr></tbody></table></div><p>想一想：哪些批准和拒绝需要留下记录，以后出了纠纷能查？</p>
+      
+      
+      
+      
+    </li>
+  </ol>
+  <div class="section-title"><h3>检查过关</h3><span class="count" data-count="check"></span></div>
+  <ol class="steps" data-part="check">
+    <li data-w="look">
+      <p>你能说出系统消息框架的四步：元系统消息、基础提示、交给大模型生成、迭代改进。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你能说出五类威胁中的至少三类，并各说一个防范办法。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你的售后服务智能体已经有一份生成好的系统消息和一张风险分级表，对外、不可撤销的动作都标成了必须你批准。</p>
+      
+      
+      
+      
+    </li>
+  </ol>
+  <div class="warnbox">
+    <h3>容易踩的坑</h3>
+    <p>原课程说，很少有系统消息第一次就完全好用。别指望一次写对，要改基础提示、重新生成、对比结果。</p>
+    <p>事后批准不等于把关：如果智能体已经把邮件发出去了，再点“拒绝”也收不回来。对外、不可撤销的动作要在执行前拦下。</p>
+    <p>原课程列的五类威胁“只是其中一部分”，不是完整清单。</p>
+  </div>
+  <div class="panel"><div class="section-title"><h3>过关小测</h3><span class="count">全部答对才算过关</span></div><div class="quiz" data-quiz="a-06"></div></div>
+  <nav class="pager" aria-label="课程翻页"></nav>
+</section>
+
+<!-- ============ a-07 ============ -->
+<section class="view lesson" id="v-a-07" data-view="a-07" hidden>
+  <div class="lhead">
+    <span class="eyebrow">第 8 课 / 共 13 课 · 核心模式 · 约 25 分钟</span>
+    <h2>规划设计模式</h2>
+    <p class="goal">学完这课，你能给智能体定一个清楚的总目标，把复杂任务拆成有顺序的子任务并交给合适的智能体，说出为什么计划要用结构化格式输出，并知道情况变了时怎样重新规划。</p>
+  </div>
+  
+  <div class="panel idea">
+    <h3>先搞懂</h3>
+    <p>这一课讲<b>规划</b>：现实中的大多数任务太复杂，一步做不完。智能体需要先有一个<b>简明的总目标</b>来指导它的规划和行动。原课程的例子是“生成一份三天的旅行行程”：说起来简单，但还要细化。目标越清楚，智能体（以及一起工作的人）就越能聚焦在正确的结果上，比如一份包含航班选项、酒店推荐和活动建议的完整行程。</p>
+    <p><b>任务拆解</b>：大任务拆成更小、各有目标的子任务后就好管理了。旅行行程可以拆成：</p><ul><li>订机票</li><li>订酒店</li><li>租车</li><li>个性化定制</li></ul><p>每个子任务可以交给专门的智能体或流程：一个专找最划算的航班，一个专管酒店。最后由一个负责协调的“下游”智能体把结果汇总成一份完整行程交给用户。这种模块化的做法还方便以后逐步增强，比如再加一个美食推荐或本地活动推荐的智能体。</p>
+    <p><b>结构化输出</b>：大模型能输出 JSON 这样的结构化结果，下游的智能体或服务更容易解析和处理。在多智能体的场景里特别有用：拿到计划后就能直接按计划派活。原课程的例子里，规划智能体的系统提示列出了可用的智能体（订机票、订酒店、租车、订活动、目的地信息、默认智能体），它输出的计划包含：</p><ul><li><code>main_task</code>：总任务，比如“规划一次从新加坡到墨尔本的家庭旅行”；</li><li><code>subtasks</code>：子任务列表，每条写明 <code>task_details</code>（要做什么）和 <code>assigned_agent</code>（交给谁）；</li><li><code>is_greeting</code>：这条消息是不是只是打招呼。</li></ul>
+    <p><b>规划智能体 + 多智能体编排</b>：用户发来请求（比如“我的旅行需要一个酒店方案”）后，规划智能体会：</p><ol><li>根据系统提示（里面有可用智能体的说明）把请求变成一份结构化的计划；</li><li>查看<b>智能体注册表</b>：里面列着各个智能体以及它们提供的工具；</li><li>按子任务的数量派发：只有一个子任务就直接发给对应的专门智能体，多个子任务就通过一个“群聊管理器”让多个智能体协作；</li><li>最后把生成的计划总结一下，让用户看得明白。</li></ol>
+    <p><b>迭代规划</b>：这对应本课开头说的“处理动态任务和意外输入”。有些任务需要来回调整，前一个子任务的结果会影响下一个。比如订机票时发现了意料之外的数据格式，就要先调整策略，再去订酒店。用户的反馈（比如有人决定更想要早一点的航班）也会触发<b>局部重新规划</b>。原课程的做法是：重新规划时把用户历史和之前的计划一起作为上下文交给规划智能体，再把新任务派给对应的智能体。这样最终方案才能贴合现实约束和用户不断变化的偏好。</p>
+    <p><b>本课小结</b>：规划器能从已定义好的智能体里动态挑选，把任务拆开并分配出去执行。这里有个前提：<b>假设各个智能体已经能用到完成任务所需的函数和工具</b>。除了这些智能体，还可以加入反思、总结、轮流对话等其他模式。原课程推荐延伸阅读 Magentic One：它的编排者会为任务制定计划、委派给可用的智能体，还会<b>跟踪任务进度，按需重新规划</b>。</p>
+  </div>
+  <div class="section-title"><h3>跟着看</h3><span class="count" data-count="main"></span></div>
+  <ol class="steps" data-part="main">
+    <li data-w="web">
+      <p>打开原课程这一课的官方中文版，先看页面顶部的介绍视频（英文，可开字幕），再通读一遍正文：</p>
+      <pre data-lang="网址">https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/07-planning-design/README.md</pre>
+      
+      <p class="expect">页面标题是“规划设计”。正文里有一段 JSON 输出，列出了新加坡到墨尔本家庭旅行的五个子任务，每个都写着交给哪个智能体。</p>
+      
+    </li>
+    <li data-w="claude">
+      <p>在课程文件夹里启动 Claude Code，让它用中文讲解本课的示例。只读代码，不运行，不需要任何密钥：</p>
+      <pre data-lang="终端">cd {{DIR}}
+claude</pre>
+      <pre data-lang="Claude">用中文给一个不会编程的人讲解 @07-planning-design/code_samples/07-python-agent-framework.ipynb ：规划智能体输出的计划长什么样？每个子任务有哪些字段？计划做好之后，是谁、用什么工具去执行的？不要运行任何代码。</pre>
+      
+      <p class="expect">Claude 会讲到两个角色：TravelPlanner（规划智能体）把巴黎七日游的请求拆成一份 TravelPlan；Concierge（执行智能体）用 book_flight、reserve_hotel、book_activity 三个工具按顺序执行。</p>
+      
+    </li>
+    <li data-w="look">
+      <p>对照 Claude 的讲解，在示例里认出规划模式的三块：</p><ul><li><b>计划的格式</b>：<code>TravelSubTask</code> 规定每个子任务都有编号 <code>task_id</code>、描述、负责的智能体 <code>assigned_agent</code>、优先级 <code>priority</code>（high / medium / low）和依赖 <code>dependencies</code>（要等哪几个子任务先做完）。</li><li><b>结构化输出</b>：调用规划智能体时传入 <code>options={"response_format": TravelPlan}</code>，它返回的就是一份按格式填好的计划，而不是一段随意的文字。</li><li><b>执行</b>：执行智能体按依赖顺序逐条处理子任务，最后汇总结果。</li></ul>
+      
+      <p class="tr">示例最后一句话概括得很好：这个模式把“做什么”（规划）和“怎么做”（执行）分开，让智能体更模块化、更容易测试和扩展。</p>
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>再问一个关于迭代规划的问题：</p>
+      <pre data-lang="Claude">按 @07-planning-design/README.md 里“迭代规划”一节的说法：如果计划已经做好，用户又说想要早一点的航班，规划智能体应该怎么处理？哪些子任务要重做，哪些可以不动？</pre>
+      
+      <p class="expect">答案大意：把之前的计划和用户的新要求一起作为上下文交给规划智能体，做局部重新规划；航班要重排，依赖航班时间的子任务（比如酒店入住日期、租车）可能也要跟着调整。具体措辞每次不同。</p>
+      
+    </li>
+    <li data-w="look">
+      <p>了解一下：如果想<b>真正运行</b>这个示例，需要和前几课一样的准备（本页的练习不需要）：</p><ul><li>一个部署了聊天模型的 Microsoft Foundry 项目；</li><li>用 Azure 命令行登录（<code>az login</code>）；</li><li>设置两个环境变量：<code>AZURE_AI_PROJECT_ENDPOINT</code> 和 <code>AZURE_AI_MODEL_DEPLOYMENT_NAME</code>。</li></ul>
+      
+      
+      
+      <details class="stuck"><summary>示例里的订机票、订酒店是真的在订吗？</summary><p>不是。<code>book_flight</code> 这些工具只是返回一行模拟的确认信息（比如一个确认号），不会真的下单。但规划智能体和执行智能体调用的是你 Azure 账号里部署的模型，会按 Azure 的规则计费。</p></details>
+    </li>
+  </ol>
+  <div class="section-title"><h3>自己练一遍</h3><span class="count" data-count="turn"></span></div>
+  <ol class="steps" data-part="turn">
+    <li data-w="look">
+      <p><b>任务</b>：用这一课的方法，为“做一份报价”设计一个规划智能体。假设来了一条询盘：客户要 [一台汽车起重机]，要求 [三个月内到现场]，还要 [运输和操作培训]。先别想技术，把这件事当成一个“总目标”，拆成子任务。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>在 Claude Code 里（或 claude.ai 上）让 Claude 陪你拆解。下面这段可以直接复制，方括号里换成你的实际情况：</p>
+      <pre data-lang="Claude">我是工程机械销售公司的总经理。请按“规划设计模式”帮我设计一个报价规划智能体。询盘内容是：[客户要一台汽车起重机，三个月内到现场，含运输和操作培训]。请先把总目标写成一句清楚的话，再拆成子任务。每个子任务按这个格式列出：编号、要做什么、交给哪个专门的智能体（比如产品选型、交期确认、运费测算、培训安排、商务条款）、优先级（高/中/低）、依赖哪几个子任务。最后标出哪些子任务的结果必须由人确认后才能发给客户。只讨论设计，不要写代码。</pre>
+      
+      
+      
+    </li>
+    <li data-w="edit">
+      <p>把讨论结果整理成一张表，记在你自己的笔记里：</p><div class="table-wrap"><table><thead><tr><th>子任务</th><th>交给谁</th><th>依赖 / 优先级</th></tr></thead><tbody><tr><td>1. ……</td><td>……</td><td>……</td></tr><tr><td>2. ……</td><td>……</td><td>……</td></tr><tr><td>3. ……</td><td>……</td><td>……</td></tr></tbody></table></div>
+      
+      
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>练一下迭代规划：假设报价已经发出，客户回复说预算要降低，或者交期要提前。让 Claude 判断要重新规划哪部分：</p>
+      <pre data-lang="Claude">接着上面的报价计划：客户回复说 [交期要提前一个月]。按迭代规划的思路，哪些子任务要重做？哪些可以保留？重新规划后，哪一步必须先由我确认？</pre>
+      
+      <p class="expect">Claude 会指出受影响的子任务（比如交期确认、运费测算），并说明依赖它们的后续子任务也可能要跟着调整。具体答案取决于你的计划。</p>
+      
+    </li>
+    <li data-w="look">
+      <p>回头检查一下你的设计有没有本课说的那个前提：<b>每个专门智能体真的能拿到完成任务所需的工具和信息吗</b>？比如“交期确认”要能查到库存或工厂排产，“运费测算”要有运价来源。拿不到的地方，就是现阶段必须由人来做的部分。</p>
+      
+      
+      
+      
+    </li>
+  </ol>
+  <div class="section-title"><h3>检查过关</h3><span class="count" data-count="check"></span></div>
+  <ol class="steps" data-part="check">
+    <li data-w="look">
+      <p>你能用自己的话说出：为什么“生成三天旅行行程”这个目标还需要细化，细化后应该包含什么。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你能说出结构化输出的好处，并认出示例里每个子任务的几个字段（编号、负责智能体、优先级、依赖）。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你的报价规划表已经填好，并且想清楚了客户改交期时要重新规划哪几步。</p>
+      
+      
+      
+      
+    </li>
+  </ol>
+  <div class="warnbox">
+    <h3>容易踩的坑</h3>
+    <p>规划得再好，也要执行端有工具。原课程明确说，这个模式<b>假设各个智能体已经能用到所需的函数和工具</b>。如果某个子任务没有可用的工具或数据，规划智能体只会把它派出去，却没人能真正做完。</p>
+    <p>README 正文里的代码片段是示意，比如前面创建的变量叫 <code>provider</code>，后面调用的却是 <code>client</code>，迭代规划那段提示词也没写完整。想看完整、能连起来读的版本，以 <code>code_samples</code> 里的 notebook 为准。</p>
+  </div>
+  <div class="panel"><div class="section-title"><h3>过关小测</h3><span class="count">全部答对才算过关</span></div><div class="quiz" data-quiz="a-07"></div></div>
+  <nav class="pager" aria-label="课程翻页"></nav>
+</section>
+
+<!-- ============ a-08 ============ -->
+<section class="view lesson" id="v-a-08" data-view="a-08" hidden>
+  <div class="lhead">
+    <span class="eyebrow">第 9 课 / 共 13 课 · 核心模式 · 约 25 分钟</span>
+    <h2>多智能体设计模式</h2>
+    <p class="goal">学完这课，你能判断什么场景适合用多个智能体，说出多智能体相比单个智能体的好处，并说清实现多智能体模式要考虑的几块基础，包括怎样看清智能体之间的交互。</p>
+  </div>
+  
+  <div class="panel idea">
+    <h3>先搞懂</h3>
+    <p>原课程的一句话定义：<b>多智能体是一种设计模式，让多个智能体一起工作，达成一个共同的目标</b>。这种模式在机器人、自主系统、分布式计算等很多领域都有广泛应用。</p>
+    <p><b>什么场景适合用多智能体</b>：原课程列了三种：</p><ul><li><b>工作量大</b>：大任务拆成小任务分给不同的智能体，并行处理，更快完成。例子：大规模数据处理。</li><li><b>任务复杂</b>：拆成子任务，每个智能体专攻一个方面。例子：自动驾驶里，不同智能体分别管导航、障碍物检测、和其他车辆通信。</li><li><b>需要多种专长</b>：不同智能体各有所长，比一个智能体处理得更好。例子：医疗里分别负责诊断、治疗方案、患者监测。</li></ul>
+    <p><b>多智能体比单个智能体好在哪</b>：简单任务用一个智能体就行，复杂任务用多个有三个好处：</p><ul><li><b>专业化</b>：每个智能体专做一件事。一个什么都能做的智能体，遇到复杂任务可能会搞不清该做什么，甚至去做它并不擅长的事。</li><li><b>可扩展</b>：加智能体比让一个智能体越背越多更容易扩展。</li><li><b>容错</b>：一个智能体出问题，其他的还能继续工作。</li></ul><p>原课程用旅行预订打比方：单个智能体要自己找航班、订酒店、租车，手里要有所有工具，系统会变得庞大、难维护；多个智能体分别负责航班、酒店、租车，更模块化。就像<b>夫妻店</b>一个人包揽所有环节，<b>连锁加盟店</b>不同的人负责不同环节。</p>
+    <p><b>实现多智能体模式的六块基础</b>（还是用旅行预订举例）：</p><div class="table-wrap"><table><thead><tr><th>基础</th><th>要决定什么</th><th>旅行例子</th></tr></thead><tbody><tr><td>智能体通信</td><td>哪些智能体共享信息，怎么共享</td><td>机票和酒店智能体要共享出行日期</td></tr><tr><td>协调机制</td><td>它们怎样协调行动</td><td>用户想住机场附近，而租车只能在机场取</td></tr><tr><td>智能体架构</td><td>怎样做决策、从交互中学习</td><td>机票智能体根据用户过去的偏好推荐航班</td></tr><tr><td>交互的可见性</td><td>怎样追踪它们的活动和交互</td><td>日志、监控、可视化、性能指标</td></tr><tr><td>多智能体模式</td><td>用集中式、去中心化还是混合架构</td><td>选最适合你用例的那种</td></tr><tr><td>人在回路</td><td>什么时候要请人介入</td><td>订机票、订酒店前请用户确认</td></tr></tbody></table></div>
+    <p><b>看清智能体之间的交互</b>：这对调试、优化、保证整个系统有效都必不可少。比如旅行预订可以做一个看板，显示每个智能体的状态、用户的偏好和约束、智能体之间的交互。具体有三类手段：</p><ul><li><b>日志和监控</b>：每个动作都记一笔：哪个智能体、做了什么、什么时间、结果如何。</li><li><b>可视化</b>：比如画一张信息在智能体之间流动的图，帮你找出瓶颈和低效的地方。</li><li><b>性能指标</b>：比如完成任务用了多久、单位时间完成多少任务、推荐准不准。</li></ul>
+    <p><b>三种具体的多智能体模式</b>：</p><ul><li><b>群聊</b>：多个智能体在一个“群”里互相发消息、回应。可以所有消息都经过一个中心服务器转发（集中式），也可以直接互发（去中心化）。典型用途：团队协作、客服、社交。</li><li><b>交接（hand-off）</b>：每个智能体代表工作流里的一个任务或一步，按预先定好的规则把任务交给下一个。典型用途：客服、任务管理、工作流自动化。</li><li><b>协同过滤</b>：几个各有专长的智能体一起给用户做推荐。例子：用户想知道买哪只股票，一个是行业专家，一个懂技术分析，一个懂基本面分析，合起来给出更全面的建议。</li></ul>
+    <p><b>场景：退款流程</b>。原课程把可能用到的智能体分成两类：</p><ul><li><b>退款流程专用</b>：客户智能体（发起退款）、卖家智能体（处理退款）、支付智能体（退钱）、解决智能体（处理过程中出现的问题）、合规智能体（确保符合法规和政策）。</li><li><b>通用</b>（业务其他地方也能用）：运输、反馈、升级、通知、分析、审计、报告、知识库、安全、质量。比如运输智能体既能用于退货，也能用于正常发货；升级智能体任何需要上报的流程都能用。</li></ul><p>原课程的作业就是照这个思路，为<b>客户支持流程</b>设计一个多智能体系统，并提醒：你需要的智能体可能比你想的多。</p>
+    <p><b>反过来想：什么时候一个智能体就够</b>。原课程的知识测试提醒：如果一套指令和工具就能搞定，不需要专家之间交接，单个智能体通常更合适。最适合多智能体的，是像退款这样需要欺诈审核、支付、合规等不同角色，各有自己的工具，结果还要互相协调的流程。</p>
+  </div>
+  <div class="section-title"><h3>跟着看</h3><span class="count" data-count="main"></span></div>
+  <ol class="steps" data-part="main">
+    <li data-w="web">
+      <p>打开原课程这一课的官方中文版，先看页面顶部的介绍视频（英文，可开字幕），再通读正文，特别是“退款流程”那一节：</p>
+      <pre data-lang="网址">https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/08-multi-agent/README.md</pre>
+      
+      <p class="expect">页面标题是“多智能体设计模式”。正文有群聊、工作交接、协同过滤三张示意图。</p>
+      
+    </li>
+    <li data-w="claude">
+      <p>在课程文件夹里启动 Claude Code，让它用中文讲解本课的示例。只读代码，不运行，不需要任何密钥：</p>
+      <pre data-lang="终端">cd {{DIR}}
+claude</pre>
+      <pre data-lang="Claude">用中文给一个不会编程的人讲解 @08-multi-agent/code_samples/08-python-agent-framework.ipynb ：这里有几个智能体？各自负责什么？它们是按什么顺序接力工作的？后来又加了哪个智能体，加的时候要不要改原来的智能体？不要运行任何代码。</pre>
+      
+      <p class="expect">Claude 会讲到：TravelPlanner 先做行程，TravelConcierge 审查并补充（当地小贴士、餐厅、潜在问题），后来又加了 BudgetReviewer 按预算检查。三个智能体按顺序接力，加新智能体不用改原来的。</p>
+      
+    </li>
+    <li data-w="look">
+      <p>对照 Claude 的讲解，在示例里认出这一课的几个概念：</p><ul><li><b>专业化</b>：每个智能体的 <code>instructions</code> 只写一种角色：规划、礼宾审查、预算审查。</li><li><b>接力（顺序工作流）</b>：<code>WorkflowBuilder</code> 加 <code>add_edge(planner_agent, concierge_agent)</code>，意思是规划者做完交给礼宾。流程是 TravelPlanner → TravelConcierge → BudgetReviewer。</li><li><b>可扩展</b>：再接一条 <code>add_edge(concierge_agent, budget_agent)</code> 就多了一个环节。</li><li><b>可见性</b>：输出时打印 <code>author_name</code>，每段话都能看出是哪个智能体说的。</li></ul>
+      
+      
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>这一课的示例文件夹里还有一套多智能体工作流教程。让 Claude 帮你概括一下：</p>
+      <pre data-lang="Claude">用中文概括 @08-multi-agent/code_samples/workflows-agent-framework/README.md 里讲的三种多智能体工作流模式：顺序、并行、条件。每种各举一个它文中的例子。不要运行任何代码。</pre>
+      
+      <p class="expect">大意：顺序是像流水线，一个的输出是下一个的输入；并行是同时处理任务的不同部分，最后汇总；条件是根据某个智能体的输出走不同的分支。</p>
+      
+    </li>
+    <li data-w="look">
+      <p>了解一下：如果想<b>真正运行</b>这些示例，原课程要求的准备和前几课一样（本页的练习不需要）：一个部署了聊天模型的 Microsoft Foundry 项目，Azure 登录，以及环境变量 <code>AZURE_AI_PROJECT_ENDPOINT</code> 和 <code>AZURE_AI_MODEL_DEPLOYMENT_NAME</code>。</p>
+      
+      
+      
+      <details class="stuck"><summary>README 里的“解决方案”链接打不开？</summary><p>原课程作业和知识测试后面链接了 <code>solution/solution.md</code> 和 <code>solution/solution-quiz.md</code>，但在目前下载的课程文件夹里没有这个 <code>solution</code> 目录。不影响学习：本页“自己练一遍”就是按同一个作业设计的。</p></details>
+    </li>
+  </ol>
+  <div class="section-title"><h3>自己练一遍</h3><span class="count" data-count="turn"></span></div>
+  <ol class="steps" data-part="turn">
+    <li data-w="look">
+      <p><b>任务</b>：原课程的作业是“为客户支持流程设计一个多智能体系统”。我们把它换成你的业务：<b>设备售后服务流程</b>（客户报故障、判断原因、派工程师或寄配件、回访）。照退款流程的思路，把智能体分成“售后专用”和“通用”两类。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>让 Claude 陪你拆解。下面这段可以直接复制，方括号里换成你的实际情况：</p>
+      <pre data-lang="Claude">我是工程机械销售公司的总经理，想为 [起重机、混凝土设备、破碎设备] 的售后服务流程设计一个多智能体系统。请参考“多智能体设计模式”里退款流程的分法：1）列出售后专用的智能体和它们的职责；2）列出通用智能体（比如通知、升级、知识库、审计），并说明它们还能用在询盘处理、客户尽调、报价哪些流程里；3）每个阶段适合用群聊、交接还是协同过滤；4）哪些动作必须先由人确认；5）每个动作要记哪些日志才能看清智能体之间的交互。只讨论设计，不要写代码。</pre>
+      
+      
+      
+    </li>
+    <li data-w="edit">
+      <p>把讨论结果整理成一张表，记在你自己的笔记里：</p><div class="table-wrap"><table><thead><tr><th>智能体</th><th>职责</th><th>专用 / 通用</th></tr></thead><tbody><tr><td>……</td><td>……</td><td>……</td></tr><tr><td>……</td><td>……</td><td>……</td></tr><tr><td>……</td><td>……</td><td>……</td></tr></tbody></table></div><p>表下面再补两行：哪些动作要人确认；日志要记什么（哪个智能体、做了什么、什么时间、结果）。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>最后反过来检查：表里有没有哪几个智能体其实用<b>一套指令和工具</b>就能合并成一个？原课程的知识测试提醒，不需要专家之间交接的任务，单个智能体通常更合适。智能体不是越多越好，每加一个都要多考虑通信、协调和可见性。</p>
+      
+      
+      
+      
+    </li>
+  </ol>
+  <div class="section-title"><h3>检查过关</h3><span class="count" data-count="check"></span></div>
+  <ol class="steps" data-part="check">
+    <li data-w="look">
+      <p>你能说出适合多智能体的三种场景（工作量大、任务复杂、需要多种专长），以及三个好处（专业化、可扩展、容错）。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你能用一句话分别说清群聊、交接、协同过滤三种模式的区别。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你的售后多智能体设计表已经填好，分出了专用和通用智能体，并标出了要人确认的动作和要记的日志。</p>
+      
+      
+      
+      
+    </li>
+  </ol>
+  <div class="warnbox">
+    <h3>容易踩的坑</h3>
+    <p>多智能体不是越多越好。一套指令和工具就能完成、不需要专家交接的任务，用单个智能体更简单。原课程把多智能体留给工作量大、任务复杂、需要多种专长的场景。</p>
+    <p>智能体一多，出了问题就很难查清是谁做的。原课程强调要提前设计好<b>可见性</b>：日志、可视化、性能指标，否则调试和优化无从下手。</p>
+  </div>
+  <div class="panel"><div class="section-title"><h3>过关小测</h3><span class="count">全部答对才算过关</span></div><div class="quiz" data-quiz="a-08"></div></div>
+  <nav class="pager" aria-label="课程翻页"></nav>
+</section>
+
+<!-- ============ a-10 ============ -->
+<section class="view lesson" id="v-a-10" data-view="a-10" hidden>
+  <div class="lhead">
+    <span class="eyebrow">第 11 课 / 共 13 课 · 走向生产 · 约 30 分钟</span>
+    <h2>生产环境中的智能体：可观测性与评估</h2>
+    <p class="goal">学完这课，你能说清楚智能体上线后要“看见”什么（跟踪、跨度和关键指标）、怎么系统地评估它（离线评估和在线评估），以及有哪些控制成本的办法，并为自己的业务智能体做一份监控和评估方案。</p>
+  </div>
+  
+  <div class="panel idea">
+    <h3>先搞懂</h3>
+    <p>智能体从试验品变成真正在用的系统后，就必须能<b>看懂它的行为、监控它的表现、系统地评估它的输出</b>。原课程的目标是：把“黑盒子”智能体变成透明、可管理、可靠的系统。没有可观测性，智能体的内部状态和推理是看不见的；有了它，智能体就成了“玻璃盒子”。</p>
+    <p>可观测性工具（原课程举了 Langfuse 和 Microsoft Foundry）通常用两个概念记录智能体的运行：</p><ul><li><b>跟踪（Trace）</b>：一个完整的智能体任务，从开始到结束，比如处理一次用户提问。</li><li><b>跨度（Span）</b>：跟踪里的单个步骤，比如调用一次大模型、检索一次数据。</li></ul>
+    <p><b>为什么上线后可观测性是必需品</b>，原课程给了四个理由：</p><ul><li><b>调试和找根因</b>：出错或输出异常时，跟踪能帮你定位问题出在哪一步，尤其是有多次模型调用、工具调用和条件判断的复杂智能体。</li><li><b>控制延迟和成本</b>：大模型和外部接口按 token 或按次计费，可观测性能精确记录每次调用，找出又慢又贵的环节。</li><li><b>信任、安全与合规</b>：它留下智能体行为和决定的审计记录，可以用来发现提示注入、有害内容、个人身份信息（PII）处理不当等问题。</li><li><b>持续改进</b>：上线后的数据是迭代的基础，在线发现的问题可以反过来用于离线试验和改进。</li></ul>
+    <p><b>要盯的关键指标</b>（原课程说，几种指标组合起来才能全面反映智能体的健康状况）：</p><div class="table-wrap"><table><thead><tr><th>指标</th><th>看什么</th><th>原课程的例子</th></tr></thead><tbody><tr><td>延迟</td><td>响应有多快</td><td>换更快的模型或并行调用来提速</td></tr><tr><td>成本</td><td>每次运行花多少钱</td><td>调五次模型只换来一点提升，值不值</td></tr><tr><td>请求错误</td><td>接口或工具调用失败多少</td><td>服务商 A 宕机就切到备用的 B</td></tr><tr><td>用户反馈</td><td>点赞点踩、打星、评论</td><td>持续差评说明出了问题</td></tr><tr><td>隐性反馈</td><td>用户的行为</td><td>反复问同一个问题、点重试</td></tr><tr><td>准确率</td><td>输出对不对、合不合要求</td><td>先定义成功，再把跟踪标成成功或失败</td></tr><tr><td>自动评估</td><td>用模型或开源库打分</td><td>让大模型判断是否有用、准确</td></tr></tbody></table></div>
+    <p><b>给智能体“装仪表”</b>（instrument）：要收集跟踪数据，就要让代码发出跟踪和指标。原课程说 <b>OpenTelemetry（OTel）</b>已成为大模型可观测性的行业标准，Microsoft Agent Framework 原生集成了它。除了自动生成的跨度，还可以<b>手动创建跨度</b>，并给跨度加上自定义属性（也叫标签或元数据），比如 <code>user_id</code>、<code>session_id</code>、<code>model_version</code>，方便调试和分析。</p>
+    <p><b>评估</b>是分析这些数据、做测试，判断智能体表现得好不好、怎么改进。智能体的输出不是每次都一样，而且会随更新或模型变化而“漂移”，所以要定期评估。分两类，互相补充：</p><ul><li><b>离线评估</b>：在受控环境里，用已知正确答案的测试集来跑（比如 100 道有标准答案的数学应用题）。可重复、指标清楚，是上线前的最低要求。难点是测试集要全面、要不断补充新的边缘案例；小的“冒烟测试”集用来快速检查，大的集合看整体表现。</li><li><b>在线评估</b>：在真实使用中持续监控，比如成功率、满意度，也可以做影子测试或 A/B 测试。好处是能抓到实验室里想不到的情况和模型漂移；难点是真实交互很难拿到可靠的评分。</li></ul><p>很多团队用一个循环把两者连起来：<b>离线评估 → 上线 → 在线监控 → 收集新的失败案例 → 加进离线测试集 → 改进智能体 → 重复</b>。</p>
+    <p><b>常见问题和可能的解决办法</b>（原课程的表格）：</p><div class="table-wrap"><table><thead><tr><th>问题</th><th>可能的解决办法</th></tr></thead><tbody><tr><td>执行任务不稳定</td><td>把提示写清楚、目标明确；看能否拆成子任务交给多个智能体</td></tr><tr><td>陷入无限循环</td><td>设清楚的终止条件；复杂推理任务换擅长推理的大模型</td></tr><tr><td>工具调用效果差</td><td>在智能体之外单独测试工具输出；改进参数、提示和工具命名</td></tr><tr><td>多智能体不稳定</td><td>让每个智能体的提示具体且互不重叠；用“路由”或控制智能体来分派</td></tr></tbody></table></div><p>有了可观测性，这些问题更容易定位到具体是哪一步出了错。</p>
+    <p><b>控制成本的三个办法</b>：</p><ul><li><b>用小模型</b>：小语言模型（SLM）在某些场景表现不错，成本低很多。最好先建评估体系，和大模型比一比。简单任务（意图分类、参数提取）用小模型，复杂推理留给大模型。</li><li><b>用路由模型</b>：按请求的复杂程度，把请求分给最合适的模型，简单的给又小又快的，复杂的才用贵的大模型。</li><li><b>缓存回复</b>：找出常见请求，在进入智能体系统之前直接给出回复；还可以用较基础的模型判断新请求和缓存的有多像。对常见问题特别省钱。</li></ul>
+  </div>
+  <div class="section-title"><h3>跟着看</h3><span class="count" data-count="main"></span></div>
+  <ol class="steps" data-part="main">
+    <li data-w="web">
+      <p>打开原课程这一课的官方中文版，先把页面顶部的介绍视频看一遍（英文，可开字幕），再浏览“关键指标追踪”和“代理评估”两节：</p>
+      <pre data-lang="网址">https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/10-ai-agents-production/README.md</pre>
+      
+      <p class="expect">页面标题是“生产环境中的 AI 代理：可观测性与评估”。中文版把 Trace 译作“跟踪”，Span 译作“跨度”。</p>
+      
+    </li>
+    <li data-w="claude">
+      <p>在课程文件夹里启动 Claude Code，让它讲解本课的示例。只读代码，不运行，不需要密钥：</p>
+      <pre data-lang="终端">cd {{DIR}}
+claude</pre>
+      <pre data-lang="Claude">用中文给一个不会编程的人讲解 @10-ai-agents-production/code_samples/10-python-agent-framework.ipynb ：它讲了上线的哪三个支柱？代码里哪一段是在“观测”智能体？哪一段是在“评估”它？不要运行任何代码。</pre>
+      
+      <p class="expect">Claude 会讲到三个支柱：可观测性、评估、成本管理。观测部分是在 <code>agent.run(...)</code> 前后记时间，算出这次回答花了几秒；评估部分是另建一个叫 <code>ResponseEvaluator</code> 的智能体，给旅行智能体的回答打分。</p>
+      
+    </li>
+    <li data-w="look">
+      <p>对照 Claude 的讲解，在示例里认出这几样：</p><ul><li><b>最简单的观测</b>：<code>start_time = time.time()</code> 和 <code>elapsed = time.time() - start_time</code>，记录延迟。示例自己说明：真正上线时要接 OpenTelemetry 之类的跟踪系统。</li><li><b>评估智能体</b>：按完整性、准确性、有用性三项各打 1 到 5 分，再给一个总分，并简短说明理由。</li><li><b>成本策略表</b>：精简提示、选合适的模型、缓存、限制 token 上限、批量处理。</li></ul>
+      
+      <p class="tr">这正对应“先搞懂”里的三块：指标里的延迟、评估里的自动评估、成本管理。</p>
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>再让 Claude 帮你把“跟踪”和“跨度”落到另一个示例上。这个示例是一个两步的报销流程：先识别发票图片，再写报销邮件：</p>
+      <pre data-lang="Claude">看 @10-ai-agents-production/code_samples/10-expense_claim-demo.ipynb 。如果按原课程 README 里“跟踪和跨度”的说法给这个流程做观测，一次完整的跟踪是什么？里面大概会有哪些跨度？每个跨度值得记录哪些指标？只讲思路，不要改代码。</pre>
+      
+      <p class="expect">大意：一次跟踪是“从收到发票图片到生成报销邮件”整个任务；跨度包括 OCR 智能体调用模型、邮件智能体调用模型、调用 <code>generate_expense_email</code> 工具等；可以记录每一步的延迟、成本和是否出错。具体措辞每次不同。</p>
+      
+    </li>
+    <li data-w="look">
+      <p>了解一下：要<b>真正运行</b>这两个示例，原课程要求有部署了模型的 Microsoft Foundry 项目、用 <code>az login</code> 登录，并设置 <code>AZURE_AI_PROJECT_ENDPOINT</code> 和 <code>AZURE_AI_MODEL_DEPLOYMENT_NAME</code> 两个环境变量。本页的练习不需要。</p>
+      
+      
+      
+      <details class="stuck"><summary>README 说报销示例会演示怎么给智能体“装仪表”，可我在里面没找到跟踪代码？</summary><p>对，目前仓库里的这个示例主要是两个智能体串成的流程，没有 OpenTelemetry 的代码。README 正文里那两小段代码（<code>get_tracer</code> 和 Langfuse 的 <code>start_span</code>）就是原课程给出的装仪表示例，以它们为准。</p></details>
+    </li>
+  </ol>
+  <div class="section-title"><h3>自己练一遍</h3><span class="count" data-count="turn"></span></div>
+  <ol class="steps" data-part="turn">
+    <li data-w="look">
+      <p><b>任务</b>：假设你的“询盘回复智能体”马上要试运行：它读客户询盘，判断需求，推荐设备，写回复草稿。上线前，用这一课的方法给它做一份“监控和评估方案”。只做设计，不写代码。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>让 Claude 陪你拆解。下面这段可以直接复制，方括号里换成你的实际情况：</p>
+      <pre data-lang="Claude">我是工程机械销售公司的总经理，准备试运行一个“询盘回复智能体”：读询盘、判断需求、推荐设备（[起重、混凝土、破碎设备]）、写回复草稿，由销售确认后再发。请按 AI 智能体可观测性的思路帮我设计：1）处理一封询盘算一次“跟踪”，里面有哪些“跨度”？2）延迟、成本、请求错误、用户反馈、隐性反馈、准确率，这几项在我的场景里分别怎么定义、怎么记录？比如销售大改草稿算不算隐性差评？3）哪些跨度要加上询盘编号、客户国家这类自定义属性？只讨论设计，不写代码。</pre>
+      
+      
+      
+    </li>
+    <li data-w="edit">
+      <p>再设计评估部分，把结果整理进你的笔记：</p><div class="table-wrap"><table><thead><tr><th>项目</th><th>你的询盘回复智能体</th></tr></thead><tbody><tr><td>离线测试集</td><td>例如：挑 [20] 封过去的询盘，写下正确的推荐设备和该问的问题</td></tr><tr><td>冒烟测试</td><td>每次改提示后先跑的几封典型询盘</td></tr><tr><td>在线信号</td><td>……</td></tr><tr><td>新失败案例怎么回流</td><td>……</td></tr></tbody></table></div>
+      
+      
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>最后问成本。把这一课的三个办法套进来：</p>
+      <pre data-lang="Claude">按“小模型、路由模型、缓存回复”三种控制成本的办法，帮我看这个询盘回复智能体：哪些步骤（比如判断询盘属于哪类设备、提取吨位和工况）可以交给小模型？哪些需要大模型？哪些常见询盘（比如问交期、问保修）适合做缓存回复？上线前我该怎么比较小模型和大模型的效果？</pre>
+      
+      <p class="expect">答案会把步骤分成“简单分类和提取”与“复杂推理”两类，并建议先用你的离线测试集比较效果。具体内容每次不同。</p>
+      
+    </li>
+  </ol>
+  <div class="section-title"><h3>检查过关</h3><span class="count" data-count="check"></span></div>
+  <ol class="steps" data-part="check">
+    <li data-w="look">
+      <p>你能用自己的话说出“跟踪”和“跨度”的区别，并在询盘场景里各举一个例子。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你能说出离线评估和在线评估各自的好处和难点，以及原课程那个“离线评估 → 上线 → 在线监控 → ……”的循环。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你的监控和评估方案已经写好：有跨度清单、指标定义、离线测试集的来源，以及至少一个控制成本的办法。</p>
+      
+      
+      
+      
+    </li>
+  </ol>
+  <div class="warnbox">
+    <h3>容易踩的坑</h3>
+    <p>离线测试集不是一劳永逸的。原课程提醒：智能体可能在固定测试集上表现很好，上线后却遇到完全不同的问题，所以要不断把新的边缘案例和真实例子补进测试集。</p>
+    <p>用小模型省钱之前要先评估。原课程说，搭一个评估体系、把小模型和大模型的表现比一比，才是判断小模型能不能胜任的最好办法。</p>
+  </div>
+  <div class="panel"><div class="section-title"><h3>过关小测</h3><span class="count">全部答对才算过关</span></div><div class="quiz" data-quiz="a-10"></div></div>
+  <nav class="pager" aria-label="课程翻页"></nav>
+</section>
+
+<!-- ============ a-11 ============ -->
+<section class="view lesson" id="v-a-11" data-view="a-11" hidden>
+  <div class="lhead">
+    <span class="eyebrow">第 12 课 / 共 13 课 · 走向生产 · 约 30 分钟</span>
+    <h2>智能体协议：MCP、A2A 和 NLWeb</h2>
+    <p class="goal">学完这课，你能说清楚 MCP、A2A、NLWeb 三种协议各自解决什么问题、由哪些部分组成、有什么好处，并判断自己业务里的哪一块该用哪种协议。</p>
+  </div>
+  
+  <div class="panel idea">
+    <h3>先搞懂</h3>
+    <p>智能体用得越多，越需要统一的<b>协议</b>来保证标准化、安全，并支持开放创新。原课程讲了三种：</p><ul><li><b>MCP（模型上下文协议）</b>：让智能体连接外部工具和数据，完成用户任务。</li><li><b>A2A（智能体间协议）</b>：让不同的智能体互相通信、协作。</li><li><b>NLWeb（自然语言网页）</b>：给任何网站加上自然语言界面，让智能体能发现并使用网站内容。</li></ul>
+    <p><b>MCP</b> 是一个开放标准，用统一的方式给大模型提供上下文和工具，像一个“万能转接头”。你在 Claude Code 课里已经用过 MCP，这里看原课程怎么讲它的结构。它是<b>客户端-服务器架构</b>：</p><ul><li><b>主机（Host）</b>：发起连接的大模型应用，比如 VSCode 这样的代码编辑器。</li><li><b>客户端（Client）</b>：主机里的组件，和服务器保持一对一连接。</li><li><b>服务器（Server）</b>：轻量程序，对外提供特定能力。</li></ul><p>服务器提供三种基本能力：<b>工具</b>（可调用的动作，比如“查天气”“购买商品”，服务器会公布每个工具的名称、描述和输入输出格式）、<b>资源</b>（只读的数据或文档，比如文件内容、数据库记录、日志，可以是文本也可以是图片、PDF）、<b>提示</b>（预设的提示模板，用于更复杂的流程）。</p>
+    <p><b>MCP 的三个好处</b>：</p><ul><li><b>动态发现工具</b>：智能体能从服务器拿到可用工具清单和说明。传统接口往往要写死集成，接口一变代码就得改；MCP 是“一次集成”，适应性更强。</li><li><b>跨模型通用</b>：MCP 适用于不同的大模型，方便换核心模型比较效果。</li><li><b>标准化的安全</b>：MCP 有标准的认证方式，接入更多服务器时更容易扩展，比管理各种接口的不同密钥和认证方式简单。</li></ul><p>原课程的例子：AI 助手（MCP 客户端）连上航空公司的 MCP 服务器，先问“你有哪些工具”，得到“查航班”“订航班”；用户说“查波特兰到檀香山的航班”，助手决定调用“查航班”并传参数；服务器去调航空公司内部的订票接口，把结果返回；用户选好后，助手再调用“订航班”。</p>
+    <p><b>A2A</b> 更进一步：MCP 是把大模型连到工具，A2A 是让<b>智能体和智能体</b>通信协作，而且能跨不同组织、环境和技术栈，一起完成共同任务。它的四个核心组成：</p><div class="table-wrap"><table><thead><tr><th>组成</th><th>作用</th><th>包含什么</th></tr></thead><tbody><tr><td>智能体卡片</td><td>像 MCP 服务器公布工具清单那样介绍自己</td><td>名称、总体任务描述、具体技能清单、当前端点地址、版本和能力（如流式回复、推送通知）</td></tr><tr><td>智能体执行器</td><td>把用户对话的上下文传给远端智能体</td><td>远端智能体用自己的大模型理解请求，用自己的工具执行</td></tr><tr><td>工件（Artifact）</td><td>远端智能体完成任务后的产出</td><td>工作结果、完成了什么的描述、文本上下文；发送后连接关闭，需要时再连</td></tr><tr><td>事件队列</td><td>处理更新、传递消息</td><td>防止任务没做完连接就断了，耗时长的任务尤其重要</td></tr></tbody></table></div>
+    <p><b>A2A 的三个好处</b>：<b>协作更强</b>（不同厂商、平台的智能体能交互、共享上下文，把原本互不相通的系统连起来）；<b>模型选择灵活</b>（每个 A2A 智能体自己决定用哪个大模型）；<b>内置认证</b>（认证直接集成在协议里）。</p><p>原课程的例子：用户对“旅行智能体”说“帮我订下周去檀香山的整趟行程，包括机票、酒店和租车”。旅行智能体用自己的大模型推理，判断要找其他专门智能体，就通过 A2A 连接不同公司做的“航空智能体”“酒店智能体”“租车智能体”，分别派任务。它们各用自己的大模型和工具（工具本身也可以是 MCP 服务器）完成各自部分，最后旅行智能体汇总结果，回复用户。</p>
+    <p><b>NLWeb</b> 让网站支持自然语言交互。它的组成：</p><ul><li><b>NLWeb 应用</b>：处理自然语言问题的核心服务，是网站自然语言功能的“引擎”。</li><li><b>NLWeb 协议</b>：和网站做自然语言交互的一套基本规则，用 JSON 返回结果（常用 Schema.org）。目标是给“AI 网络”打基础，就像 HTML 让网上共享文档成为可能。</li><li><b>MCP 服务器</b>：每个 NLWeb 部署同时也是一个 MCP 服务器，能把工具（比如 <code>ask</code> 方法）和数据分享给其他 AI 系统，让网站成为“智能体生态”的一部分。</li><li><b>嵌入模型</b>：把网站内容转成向量（embedding），让计算机能按意思比较和搜索。</li><li><b>向量数据库</b>：存这些向量，有人提问时快速找出最相关的内容，按相似度排序。原课程列了 Qdrant、Snowflake、Milvus、Azure AI Search、Elasticsearch 等。</li></ul>
+    <p>原课程的 NLWeb 例子：旅行网站把航班、酒店、旅游套餐等产品目录用 Schema.org 格式整理或通过 RSS 载入，生成向量存进数据库。用户不用点菜单，直接在聊天框里输入“找一家下周在檀香山、适合带孩子、有泳池的酒店”。NLWeb 把问题交给大模型理解，同时在向量数据库里找相关酒店，再生成自然语言回复。关键是：<b>回复里提到的是网站目录里真实存在的酒店，不会编造</b>。外部的 AI 旅行智能体也能通过 MCP 的 <code>ask</code> 方法直接向这个网站提问，拿到结构化的 JSON 结果。</p>
+  </div>
+  <div class="section-title"><h3>跟着看</h3><span class="count" data-count="main"></span></div>
+  <ol class="steps" data-part="main">
+    <li data-w="web">
+      <p>打开原课程这一课的官方中文版，先看页面顶部的介绍视频（英文，可开字幕），再看三张示意图：MCP、A2A、NLWeb 各一张：</p>
+      <pre data-lang="网址">https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/11-agentic-protocols/README.md</pre>
+      
+      <p class="expect">页面标题是“使用自治协议（MCP，A2A 和 NLWeb）”。“自治协议”是机器翻译，英文原文是 Agentic Protocols，本页叫“智能体协议”。</p>
+      
+    </li>
+    <li data-w="claude">
+      <p>在课程文件夹里启动 Claude Code，先读 MCP 的示例。只读代码，不运行，不需要密钥：</p>
+      <pre data-lang="终端">cd {{DIR}}
+claude</pre>
+      <pre data-lang="Claude">用中文给一个不会编程的人讲解 @11-agentic-protocols/code_samples/11-mcp-agent-framework.ipynb ：MCP 的客户端和服务器分别是谁？这个示例是真的连了一个 MCP 服务器，还是在模拟？智能体用了哪两个工具？不要运行任何代码。</pre>
+      
+      <p class="expect">Claude 会讲到：这个示例是<b>模拟</b>。因为真正的 MCP 服务器需要一个运行中的服务进程，示例用两个本地工具 <code>search_accommodations</code>（查住宿）和 <code>get_local_experiences</code>（推荐当地体验）来代替；示例说明上线时这些工具会通过 MCP 从住宿服务动态发现。</p>
+      
+    </li>
+    <li data-w="claude">
+      <p>再读 A2A 的示例：</p>
+      <pre data-lang="Claude">再讲解 @11-agentic-protocols/code_samples/11-a2a-agent-framework.ipynb ：这里有哪三个智能体？它们按什么顺序传递结果？示例自己说，真正上线的 A2A 和这个示例有什么不同？</pre>
+      
+      <p class="expect">三个智能体：货币兑换智能体、当地活动智能体、旅行经理智能体，用 <code>WorkflowBuilder</code> 按顺序串起来，最后由旅行经理汇总成旅行简报。示例说明这是在同一个程序里的简化版；真正部署时，每个智能体会有自己的 HTTP 端点、公布智能体卡片，用 A2A 协议通信。</p>
+      
+    </li>
+    <li data-w="look">
+      <p>把示例和“先搞懂”对上号：</p><ul><li>MCP 示例里，智能体的指令写着“由 MCP 连接的服务支持”，对应 MCP 的<b>工具</b>能力。</li><li>A2A 示例的说明里提到：智能体发布<b>智能体卡片</b>介绍能力；任务有“已提交、进行中、已完成、失败”等状态，让负责协调的智能体看清进度。</li><li>NLWeb 本课没有示例代码。原课程在“资源”里给了 NLWeb 的代码仓库链接。</li></ul>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>了解一下：示例文件夹里还有两个更完整的 MCP 示例，<code>11-agentic-protocols/code_samples/mcp-agents/</code>（客户端和服务器）和 <code>11-agentic-protocols/code_samples/github-mcp/</code>。它们需要更多准备，本页不展开。要<b>运行</b>两个 notebook，原课程要求有部署了模型的 Microsoft Foundry 项目、用 <code>az login</code> 登录，并设置 <code>AZURE_AI_PROJECT_ENDPOINT</code> 和 <code>AZURE_AI_MODEL_DEPLOYMENT_NAME</code>。</p>
+      
+      
+      
+      <details class="stuck"><summary>这和我在 Claude Code 课里配的 MCP 是一回事吗？</summary><p>是同一个协议。按本课的说法，Claude Code 就是“主机”，它里面的客户端连接你配置的 MCP 服务器，服务器提供工具、资源和提示。</p></details>
+    </li>
+  </ol>
+  <div class="section-title"><h3>自己练一遍</h3><span class="count" data-count="turn"></span></div>
+  <ol class="steps" data-part="turn">
+    <li data-w="look">
+      <p><b>任务</b>：给你公司的智能体规划“接线图”：哪些地方该用 MCP 把智能体连到工具和数据，哪些地方该用 A2A 让智能体之间协作，产品网站要不要做成 NLWeb 那样可以用自然语言提问。只做设计，不写代码。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>让 Claude 陪你拆解。方括号里换成你的实际情况：</p>
+      <pre data-lang="Claude">我是工程机械销售公司的总经理，业务包括询盘处理、客户背调、报价和售后。我们用到的系统有 [CRM、报价价格表、设备参数库、售后工单表]。请按 MCP、A2A、NLWeb 三种协议各自的用途帮我规划：1）哪些系统适合做成 MCP 服务器？分别提供哪些“工具”、哪些只读“资源”、哪些“提示”模板？2）如果有“询盘智能体、背调智能体、报价智能体、售后智能体”，哪些协作适合用 A2A？3）我们的产品网站有没有必要做成能用自然语言提问的样子？只讨论设计，不写代码。</pre>
+      
+      
+      
+    </li>
+    <li data-w="edit">
+      <p>参照 A2A 智能体卡片的内容，给“报价智能体”写一张卡片草稿，记在你的笔记里：</p><div class="table-wrap"><table><thead><tr><th>卡片项</th><th>你的报价智能体</th></tr></thead><tbody><tr><td>名称</td><td>……</td></tr><tr><td>总体任务描述</td><td>……</td></tr><tr><td>具体技能（各配一句说明）</td><td>例如：按工况推荐型号；按价格表生成报价草稿</td></tr><tr><td>交回的工件</td><td>结果是什么、完成了什么</td></tr></tbody></table></div>
+      
+      <p class="tr">端点地址、版本这几项是技术实施时才填的，现在先空着。</p>
+      
+      
+    </li>
+    <li data-w="look">
+      <p>检查你的接线图：每条连接说得出是“智能体连工具”（MCP）还是“智能体找智能体”（A2A）吗？会改数据的工具（比如改 CRM 记录、发出报价）有没有标出要人确认？</p>
+      
+      
+      
+      
+    </li>
+  </ol>
+  <div class="section-title"><h3>检查过关</h3><span class="count" data-count="check"></span></div>
+  <ol class="steps" data-part="check">
+    <li data-w="look">
+      <p>你能用一句话分别说出 MCP、A2A、NLWeb 解决什么问题。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你能说出 MCP 服务器的三种能力（工具、资源、提示），以及 A2A 的四个组成（智能体卡片、执行器、工件、事件队列）。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你的接线图和报价智能体卡片草稿已经写好。</p>
+      
+      
+      
+      
+    </li>
+  </ol>
+  <div class="warnbox">
+    <h3>容易踩的坑</h3>
+    <p>本课的两个 notebook 都是简化或模拟：MCP 示例用本地工具代替真正的 MCP 服务器，A2A 示例是在同一个程序里把三个智能体串起来。它们帮你理解思路，但不等于真正部署好的协议。</p>
+    <p>官方中文版把 Agentic Protocols 译成“自治协议”，这是机器翻译。遇到看不懂的地方，以英文原版为准。</p>
+  </div>
+  <div class="panel"><div class="section-title"><h3>过关小测</h3><span class="count">全部答对才算过关</span></div><div class="quiz" data-quiz="a-11"></div></div>
+  <nav class="pager" aria-label="课程翻页"></nav>
+</section>
+
+<!-- ============ a-13 ============ -->
+<section class="view lesson" id="v-a-13" data-view="a-13" hidden>
+  <div class="lhead">
+    <span class="eyebrow">第 14 课 / 共 13 课 · 走向生产 · 约 30 分钟</span>
+    <h2>智能体的记忆</h2>
+    <p class="goal">学完这课，你能分清工作记忆、短期记忆、长期记忆以及角色、情景、实体记忆等几种类型，说清楚记忆怎么生成、存储、检索和遗忘，并理解“知识智能体”怎样让智能体越用越好。</p>
+  </div>
+  
+  <div class="panel idea">
+    <h3>先搞懂</h3>
+    <p>原课程的定义：<b>智能体的记忆，是让它能保留和回想信息的机制</b>。这些信息可以是一段对话里的细节、用户的偏好、过去做过的动作，或学到的规律。</p><p>没有记忆的 AI 应用是“无状态”的：每次交互都从零开始，智能体会“忘掉”之前的上下文和偏好，用户只能一遍遍重复，体验很差。</p>
+    <p><b>为什么记忆重要</b>：智能体的聪明程度，和它能不能回想、利用过去的信息紧密相关。有了记忆，它可以：</p><ul><li><b>会反思</b>：从过去的动作和结果里学习。</li><li><b>能互动</b>：在一段持续的对话里保持上下文。</li><li><b>能预判也能回应</b>：根据历史数据预判需求，或做出恰当的回应。</li><li><b>更自主</b>：靠存下来的知识，更独立地工作。</li></ul><p>做记忆的目的，是让智能体更<b>可靠、更能干</b>。</p>
+    <p><b>记忆的类型</b>（原课程用旅行预订智能体举例）：</p><div class="table-wrap"><table><thead><tr><th>类型</th><th>是什么</th><th>旅行智能体例子</th></tr></thead><tbody><tr><td>工作记忆</td><td>当前任务的“草稿纸”，只抓要点：需求、方案、决定、动作</td><td>记住“我想订去巴黎的行程”</td></tr><tr><td>短期记忆</td><td>只在一次对话（会话）里有效</td><td>追问“那里住宿多少钱”，知道“那里”是巴黎</td></tr><tr><td>长期记忆</td><td>跨多次对话保留，用于个性化</td><td>记得 Ben 爱滑雪，因旧伤要避开高级雪道</td></tr><tr><td>角色记忆</td><td>记住自己是谁、该扮演什么角色</td><td>定位成“滑雪行程专家”，回答保持专家口吻</td></tr><tr><td>工作流/情景记忆</td><td>记住复杂任务里走过的步骤，包括成功和失败</td><td>上次某航班没票订失败，下次直接换方案或提前告知</td></tr><tr><td>实体记忆</td><td>从对话里抽出人、地点、事物、事件</td><td>记住“Le Chat Noir 餐厅”，下次主动提出再订</td></tr><tr><td>结构化 RAG</td><td>把邮件、对话、图片里的信息按结构抽取存好</td><td>从邮件抽出航班的目的地、日期、航司，能答“周二订的去巴黎是哪班”</td></tr></tbody></table></div>
+    <p><b>短期记忆在框架里长什么样</b>：原课程说，在 Microsoft Agent Framework 的 Python 示例里，短期记忆对应 <code>AgentSession</code>，用 <code>agent.create_session()</code> 创建。同一个会话反复用，上下文就一直在；会话结束或程序重启，这些上下文就没了。需要跨会话保留的事实和偏好，要放进<b>长期记忆</b>：通常是数据库、向量索引或其他持久存储。</p>
+    <p><b>怎么实现和存储记忆</b>：这是一套“记忆管理”流程，包括<b>生成、存储、检索、整合、更新</b>，甚至<b>遗忘</b>（删除）信息。其中<b>检索</b>尤其关键。原课程介绍了三种做法：</p><ul><li><b>Mem0</b>：一个持久记忆层，把无状态的智能体变成有状态的。它分两步：先用大模型总结对话、<b>抽取</b>新记忆；再由大模型决定这些记忆是新增、修改还是删除（<b>更新</b>），存进可以包含向量、图、键值数据库的混合存储。</li><li><b>Cognee</b>：开源的语义记忆，把结构化和非结构化数据变成<b>知识图谱</b>（背后有向量支撑）。它同时用向量相似度和图关系，让智能体不只知道哪些信息相似，还知道概念之间怎么关联。</li><li><b>Azure AI Search</b>：作为存储和检索记忆的后端，尤其适合结构化 RAG，用你自己的数据让回答更相关、更准确。</li></ul>
+    <p><b>让智能体自我改进</b>：常见做法是加一个单独的<b>“知识智能体”</b>，旁观用户和主智能体的对话，做四件事：</p><ol><li><b>识别</b>：判断对话里有没有值得存下来的通用知识或用户偏好。</li><li><b>提炼</b>：把要点或偏好总结出来。</li><li><b>存入知识库</b>：通常存进向量数据库，方便以后取用。</li><li><b>补充后续提问</b>：用户再提问时，取出相关记忆附加到提问里，交给主智能体（和 RAG 类似）。</li></ol>
+    <p><b>两个优化</b>：</p><ul><li><b>控制延迟</b>：先用便宜、快的模型快速判断信息值不值得存或取，必要时才启动复杂的抽取和检索。</li><li><b>维护知识库</b>：知识库越来越大时，把不常用的信息移到“冷存储”，控制成本。</li></ul>
+  </div>
+  <div class="section-title"><h3>跟着看</h3><span class="count" data-count="main"></span></div>
+  <ol class="steps" data-part="main">
+    <li data-w="web">
+      <p>打开原课程这一课的官方中文版，先看页面顶部的介绍视频（英文，可开字幕），再把“记忆类型”一节读一遍：</p>
+      <pre data-lang="网址">https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/13-agent-memory/README.md</pre>
+      
+      <p class="expect">页面标题是“AI Agent 的记忆”。本课有两个示例笔记本：一个用 Microsoft Agent Framework 演示记忆，一个用 Cognee 做知识图谱记忆。</p>
+      
+    </li>
+    <li data-w="claude">
+      <p>在课程文件夹里启动 Claude Code，让它用中文讲解本课的主示例。注意这一课的示例直接放在课程文件夹里，不在 <code>code_samples</code> 里。只读，不运行：</p>
+      <pre data-lang="终端">cd {{DIR}}
+claude</pre>
+      <pre data-lang="Claude">用中文给一个不会编程的人讲解 @13-agent-memory/13-agent-memory.ipynb ：示例里的旅行智能体是怎么“记住”东西的？同一个会话、新会话、长期偏好存储，三者分别是怎么回事？不要运行任何代码。</pre>
+      
+      <p class="expect">Claude 会讲到：同一个会话里，智能体记得用户说过“预算 3000 美元”；换一个新会话就不记得了；示例用 <code>save_preference</code> 和 <code>get_preferences</code> 两个工具，把偏好存进一个叫 <code>preference_store</code> 的存储里，所以 Sarah 几周后开新会话，智能体还能取回她的偏好。</p>
+      
+    </li>
+    <li data-w="look">
+      <p>对照 Claude 的讲解，在示例里认出这几样：</p><ul><li><b>会话</b>：<code>session = agent.create_session()</code>，两次 <code>agent.run(…, session=session)</code> 共用同一个会话，所以第二问能答出预算。</li><li><b>新会话就失忆</b>：<code>new_session</code> 里问“我的预算是多少”，智能体答不上来。</li><li><b>长期记忆</b>：<code>@tool</code> 标记的 <code>save_preference</code> 和 <code>get_preferences</code>。指令里写着：对话一开始先调用 <code>get_preferences()</code>，用户提到新偏好就用 <code>save_preference()</code> 存下来。</li><li><b>跨会话生效</b>：<code>session_2</code> 是全新会话，智能体仍按 Sarah 存过的偏好（素食、坚果过敏、无障碍住宿）来推荐。</li></ul>
+      
+      <p class="tr">示例里的偏好存储只是程序里的一个字典，示例自己说明：真正上线时要换成数据库或向量索引。</p>
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>再问一个问题，把示例和原课程列的记忆类型对上号：</p>
+      <pre data-lang="Claude">对照 @13-agent-memory/README.md 里列的记忆类型（工作、短期、长期、角色、情景、实体、结构化 RAG），这个示例演示了哪几种？哪几种没有演示？如果要加“情景记忆”，大概要多存什么信息？只讲思路，不写代码。</pre>
+      
+      <p class="expect">答案大意：示例演示了会话内的记忆和跨会话的长期偏好；角色记忆可以从指令里看到一点影子；情景、实体、结构化 RAG 没有专门演示。加情景记忆，就要记下做过哪些步骤、哪步成功哪步失败。具体措辞每次不同。</p>
+      <details class="stuck"><summary>示例把会话叫“工作记忆”，原课程正文却说会话对应“短期记忆”，哪个对？</summary><p>两处叫法不一致：英文原版正文把 <code>AgentSession</code> 对应到短期记忆，示例笔记本里把它叫工作记忆。意思是一样的：只在这一次会话里有效，会话结束就没了。本页按正文的说法讲。</p></details>
+    </li>
+    <li data-w="look">
+      <p>了解一下：如果想<b>真正运行</b>主示例，笔记本要求先准备好这些（本页的练习不需要）：</p><ul><li>一个部署了聊天模型的 Microsoft Foundry 项目；</li><li>用 Azure 命令行登录（<code>az login</code>）；</li><li>设置两个环境变量：<code>AZURE_AI_PROJECT_ENDPOINT</code> 和 <code>AZURE_AI_MODEL_DEPLOYMENT_NAME</code>。</li></ul><p>另一个示例 <code>13-agent-memory/13-agent-memory-cognee.ipynb</code> 用 Cognee 给一个编程助手建知识图谱记忆，想深入可以同样让 Claude 讲给你听。</p>
+      
+      
+      
+      <details class="stuck"><summary>我想自己跑一遍示例，要花钱吗？</summary><p>示例调用的是你自己 Azure 账号里部署的模型，会按 Azure 的规则计费。没准备好之前，按本页的方式读懂代码就够了。</p></details>
+    </li>
+  </ol>
+  <div class="section-title"><h3>自己练一遍</h3><span class="count" data-count="turn"></span></div>
+  <ol class="steps" data-part="turn">
+    <li data-w="look">
+      <p><b>任务</b>：假设你要给“售后与老客户跟进智能体”设计记忆。老客户来问配件、报修、再次采购时，它不该每次都从零问起。先别想技术，用这一课的记忆类型把“该记什么、记多久、什么时候忘”想清楚。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>在 Claude Code 里（或 claude.ai 上）让 Claude 陪你一起设计。下面这段可以直接复制，方括号里换成你的实际情况：</p>
+      <pre data-lang="Claude">我是工程机械销售公司的总经理，想给“售后与老客户跟进智能体”设计记忆。请按这几种记忆类型帮我分类：工作记忆、短期记忆、长期记忆、角色记忆、情景记忆、实体记忆。每类举 2 个我们业务里的例子（比如客户买过的设备型号、上次报修的问题、客户偏好的沟通方式、上次报价失败的原因）。再告诉我：哪些信息应该定期更新或删除？哪些信息涉及客户隐私，存之前要人确认？我们的产品是 [起重设备、混凝土设备、破碎设备]。只讨论设计，不要写代码。</pre>
+      
+      
+      
+    </li>
+    <li data-w="edit">
+      <p>把讨论结果整理成一张表，记在你自己的笔记里：</p><div class="table-wrap"><table><thead><tr><th>记忆类型</th><th>存什么（你的业务）</th><th>保留多久 / 何时更新或删除</th></tr></thead><tbody><tr><td>短期</td><td>……</td><td>……</td></tr><tr><td>长期</td><td>……</td><td>……</td></tr><tr><td>情景</td><td>……</td><td>……</td></tr><tr><td>实体</td><td>……</td><td>……</td></tr></tbody></table></div>
+      
+      
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>再设计一个“知识智能体”：它旁观业务员和客户的往来，按原课程的四步决定存什么。</p>
+      <pre data-lang="Claude">按“识别、提炼、存入知识库、补充后续提问”这四步，帮我设计一个旁观售后对话的知识智能体：每一步具体判断什么？举一段客户来问配件的对话为例，它会提炼出哪一两条记忆？下次这个客户再来，它会把什么补充给主智能体？只讨论设计。</pre>
+      
+      <p class="expect">你会得到一份四步说明和一个例子。重点看它“识别”的标准是否合理：不是什么都存，只存以后真用得上的。</p>
+      
+    </li>
+  </ol>
+  <div class="section-title"><h3>检查过关</h3><span class="count" data-count="check"></span></div>
+  <ol class="steps" data-part="check">
+    <li data-w="look">
+      <p>你能说出短期记忆和长期记忆的区别：前者只在一次会话里有效，后者跨会话保留，通常放在数据库或向量索引里。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你能用自己的话解释角色、情景、实体三种记忆，并各举一个你业务里的例子。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你的售后智能体记忆表已经填好，并且写清了哪些信息要定期更新或删除。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你能说出知识智能体的四步：识别、提炼、存入知识库、补充后续提问。</p>
+      
+      
+      
+      
+    </li>
+  </ol>
+  <div class="warnbox">
+    <h3>容易踩的坑</h3>
+    <p>记忆管理不只是“存”。原课程把<b>更新</b>和<b>遗忘</b>（删除）也列为记忆管理的一部分。只进不出的记忆会越来越大，原课程建议把不常用的信息移到冷存储，控制成本。</p>
+    <p>每次都用复杂流程判断要不要存、要不要取，会拖慢对话。原课程的建议是先用便宜、快的模型做初筛，必要时才启动完整的抽取和检索。</p>
+  </div>
+  <div class="panel"><div class="section-title"><h3>过关小测</h3><span class="count">全部答对才算过关</span></div><div class="quiz" data-quiz="a-13"></div></div>
+  <nav class="pager" aria-label="课程翻页"></nav>
+</section>
+
+<!-- ============ a-14 ============ -->
+<section class="view lesson" id="v-a-14" data-view="a-14" hidden>
+  <div class="lhead">
+    <span class="eyebrow">第 15 课 / 共 13 课 · 走向生产 · 约 35 分钟</span>
+    <h2>探索 Microsoft Agent Framework</h2>
+    <p class="goal">学完这课，你能说清楚 Microsoft Agent Framework（MAF）提供哪些编排方式和生产功能，认出它的核心概念（智能体、工具、线程、中间件、记忆、可观测性、工作流），并能读懂一个用条件分支串起几个智能体的工作流示例。</p>
+  </div>
+  
+  <div class="panel idea">
+    <h3>先搞懂</h3>
+    <p>原课程的介绍：<b>Microsoft Agent Framework（MAF）是微软用来构建 AI 智能体的统一框架</b>，想同时满足生产环境和研究环境里各种各样的用法。它支持五种编排方式：</p><ul><li><b>顺序编排</b>：需要一步接一步的流程。</li><li><b>并发编排</b>：几个智能体要同时完成任务。</li><li><b>群聊编排</b>：几个智能体围绕同一个任务协作。</li><li><b>交接编排</b>：完成一部分子任务后，把任务交给下一个智能体。</li><li><b>Magnetic 编排</b>：一个“经理”智能体建立和修改任务清单，协调下属智能体完成。</li></ul>
+    <p><b>为了能上生产</b>，原课程说 MAF 还包含四类功能：</p><ul><li><b>可观测性</b>：用 OpenTelemetry 记录智能体的每个动作，包括工具调用、编排步骤、推理过程，并通过 Microsoft Foundry 仪表盘监控性能。</li><li><b>安全</b>：智能体可以原生托管在 Microsoft Foundry 上，带基于角色的访问控制、私有数据处理和内置内容安全。</li><li><b>持久</b>：线程和工作流可以暂停、恢复、从错误中恢复，适合长时间运行的流程。</li><li><b>可控</b>：支持“人在回路”，某些任务可以标记为需要人工审批。</li></ul><p><b>互通性</b>方面：可以在容器、本地和多种云上运行；可以用 Azure OpenAI、OpenAI 等你偏好的 SDK 创建智能体；支持 A2A 和 MCP 这类开放协议去发现和使用其他智能体和工具；还能连接 Microsoft Fabric、SharePoint、Pinecone、Qdrant 等数据和记忆服务。</p>
+    <p><b>核心概念一：智能体本身</b>。</p><ul><li><b>创建</b>：定义推理服务（大模型提供方）、一段指令、一个名字。原课程举了 Azure OpenAI、Microsoft Foundry Agent Service、OpenAI、MiniMax，以及通过 A2A 协议接入的远程智能体。</li><li><b>运行</b>：用 <code>.run</code>（一次性返回）或 <code>.run_stream</code>（流式返回）。每次运行还可以单独指定 <code>max_tokens</code>、可用工具，甚至换模型。</li><li><b>工具</b>：可以在创建智能体时给，也可以只在某一次运行时给。</li><li><b>线程</b>：处理多轮对话。可以建一个能长期保存的线程，也可以只在本次运行里临时存在；线程还能序列化存起来，以后再恢复。</li></ul>
+    <p><b>核心概念二：中间件、记忆、可观测性</b>。</p><ul><li><b>中间件</b>：在智能体和工具、智能体和大模型之间插一层，做记录或检查。<b>函数中间件</b>夹在智能体和它要调用的工具之间，比如给每次工具调用记日志；<b>聊天中间件</b>夹在智能体和大模型之间，能看到发给模型的消息。代码里的 <code>next</code> 决定是否继续交给下一层或真正执行。</li><li><b>记忆</b>（接第 13 课）：<b>内存存储</b>是程序运行期间存在线程里的；<b>持久消息</b>用来跨会话保存对话历史；<b>动态记忆</b>在运行前加进上下文，可以放在 Mem0 这样的外部服务里。</li><li><b>可观测性</b>：接入 OpenTelemetry，提供追踪（trace）和计量（meter）。</li></ul>
+    <p><b>核心概念三：工作流</b>。工作流是完成一项任务的<b>预先定义的步骤</b>，AI 智能体是其中的组件。它还支持多智能体编排和<b>检查点</b>（保存工作流状态）。三个组成部分：</p><div class="table-wrap"><table><thead><tr><th>组成</th><th>作用</th><th>原课程的例子</th></tr></thead><tbody><tr><td>执行器</td><td>收到消息、完成自己的任务、输出消息；可以是智能体，也可以是自定义逻辑</td><td>查房态的智能体</td></tr><tr><td>直接边</td><td>一对一把消息传给下一个执行器</td><td>A 做完交给 B</td></tr><tr><td>条件边</td><td>满足某个条件才走这条路</td><td>酒店没房时，转去推荐其他选择</td></tr><tr><td>分支边</td><td>按条件分到不同执行器</td><td>有优先权的客户走另一套流程</td></tr><tr><td>扇出 / 扇入边</td><td>一条消息发给多个目标 / 多个结果汇总给一个目标</td><td>几个智能体并行后汇总</td></tr><tr><td>事件</td><td>工作流开始、产出、出错，执行器开始、完成，发出请求</td><td>用来观察流程走到哪</td></tr></tbody></table></div>
+    <p><b>进阶用法</b>，原课程列了四个方向：把多个中间件串起来（日志、鉴权、限流）；用事件和序列化给长流程存<b>检查点</b>，以后续跑；对工具说明做 RAG，<b>每次只给相关的工具</b>；用边和条件路由做<b>多智能体交接</b>。</p><p>另外，MAF 讲究<b>框架互通</b>：已经用 LangChain 或 LangGraph 写好的智能体，可以作为 Microsoft Foundry 托管智能体运行，由 Foundry 管运行环境、会话、扩容、身份和接口，智能体逻辑仍留在 LangGraph 里。原课程给了两种托管协议：<code>/responses</code>（兼容 OpenAI 的对话接口，推荐大多数智能体先用这个）和 <code>/invocations</code>（自定义 JSON 格式、类似 webhook 或非对话处理）。</p>
+  </div>
+  <div class="section-title"><h3>跟着看</h3><span class="count" data-count="main"></span></div>
+  <ol class="steps" data-part="main">
+    <li data-w="web">
+      <p>打开原课程这一课的官方中文版，重点读“核心概念”和“工作流”两节：</p>
+      <pre data-lang="网址">https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/14-microsoft-agent-framework/README.md</pre>
+      
+      <p class="expect">页面标题是“探索 Microsoft Agent Framework”。页面里有很多短代码片段，不用逐行看懂，知道每段在演示哪个概念就行。</p>
+      
+    </li>
+    <li data-w="claude">
+      <p>在课程文件夹里启动 Claude Code，让它讲解一个完整的工作流示例：酒店预订条件工作流。注意这一课的示例文件夹叫 <code>code-samples</code>（中间是短横线）。只读，不运行：</p>
+      <pre data-lang="终端">cd {{DIR}}
+claude</pre>
+      <pre data-lang="Claude">用中文给一个不会编程的人讲解 @14-microsoft-agent-framework/code-samples/hotel_booking_workflow_sample.py ：这个工作流里有哪几个执行器？它们之间用什么边连起来？什么情况下走哪条路？不要运行任何代码。</pre>
+      
+      <p class="expect">Claude 会讲到：有三个智能体执行器（<code>availability_agent</code> 查房态、<code>alternative_agent</code> 推荐别的城市、<code>booking_agent</code> 鼓励下单），一个自定义执行器 <code>display_result</code> 输出结果；查房态之后按“有没有房”走两条条件边。示例用巴黎（没房）和斯德哥尔摩（有房）各测一次。</p>
+      
+    </li>
+    <li data-w="look">
+      <p>对照“先搞懂”里的工作流概念，在示例里认出这些：</p><ul><li><b>工具</b>：<code>hotel_booking</code>，模拟查某个城市有没有房。</li><li><b>执行器</b>：用 <code>AgentExecutor</code> 包起来的三个智能体，加上 <code>@executor</code> 标记的 <code>display_result</code>（自定义逻辑）。</li><li><b>起点</b>：<code>.set_start_executor(availability_agent)</code>。</li><li><b>条件边</b>：<code>.add_edge(availability_agent, alternative_agent, condition=no_availability_condition)</code>，没房才走这条。</li><li><b>结构化输出</b>：每个智能体用 <code>response_format</code> 指定返回的格式，条件函数才能读出“有没有房”。</li></ul>
+      
+      
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>再看同一个场景加上“人在回路”之后变成什么样：</p>
+      <pre data-lang="Claude">对比 @14-microsoft-agent-framework/code-samples/14-human-loop.ipynb 和刚才的酒店预订工作流：多了哪些步骤？工作流在哪里停下来等人回答？人回答“是”或“否”之后分别走向哪里？用中文讲，不运行代码。</pre>
+      
+      <p class="expect">答案大意：没房时，先由一个智能体准备要问用户的问题，然后工作流暂停，等用户回答要不要看其他城市；回答“是”就去推荐其他城市，回答“否”就走取消；有房时直接走预订，不需要人参与。具体措辞每次不同。</p>
+      
+    </li>
+    <li data-w="look">
+      <p><code>14-microsoft-agent-framework/code-samples/</code> 里还有几个示例，分别对应本课讲的概念，想深入可以同样让 Claude 讲：</p><ul><li><code>14-sequential.ipynb</code>：顺序编排，前台智能体先推荐景点，礼宾智能体再审核。</li><li><code>14-concurrent.ipynb</code>：并发编排，三个智能体并行（扇出 / 扇入）。</li><li><code>14-handoff.ipynb</code>：交接编排，客服按需要转给专门的智能体。</li><li><code>14-middleware.ipynb</code>：函数中间件，给优先会员改写工具结果。</li><li><code>14-langchain-hosted-agent.py</code>：把 LangGraph 智能体托管到 Foundry。</li></ul>
+      
+      
+      
+      <details class="stuck"><summary>想真正运行这些示例，需要什么？</summary><p>需要你自己的模型服务账号。酒店预订示例会按你设置的环境变量选一家：MiniMax（<code>MINIMAX_API_KEY</code>）、Azure OpenAI（<code>AZURE_OPENAI_ENDPOINT</code>，先 <code>az login</code>），否则默认用 OpenAI。都会按各家规则计费。本页的练习只需要读懂。</p></details>
+      <details class="stuck"><summary>README 里的写法和示例文件里的不完全一样？</summary><p>是的。比如 README 里建线程用 <code>get_new_thread()</code>，第 13 课的示例用 <code>create_session()</code>。读的时候抓住概念（这是线程、这是工具、这是边）就够了，具体写法以示例文件为准。</p></details>
+    </li>
+  </ol>
+  <div class="section-title"><h3>自己练一遍</h3><span class="count" data-count="turn"></span></div>
+  <ol class="steps" data-part="turn">
+    <li data-w="look">
+      <p><b>任务</b>：把你公司的<b>报价流程</b>画成一个 MAF 风格的工作流：谁是执行器、它们之间用什么边连、哪里要停下来等人审批、哪里要记日志。不写代码，只做设计。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>先让 Claude 帮你把报价流程拆成执行器和边。下面这段可以直接复制，方括号里换成你的实际情况：</p>
+      <pre data-lang="Claude">参考 @14-microsoft-agent-framework/code-samples/hotel_booking_workflow_sample.py 的结构，帮我把我们的报价流程设计成一个工作流（只讲设计，不写代码）。我们的流程大致是：[收到询价 → 确认设备型号和工况 → 查库存和交期 → 算价格 → 经理审批 → 发报价单]。请告诉我：1）哪些步骤适合做成智能体执行器，哪些适合做成固定逻辑的执行器；2）每两步之间用直接边、条件边、分支边还是扇出/扇入边，为什么；3）哪一步必须“人在回路”，暂停等人审批；4）哪里适合加函数中间件记日志。</pre>
+      
+      
+      
+    </li>
+    <li data-w="edit">
+      <p>把结果整理成一张表，记在你自己的笔记里：</p><div class="table-wrap"><table><thead><tr><th>步骤</th><th>执行器类型（智能体 / 固定逻辑）</th><th>出去的边（类型和条件）</th></tr></thead><tbody><tr><td>收到询价</td><td>……</td><td>……</td></tr><tr><td>查库存和交期</td><td>……</td><td>……</td></tr><tr><td>算价格</td><td>……</td><td>……</td></tr><tr><td>经理审批（人在回路）</td><td>……</td><td>……</td></tr></tbody></table></div>
+      
+      
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>最后用前面学过的课把这个设计复盘一遍，看看它用到了哪些概念：</p>
+      <pre data-lang="Claude">对照这门课前面的内容（工具使用、可信智能体与人在回路、规划、多智能体、记忆），我这个报价工作流分别用到了哪些？还有哪一块是缺的？比如老客户的历史报价应该放在哪种记忆里？只讨论设计。</pre>
+      
+      <p class="expect">你会得到一张“概念 ↔ 设计里的位置”的对照。重点看：价格和对外发送是否都放在了人工审批之后。</p>
+      
+    </li>
+  </ol>
+  <div class="section-title"><h3>检查过关</h3><span class="count" data-count="check"></span></div>
+  <ol class="steps" data-part="check">
+    <li data-w="look">
+      <p>你能说出 MAF 的五种编排方式里至少三种，并说出各自适合什么场景。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你能解释执行器、条件边、扇出 / 扇入边分别是什么，并在酒店预订示例里指出条件边。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你能说出函数中间件和聊天中间件的区别：一个夹在智能体和工具之间，一个夹在智能体和大模型之间。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你的报价工作流表已经填好，并且标出了哪一步暂停等人审批。</p>
+      
+      
+      
+      
+    </li>
+  </ol>
+  <div class="warnbox">
+    <h3>容易踩的坑</h3>
+    <p>这一课讲的是一个具体厂商的框架。功能清单（Foundry 托管、仪表盘、内容安全等）是原课程对 MAF 的介绍，很多和微软自己的服务绑定。学的时候抓住通用的概念：执行器、边、人在回路、中间件、检查点，这些换任何框架都用得上。</p>
+    <p>原课程把“人在回路”列为 MAF 的“可控”功能：任务可以标记为需要人工审批。设计你自己的流程时，涉及价格、对外发送、合同的步骤，都应该放在人工审批之后。</p>
+  </div>
+  <div class="panel"><div class="section-title"><h3>过关小测</h3><span class="count">全部答对才算过关</span></div><div class="quiz" data-quiz="a-14"></div></div>
+  <nav class="pager" aria-label="课程翻页"></nav>
+</section>
+
+<!-- ============ a-16 ============ -->
+<section class="view lesson" id="v-a-16" data-view="a-16" hidden>
+  <div class="lhead">
+    <span class="eyebrow">第 17 课 / 共 13 课 · 实战与安全 · 约 30 分钟</span>
+    <h2>部署可扩展的智能体</h2>
+    <p class="goal">学完这课，你能为一个智能体选对部署方式，说清楚上线前的评估关卡、扩展和省钱的几种办法，以及为什么高风险动作要加人工审批、MCP 服务器要当作不可信的边界。</p>
+  </div>
+  
+  <div class="panel idea">
+    <h3>先搞懂</h3>
+    <p>原课程开门见山：在笔记本上能跑的智能体，适合学习，但不适合让几千个客户在凌晨三点依赖它。<b>原型和生产用的是同一个循环</b>（推理、调工具、回答），变的是循环外面的一切。原课程说，模型大约只占生产级智能体的两成，另外八成是运营骨架：</p><div class="table-wrap"><table><thead><tr><th>关注点</th><th>原型</th><th>生产</th></tr></thead><tbody><tr><td>托管</td><td>跑在你的笔记本里</td><td>托管服务，有版本、逐步上线</td></tr><tr><td>身份</td><td>你自己的 <code>az login</code> 登录</td><td>托管身份，权限按需限定</td></tr><tr><td>状态</td><td>存在内存里，重启就丢</td><td>存到外部（对话存储、记忆服务）</td></tr><tr><td>出错</td><td>你自己看报错</td><td>重试、备用方案、告警</td></tr><tr><td>成本</td><td>“就几分钱”</td><td>每次请求都追踪、路由、缓存、做预算</td></tr><tr><td>质量</td><td>你用眼睛看输出</td><td>每次发布前自动评估</td></tr><tr><td>信任</td><td>每个动作你都亲自批</td><td>策略加人工审批，管住高风险动作</td></tr></tbody></table></div>
+    <p><b>三种部署方式</b>（常常组合使用）：</p><ul><li><b>客户端托管</b>：智能体就在你自己的程序里，推理循环由你的服务来跑，前面各课都是这样。适合要完全掌控循环、或把智能体嵌进现有后台的情况；代价是扩展、状态和容错都得自己负责。</li><li><b>托管智能体（Foundry Agent Service）</b>：智能体注册成 Microsoft Foundry 里的一个资源，由 Foundry 跑推理循环、保存对话、执行内容安全和权限控制。适合想要持久、自带可观察性和治理的情况；代价是底层控制少一些。</li><li><b>智能体工作流</b>：把多个智能体和工具组成一张有明确流程的图，可以有顺序步骤、分支、人工审批节点，还能暂停后接着跑。适合一个任务要经过几个专门智能体、或中间要有人审批的情况；代价是零件更多。</li></ul>
+    <p><b>智能体的生命周期</b>不是一次性“推上去”，而是一个循环：创建，定版本，离线评估，通过就部署，上线后观察，收集失败案例，再回去改；旧版本按时退役。原课程强调：<b>离线评估是一道关卡，不是事后补的</b>。新版本达不到评估门槛就不许发布；线上发现的失败，再补进离线测试集。</p>
+    <p><b>扩展的四个办法</b>：智能体的每次请求可能触发好几次昂贵的模型和工具调用，所以和普通网站不一样。</p><ul><li><b>无状态处理</b>：不在程序内存里存用户状态，对话存到外部，这样任何一台实例都能处理任何请求，加机器就能扩展。</li><li><b>模型路由</b>：简单请求（判断意图、简短事实回答）交给小而快的模型，真正需要推理的才用大模型。可以用 Foundry 的 Model Router，也可以自己写个简单分类器。</li><li><b>响应缓存</b>：很多问题几乎一样，常见问题的答案缓存起来，直接返回，不再调模型。</li><li><b>并发控制</b>：模型服务有速率限制。限制并发数，失败后逐步拉长间隔重试，实在不行就体面地回一句“正在处理”，总比直接报错强。</li></ul>
+    <p><b>可观察性</b>：看不见就管不了。Microsoft Agent Framework 原生输出 OpenTelemetry 追踪，每次模型调用、工具调用、编排步骤都是一段记录。导出到 Microsoft Foundry 之后，你可以把一位客户的投诉从头到尾追一遍，观察每次请求的延迟和成本，在错误率或成本异常时提前告警。给追踪加上 <code>customer.tier</code>、<code>routed.model</code> 这类属性，才能回答“大客户是不是太常被分到小模型”这种问题。</p>
+    <p><b>省钱的三个杠杆</b>（按效果从大到小）：</p><ol><li><b>选对模型大小</b>：能通过评估关卡的小模型，几乎总比同样能通过的大模型便宜。用评估来<b>证明</b>小模型够用，而不是出于谨慎默认用最大的。</li><li><b>按复杂度路由</b>：只有真正需要的请求才付大模型的价钱。</li><li><b>积极缓存</b>：最便宜的模型调用，是根本没发生的那一次。</li></ol><p>原课程说，评估和成本控制是同一件事的两面：评估定出质量底线，路由和缓存让成本尽量贴近这条底线。</p>
+    <p><b>企业部署要注意三件事</b>：</p><ul><li><b>治理</b>：托管智能体继承 Foundry 的权限控制、内容安全和审计日志。给每个智能体一个托管身份，只给它需要的最小权限，比如知识库只读、工单接口限定范围。</li><li><b>人工审批</b>：有些动作后果太重，不能全自动，比如退款、删账号、升级给法务。框架支持“需要审批”的工具：智能体提出动作，执行暂停，人批准或拒绝，流程再继续。</li><li><b>生产环境里的 MCP</b>：把每个 MCP 服务器都当作<b>不可信的边界</b>：固定它的版本，用限定范围的身份运行，校验它的输出，绝不把密钥暴露给它。它是一个依赖，要打补丁、审计、限流。</li></ul>
+    <p><b>冒烟测试</b>：部署“成功”只说明平台接受了定义，不代表智能体真的在回答。缺依赖、路由配错、连接过期，都可能让部署显示正常却什么都不回。原课程把检查分成三层：每次部署都跑冒烟测试（能不能连上、有没有回应），发布前跑离线评估（够不够好），上线后持续做线上评估（实际表现怎样）。</p>
+  </div>
+  <div class="section-title"><h3>跟着看</h3><span class="count" data-count="main"></span></div>
+  <ol class="steps" data-part="main">
+    <li data-w="web">
+      <p>打开原课程这一课的官方中文版，从头读到“实战实验”一节：</p>
+      <pre data-lang="网址">https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/16-deploying-scalable-agents/README.md</pre>
+      
+      <p class="expect">页面标题是“使用 Microsoft Foundry 部署可扩展代理”。页面里有几张流程图（部署模式、生命周期、路由和缓存），先看懂这几张图就抓住了大半。</p>
+      
+    </li>
+    <li data-w="claude">
+      <p>在课程文件夹里启动 Claude Code，让它讲解本课的示例。这一步只读代码，不运行，不需要任何密钥：</p>
+      <pre data-lang="终端">cd {{DIR}}
+claude</pre>
+      <pre data-lang="Claude">用中文给一个不会编程的人讲解 @16-deploying-scalable-agents/code_samples/16-python-agent-framework.ipynb ：这个客服智能体有哪些工具？笔记本里一共处理了哪几个“上线要考虑的问题”，每一个用一句话说清楚。不要运行任何代码。</pre>
+      
+      <p class="expect">Claude 会讲到这是虚构公司 Contoso 的客服智能体，工具有查订单 <code>get_order_status</code>、开工单 <code>open_ticket</code>、查政策 <code>search_policies</code>、退款 <code>issue_refund</code>；还会列出工具、RAG、记忆、模型路由、缓存、人工审批、评估关卡、追踪这八块。</p>
+      
+    </li>
+    <li data-w="look">
+      <p>对照 Claude 的讲解，找到请求处理函数 <code>handle_support_request</code>，认出它的顺序：</p><ol><li><b>先查缓存</b>：同样的问题问过，就直接返回缓存的答案。</li><li><b>再选模型</b>：<code>is_simple</code> 看问题里有没有 refund、cancel、complaint 这类词，有就交给大模型，否则短问题交给小模型。</li><li><b>加上客户记忆</b>，然后<b>在追踪里运行</b>：记录客户编号和用了哪个模型。</li><li><b>存进缓存</b>，返回答案。</li></ol>
+      
+      <p class="tr">这正是“先搞懂”里说的扩展和省钱办法：缓存、路由、可观察性，串在一个函数里。</p>
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>再问两个问题，看清评估关卡和人工审批是怎么做的：</p>
+      <pre data-lang="Claude">笔记本里的 evaluation_gate 用了几条测试用例？门槛是多少？没过门槛时 release 函数会怎么做？另外，issue_refund 为什么标成 approval_mode="always_require"，运行到它时会发生什么？</pre>
+      
+      <p class="expect">答案大意：测试集有 4 条（退货期限、配送时间、订单状态、保修），门槛是 80%；没过就打印“发布被拦下，修好再跑”。退款工具每次都要人批准，运行到它时会暂停，等人明确批准或拒绝。具体措辞每次不同。</p>
+      <details class="stuck"><summary>示例里的打分怎么这么简单？</summary><p>笔记本自己说明了：为了让示例自成一体，打分只看回答里有没有关键词；生产环境里会用大模型当评委，或用框架自带的评估器（见第 10 课）。</p></details>
+    </li>
+    <li data-w="look">
+      <p>了解一下：如果想<b>真正运行</b>这个示例，笔记本要求先准备好这些（本页的练习不需要）：</p><ul><li>一个部署了聊天模型的 Microsoft Foundry 项目；</li><li>用 Azure 命令行登录（<code>az login</code>）；</li><li>设置 <code>AZURE_AI_PROJECT_ENDPOINT</code> 和 <code>AZURE_AI_MODEL_DEPLOYMENT_NAME</code> 两个环境变量。</li></ul><p>RAG 部分如果没有配置 Azure AI Search，会自动改用内存里的简单搜索，所以没有 Search 资源也能跑。</p>
+      
+      
+      
+      <details class="stuck"><summary>我想自己跑一遍，要花钱吗？</summary><p>示例调用的是你自己 Azure 账号里部署的模型，会按 Azure 的规则计费。原课程还讲了部署成托管智能体后的冒烟测试，那一步也需要 Foundry 项目。没准备好之前，按本页的方式读懂代码就够了。</p></details>
+    </li>
+  </ol>
+  <div class="section-title"><h3>自己练一遍</h3><span class="count" data-count="turn"></span></div>
+  <ol class="steps" data-part="turn">
+    <li data-w="look">
+      <p><b>任务</b>：假设你的“询盘与售后答复智能体”已经在你电脑上试得不错，现在要让全公司的销售和客户都能用。用这一课的“原型和生产差在哪”那张表，给它写一份上线方案。只做设计，不写代码。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="claude">
+      <p>在 Claude Code 里（或 claude.ai 上）让 Claude 陪你一起拆。方括号里换成你的实际情况：</p>
+      <pre data-lang="Claude">我是工程机械销售公司的总经理，要把一个“询盘与售后答复智能体”从试用变成全公司在用的服务。请按微软 AI Agents for Beginners 第 16 课的思路帮我做设计，不要写代码：
+1. 三种部署方式（客户端托管、托管智能体、智能体工作流）里，哪种适合我们？为什么？
+2. 模型路由规则：哪些请求算简单、交给小模型（比如问样册、问交期）？哪些算复杂、交给大模型（比如涉及报价、折扣、索赔、投诉）？
+3. 哪些常见问题可以缓存？
+4. 哪些动作必须暂停等人批准（比如发出正式报价、同意售后赔付、修改客户记录）？
+5. 帮我列 8 条上线前的评估用例，其中至少 2 条应该触发人工审批。
+我们的产品是 [起重设备、混凝土设备、破碎设备]。</pre>
+      
+      
+      
+    </li>
+    <li data-w="edit">
+      <p>把讨论结果整理成一张上线方案表，记在你自己的笔记里：</p><div class="table-wrap"><table><thead><tr><th>关注点</th><th>你的询盘与售后智能体怎么做</th></tr></thead><tbody><tr><td>部署方式</td><td>……</td></tr><tr><td>路由规则（小模型 / 大模型）</td><td>……</td></tr><tr><td>可以缓存的问题</td><td>……</td></tr><tr><td>需要人工审批的动作</td><td>……</td></tr><tr><td>评估用例和门槛</td><td>……</td></tr><tr><td>追踪时要记录的属性</td><td>……</td></tr></tbody></table></div>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>最后用两条原则自查一遍：</p><ul><li><b>最小权限</b>：这个智能体真的需要“改客户记录”的权限吗？能只读的就只读。</li><li><b>MCP 是不可信边界</b>：如果它要通过 MCP 连接你的 CRM 或报价系统，你的方案里有没有写上：固定版本、限定身份、校验输出、不把密钥给它？</li></ul>
+      
+      
+      
+      
+    </li>
+  </ol>
+  <div class="section-title"><h3>检查过关</h3><span class="count" data-count="check"></span></div>
+  <ol class="steps" data-part="check">
+    <li data-w="look">
+      <p>你能说出原型和生产在托管、状态、质量、信任这几行上的区别。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你能用一句话解释：为什么评估是上线前的“关卡”，以及它和“选小模型省钱”有什么关系。</p>
+      
+      
+      
+      
+    </li>
+    <li data-w="look">
+      <p>你的上线方案表已经填好，写清了路由规则、需要人工审批的动作和至少 8 条评估用例。</p>
+      
+      
+      
+      
+    </li>
+  </ol>
+  <div class="warnbox">
+    <h3>容易踩的坑</h3>
+    <p>部署显示“成功”，不代表智能体真的在回答。原课程建议每次部署后都跑一次冒烟测试，发布前跑离线评估，上线后持续做线上评估。</p>
+    <p>没有评估支撑的路由只是猜。原课程说，正是评估证明了某一类请求交给小模型就够了；示例里的路由规则故意写得很简单，实际要用真实请求去验证。</p>
+    <p>示例需要 Azure 订阅和 Microsoft Foundry 项目才能运行，会产生模型调用费用。本页只要求读懂代码。</p>
+  </div>
+  <div class="panel"><div class="section-title"><h3>过关小测</h3><span class="count">全部答对才算过关</span></div><div class="quiz" data-quiz="a-16"></div></div>
+  <nav class="pager" aria-label="课程翻页"></nav>
+</section>
 <section class="view" id="v-review" data-view="review" hidden>
   <div class="lhead">
     <span class="eyebrow">复习</span>
@@ -422,6 +1923,15 @@ claude</pre>
   var REPO = "";
   var LESSONS = [
  {
+  "id": "a-00",
+  "n": 1,
+  "part": "打基础",
+  "short": "下载课程",
+  "title": "课程设置：把课程下载到电脑上",
+  "min": 25,
+  "path": "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/00-course-setup/README.md"
+ },
+ {
   "id": "a-01",
   "n": 2,
   "part": "打基础",
@@ -429,9 +1939,150 @@ claude</pre>
   "title": "什么是 AI 智能体",
   "min": 25,
   "path": "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/01-intro-to-ai-agents/README.md"
+ },
+ {
+  "id": "a-02",
+  "n": 3,
+  "part": "打基础",
+  "short": "认识框架",
+  "title": "探索 AI 智能体框架",
+  "min": 25,
+  "path": "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/02-explore-agentic-frameworks/README.md"
+ },
+ {
+  "id": "a-04",
+  "n": 5,
+  "part": "打基础",
+  "short": "工具使用",
+  "title": "工具使用设计模式",
+  "min": 30,
+  "path": "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/04-tool-use/README.md"
+ },
+ {
+  "id": "a-05",
+  "n": 6,
+  "part": "核心模式",
+  "short": "智能体RAG",
+  "title": "Agentic RAG：会自己查资料的智能体",
+  "min": 30,
+  "path": "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/05-agentic-rag/README.md"
+ },
+ {
+  "id": "a-06",
+  "n": 7,
+  "part": "核心模式",
+  "short": "可信智能体",
+  "title": "构建可信赖的 AI 智能体",
+  "min": 30,
+  "path": "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/06-building-trustworthy-agents/README.md"
+ },
+ {
+  "id": "a-07",
+  "n": 8,
+  "part": "核心模式",
+  "short": "规划设计",
+  "title": "规划设计模式",
+  "min": 25,
+  "path": "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/07-planning-design/README.md"
+ },
+ {
+  "id": "a-08",
+  "n": 9,
+  "part": "核心模式",
+  "short": "多智能体",
+  "title": "多智能体设计模式",
+  "min": 25,
+  "path": "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/08-multi-agent/README.md"
+ },
+ {
+  "id": "a-10",
+  "n": 11,
+  "part": "走向生产",
+  "short": "上线监控",
+  "title": "生产环境中的智能体：可观测性与评估",
+  "min": 30,
+  "path": "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/10-ai-agents-production/README.md"
+ },
+ {
+  "id": "a-11",
+  "n": 12,
+  "part": "走向生产",
+  "short": "三种协议",
+  "title": "智能体协议：MCP、A2A 和 NLWeb",
+  "min": 30,
+  "path": "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/11-agentic-protocols/README.md"
+ },
+ {
+  "id": "a-13",
+  "n": 14,
+  "part": "走向生产",
+  "short": "记忆",
+  "title": "智能体的记忆",
+  "min": 30,
+  "path": "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/13-agent-memory/README.md"
+ },
+ {
+  "id": "a-14",
+  "n": 15,
+  "part": "走向生产",
+  "short": "MAF框架",
+  "title": "探索 Microsoft Agent Framework",
+  "min": 35,
+  "path": "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/14-microsoft-agent-framework/README.md"
+ },
+ {
+  "id": "a-16",
+  "n": 17,
+  "part": "实战与安全",
+  "short": "规模部署",
+  "title": "部署可扩展的智能体",
+  "min": 30,
+  "path": "https://github.com/microsoft/ai-agents-for-beginners/blob/main/translations/zh-CN/16-deploying-scalable-agents/README.md"
  }
 ];
   var QUIZ = {
+ "a-00": [
+  {
+   "q": "原课程为什么推荐浅克隆或稀疏克隆？",
+   "o": [
+    "完整克隆会丢文件",
+    "带完整历史和全部文件时仓库约 3 GB，太大",
+    "只有这样才能用 Claude Code"
+   ],
+   "a": 1,
+   "e": "原课程说完整仓库约 3 GB，浅克隆或稀疏克隆下载的内容少得多。"
+  },
+  {
+   "q": "fork（派生）和 clone（克隆）的区别是？",
+   "o": [
+    "fork 在你的 GitHub 账号下生成副本，clone 把仓库下载到电脑",
+    "两者完全一样",
+    "fork 只能在 Windows 上用"
+   ],
+   "a": 0,
+   "e": "想改代码并提交，要先 fork，再克隆你自己的 fork；只读的话直接克隆就行。"
+  },
+  {
+   "q": "原课程的大多数笔记本靠什么认证？",
+   "o": [
+    "把 API 密钥写进代码",
+    "用 Azure CLI 的 az login 登录状态",
+    "不需要任何认证"
+   ],
+   "a": 1,
+   "e": "大多数笔记本用 AzureCliCredential 或 DefaultAzureCredential，读取你的 az login 登录状态，不需要 API 密钥。"
+  },
+  {
+   "q": "运行大多数课程，.env 文件里要填哪两个值？",
+   "o": [
+    "用户名和密码",
+    "AZURE_AI_PROJECT_ENDPOINT 和 AZURE_AI_MODEL_DEPLOYMENT_NAME",
+    "Discord 账号和邮箱"
+   ],
+   "a": 1,
+   "e": "项目端点在 Foundry 项目的概览页，模型部署名称在“模型 + 终结点”里。"
+  }
+ ],
  "a-01": [
   {
    "q": "原课程对 AI 智能体的定义，最核心的一点是什么？",
@@ -473,9 +2124,496 @@ claude</pre>
    "a": 1,
    "e": "原课程列的三种适合情况是：开放式问题、多步骤流程、需要持续改进。"
   }
+ ],
+ "a-02": [
+  {
+   "q": "原课程说，AI 智能体框架最主要的作用是什么？",
+   "o": [
+    "替代大模型本身",
+    "提供现成组件和工具，简化智能体的创建、部署和管理",
+    "只用来做聊天界面"
+   ],
+   "a": 1,
+   "e": "框架用标准方法解决常见难题，让开发者专心做应用独特的部分。"
+  },
+  {
+   "q": "“一个智能体取数据，另一个智能体分析数据”，体现了框架的哪种做法？",
+   "o": [
+    "协作工具",
+    "实时学习",
+    "Azure 身份集成"
+   ],
+   "a": 0,
+   "e": "协作工具：造多个各有分工的智能体，一起完成任务。"
+  },
+  {
+   "q": "在 MAF 示例里，让智能体记住前一轮对话的是哪个构件？",
+   "o": [
+    "Client",
+    "Tools",
+    "Session"
+   ],
+   "a": 2,
+   "e": "Session（agent.create_session()）保存对话历史，多轮调用传同一个 session，智能体就记得前面说过的话。"
+  },
+  {
+   "q": "拿不定用哪个时，原课程的建议是？",
+   "o": [
+    "只用 Foundry Agent Service",
+    "先用 MAF 搭智能体，需要生产部署和扩展时再用 Agent Service",
+    "两个都不用"
+   ],
+   "a": 1,
+   "e": "这样既能快速迭代智能体逻辑，又有一条通向企业级部署的清晰路径。"
+  }
+ ],
+ "a-04": [
+  {
+   "q": "在函数调用中，模型第一次回复返回的是什么？",
+   "o": [
+    "问题的最终答案",
+    "它选中的函数名和要传的参数",
+    "函数的源代码"
+   ],
+   "a": 1,
+   "e": "模型返回的是工具调用（函数名和参数），由你的代码执行函数，再把结果交回模型生成最终回答。"
+  },
+  {
+   "q": "模型靠什么知道有哪些工具、该怎么调用？",
+   "o": [
+    "函数/工具说明（schema）",
+    "用户的历史订单",
+    "数据库的表结构"
+   ],
+   "a": 0,
+   "e": "schema 写明了函数名、用途、必填参数和预期输出，模型据此选择工具并构造请求。"
+  },
+  {
+   "q": "Foundry Agent Service 的工具分两类，“文件搜索”属于哪一类？",
+   "o": [
+    "动作类工具",
+    "知识类工具",
+    "调试类工具"
+   ],
+   "a": 1,
+   "e": "知识类包括 Bing 搜索、文件搜索、Azure AI Search；动作类包括函数调用、代码解释器、OpenAPI 工具、Azure Functions。"
+  },
+  {
+   "q": "原课程建议怎样降低大模型动态生成 SQL 带来的风险？",
+   "o": [
+    "让模型自己检查 SQL",
+    "把数据库访问权限配成只读",
+    "禁止使用数据库"
+   ],
+   "a": 1,
+   "e": "给程序只读（SELECT）权限，并在安全环境中运行；企业里常把数据抽到只读的数据仓库。"
+  }
+ ],
+ "a-05": [
+  {
+   "q": "Agentic RAG 和普通“先检索再回答”最大的不同是什么？",
+   "o": [
+    "它用的模型更大",
+    "它自己规划下一步，评估结果后决定要不要再查",
+    "它不需要外部资料"
+   ],
+   "a": 1,
+   "e": "Agentic RAG 在循环里反复调用大模型和工具，每轮评估结果、改写查询，直到满意。"
+  },
+  {
+   "q": "“maker-checker（制作者-检查者）”风格指的是什么？",
+   "o": [
+    "一个人写，另一个人审批付款",
+    "先做出结果，再检查、改进，循环直到满意",
+    "只查一次就输出"
+   ],
+   "a": 1,
+   "e": "反复调用大模型、穿插工具调用，先产出再核查，用来提高正确率、处理写坏的查询。"
+  },
+  {
+   "q": "遇到高风险或反复失败的情况，原课程说系统可以怎么做？",
+   "o": [
+    "直接给出最可能的答案",
+    "标出不确定，请人指导",
+    "停止所有工作并删除记录"
+   ],
+   "a": 1,
+   "e": "这叫求助人工监督；人给出纠正后，模型在后续过程中吸取这个教训。"
+  },
+  {
+   "q": "下面哪个是原课程说的 Agentic RAG 特别适合的场景？",
+   "o": [
+    "合规检查、法规分析这类正确性优先的任务",
+    "固定格式的问候语",
+    "不需要任何资料的闲聊"
+   ],
+   "a": 0,
+   "e": "原课程列的三类是：正确性优先的环境、复杂数据库交互、长流程。"
+  }
+ ],
+ "a-06": [
+  {
+   "q": "在系统消息框架里，“元系统消息”的作用是什么？",
+   "o": [
+    "直接回答客户问题",
+    "作为模板交给大模型，让它生成智能体的系统消息",
+    "记录审计日志"
+   ],
+   "a": 1,
+   "e": "元系统消息是一个模板，大模型据此把基础提示扩写成结构完整的系统消息，方便批量创建和改进。"
+  },
+  {
+   "q": "攻击者篡改智能体要用的数据，让它给出有偏差的回答，这是哪类威胁？",
+   "o": [
+    "资源和服务过载",
+    "知识库投毒",
+    "连锁错误"
+   ],
+   "a": 1,
+   "e": "知识库投毒不直接攻击智能体，而是攻击它使用的知识库；防范办法是定期核查数据、只让可信的人修改。"
+  },
+  {
+   "q": "原课程给“任务与指令”类攻击的防范办法之一是什么？",
+   "o": [
+    "限制对话轮数",
+    "把智能体放到更大的服务器上",
+    "关掉所有工具"
+   ],
+   "a": 0,
+   "e": "这类攻击通常需要和智能体反复交互，所以除了输入校验和过滤，限制对话轮数也能起作用。"
+  },
+  {
+   "q": "按示例里的风险分级，“给客户发营销邮件”应该怎么处理？",
+   "o": [
+    "自动执行",
+    "自动执行，每天集中复核",
+    "必须等人批准后才执行"
+   ],
+   "a": 2,
+   "e": "发邮件是对外、不可撤销的动作，属于高风险，要在执行前等人批准。"
+  }
+ ],
+ "a-07": [
+  {
+   "q": "原课程说“生成一份三天的旅行行程”这个目标怎么样？",
+   "o": [
+    "已经足够清楚，可以直接执行",
+    "说起来简单，但还需要细化",
+    "太复杂，智能体做不了"
+   ],
+   "a": 1,
+   "e": "目标越清楚，智能体和协作者越能聚焦在正确结果上，比如包含航班、酒店和活动建议的完整行程。"
+  },
+  {
+   "q": "为什么要让规划智能体输出 JSON 这样的结构化计划？",
+   "o": [
+    "看起来更专业",
+    "下游的智能体或服务更容易解析和处理",
+    "可以省掉执行步骤"
+   ],
+   "a": 1,
+   "e": "结构化输出便于下游解析，在多智能体场景里拿到计划就能直接按计划派活。"
+  },
+  {
+   "q": "计划做好后，用户说想要早一点的航班，原课程建议怎么办？",
+   "o": [
+    "忽略，按原计划执行",
+    "全部推倒，从零重新规划",
+    "把之前的计划作为上下文，做局部重新规划"
+   ],
+   "a": 2,
+   "e": "用户反馈可以触发局部重新规划；重新规划时把用户历史和之前的计划一起交给规划智能体。"
+  },
+  {
+   "q": "示例里规划智能体只有一个子任务时，会怎么派发？",
+   "o": [
+    "直接发给对应的专门智能体",
+    "一定要通过群聊管理器",
+    "自己全部完成"
+   ],
+   "a": 0,
+   "e": "单个子任务直接发给专门智能体；多个子任务才通过群聊管理器协调多智能体协作。"
+  }
+ ],
+ "a-08": [
+  {
+   "q": "下面哪个场景最适合用多智能体系统？",
+   "o": [
+    "一个客服机器人用一个知识库和几个工具回答常见问题",
+    "退款流程需要欺诈、支付、合规几个角色，各有工具，结果要协调",
+    "同一个简单分类请求每小时来几千次"
+   ],
+   "a": 1,
+   "e": "这是原课程知识测试的第一题：需要不同专长、各有工具、结果要协调的流程，最适合多智能体。"
+  },
+  {
+   "q": "“夫妻店 vs 连锁加盟店”这个比方说明的是什么？",
+   "o": [
+    "连锁店更便宜",
+    "单个智能体包揽所有环节，多智能体由不同智能体负责不同环节",
+    "夫妻店更容易扩展"
+   ],
+   "a": 1,
+   "e": "单个智能体要掌握所有工具，系统庞大难维护；多智能体分工，更模块化、更容易扩展。"
+  },
+  {
+   "q": "每个智能体代表工作流里的一步，按预定规则把任务交给下一个，这是哪种模式？",
+   "o": [
+    "群聊",
+    "协同过滤",
+    "交接（hand-off）"
+   ],
+   "a": 2,
+   "e": "交接模式适合客服、任务管理、工作流自动化。"
+  },
+  {
+   "q": "在退款场景里，“通知智能体”属于哪一类？",
+   "o": [
+    "通用智能体，其他业务流程也能用",
+    "退款专用智能体",
+    "只在退款失败时才用"
+   ],
+   "a": 0,
+   "e": "原课程把运输、反馈、升级、通知、分析、审计等列为通用智能体，可以用在业务的其他地方。"
+  }
+ ],
+ "a-10": [
+  {
+   "q": "“调用一次大模型”“检索一次数据”在可观测性里叫什么？",
+   "o": [
+    "跟踪（Trace）",
+    "跨度（Span）",
+    "指标看板"
+   ],
+   "a": 1,
+   "e": "跟踪是一个完整任务从头到尾；跨度是跟踪里的单个步骤，比如一次模型调用或一次检索。"
+  },
+  {
+   "q": "用户刚得到回答就换个说法再问一遍，属于哪类指标？",
+   "o": [
+    "请求错误",
+    "隐性用户反馈",
+    "延迟"
+   ],
+   "a": 1,
+   "e": "用户没打分，但改写问题、重复提问、点重试这些行为，都是间接的反馈。"
+  },
+  {
+   "q": "原课程说，上线前最起码要做的是哪种评估？",
+   "o": [
+    "离线评估",
+    "在线 A/B 测试",
+    "只看用户打分"
+   ],
+   "a": 0,
+   "e": "原课程说通常先做离线评估，这是部署任何智能体之前的最低要求。"
+  },
+  {
+   "q": "智能体陷入无限循环，原课程建议的办法是？",
+   "o": [
+    "给它更多工具",
+    "设清楚的终止条件，复杂推理换擅长推理的大模型",
+    "缓存所有回复"
+   ],
+   "a": 1,
+   "e": "原课程的常见问题表：要有明确的终止条件，让智能体知道什么时候停下；需要推理和规划的复杂任务，用专门擅长推理的大模型。"
+  }
+ ],
+ "a-11": [
+  {
+   "q": "MCP 和 A2A 最主要的区别是什么？",
+   "o": [
+    "MCP 连工具和数据，A2A 让智能体之间通信协作",
+    "MCP 只能用于网站，A2A 只能用于代码编辑器",
+    "两者完全一样，只是名字不同"
+   ],
+   "a": 0,
+   "e": "MCP 专注于把大模型连到工具；A2A 更进一步，让不同的智能体跨组织、跨技术栈协作。"
+  },
+  {
+   "q": "MCP 服务器提供的“文件内容、数据库记录、日志”属于哪种能力？",
+   "o": [
+    "工具",
+    "资源",
+    "提示"
+   ],
+   "a": 1,
+   "e": "资源是服务器提供的只读数据或文档，客户端按需读取；工具是可调用的动作。"
+  },
+  {
+   "q": "A2A 里，介绍一个智能体的名称、技能、端点地址和版本的是什么？",
+   "o": [
+    "事件队列",
+    "工件",
+    "智能体卡片"
+   ],
+   "a": 2,
+   "e": "智能体卡片就像 MCP 服务器公布工具清单，让其他智能体或人知道何时、为何要找它。"
+  },
+  {
+   "q": "原课程说 NLWeb 网站回复用户时，关键的一点是？",
+   "o": [
+    "回复里的酒店来自网站目录，不会编造",
+    "完全不用大模型",
+    "只能由人来回复"
+   ],
+   "a": 0,
+   "e": "NLWeb 结合向量数据库检索和大模型理解，回复引用的是网站目录里真实存在的内容。"
+  }
+ ],
+ "a-13": [
+  {
+   "q": "没有记忆的 AI 应用，最典型的问题是什么？",
+   "o": [
+    "回答速度太慢",
+    "每次交互都从零开始，忘掉之前的上下文和偏好",
+    "不能调用工具"
+   ],
+   "a": 1,
+   "e": "原课程说，没有记忆的应用是无状态的，每次都从零开始，用户只能反复重复。"
+  },
+  {
+   "q": "在 Microsoft Agent Framework 的示例里，用 agent.create_session() 创建的会话，结束后会怎样？",
+   "o": [
+    "自动存进数据库，永久保留",
+    "上下文不再保留，要跨会话就得用长期记忆",
+    "自动转成知识图谱"
+   ],
+   "a": 1,
+   "e": "会话是框架内置的短期记忆，会话结束或程序重启就没了；跨会话的信息要放进数据库、向量索引等持久存储。"
+  },
+  {
+   "q": "“上次某航班没票订失败，下次直接换方案”，靠的是哪种记忆？",
+   "o": [
+    "实体记忆",
+    "角色记忆",
+    "工作流/情景记忆"
+   ],
+   "a": 2,
+   "e": "情景记忆记下复杂任务里走过的步骤，包括成功和失败，下次可以借鉴。"
+  },
+  {
+   "q": "原课程说的“知识智能体”主要做什么？",
+   "o": [
+    "替用户直接下单",
+    "旁观对话，识别、提炼并存下有价值的信息，之后补充给主智能体",
+    "把所有对话原样全部保存"
+   ],
+   "a": 1,
+   "e": "知识智能体的四步：识别、提炼、存入知识库、在后续提问时补充相关记忆。"
+  }
+ ],
+ "a-14": [
+  {
+   "q": "“一个经理智能体建立和修改任务清单，协调下属智能体完成”，是 MAF 的哪种编排？",
+   "o": [
+    "顺序编排",
+    "Magnetic 编排",
+    "并发编排"
+   ],
+   "a": 1,
+   "e": "Magnetic 编排由一个经理智能体管理任务清单并协调子智能体。"
+  },
+  {
+   "q": "MAF 工作流里，“酒店没房时才转去推荐其他城市”，用的是哪种边？",
+   "o": [
+    "直接边",
+    "条件边",
+    "扇入边"
+   ],
+   "a": 1,
+   "e": "条件边在满足某个条件后才会被激活。"
+  },
+  {
+   "q": "想给智能体每一次调用工具都记一条日志，应该用什么？",
+   "o": [
+    "函数中间件",
+    "持久消息",
+    "扇出边"
+   ],
+   "a": 0,
+   "e": "函数中间件夹在智能体和它要调用的工具之间，适合做日志等处理。"
+  },
+  {
+   "q": "原课程说 MAF 的“持久”功能指什么？",
+   "o": [
+    "智能体永远不会出错",
+    "线程和工作流可以暂停、恢复、从错误中恢复",
+    "所有数据永久免费保存"
+   ],
+   "a": 1,
+   "e": "持久性让线程和工作流可以暂停、恢复和从错误中恢复，支持更长时间运行的流程。"
+  }
+ ],
+ "a-16": [
+  {
+   "q": "原课程认为，从原型走到生产，主要变的是什么？",
+   "o": [
+    "换一个更大的模型",
+    "模型外围的运营骨架：托管、身份、状态、出错处理、成本、质量、信任",
+    "把提示词写得更长"
+   ],
+   "a": 1,
+   "e": "原型和生产用的是同一个推理循环，模型大约只占两成，其余是包在外面的运营骨架。"
+  },
+  {
+   "q": "为什么可扩展的智能体不能把用户状态存在自己的程序内存里？",
+   "o": [
+    "内存太贵",
+    "这样任何一台实例都能处理任何请求，加机器就能扩展，重启也不丢",
+    "因为模型不支持"
+   ],
+   "a": 1,
+   "e": "把对话状态存到外部的对话存储或记忆服务，才能横向扩展，不需要把用户绑在某台机器上。"
+  },
+  {
+   "q": "新版本的智能体在离线评估里没达到门槛，按原课程的生命周期应该怎么办？",
+   "o": [
+    "先上线，再看用户反馈",
+    "不发布，回去改好后重新评估",
+    "换成最大的模型直接上线"
+   ],
+   "a": 1,
+   "e": "离线评估是关卡，不是事后补的：达不到门槛就不许发布。"
+  },
+  {
+   "q": "在生产环境里接入 MCP 服务器，原课程建议怎么对待它？",
+   "o": [
+    "当作不可信的边界：固定版本、限定身份、校验输出、不暴露密钥",
+    "它是标准协议，直接信任就行",
+    "把所有密钥交给它，方便调用"
+   ],
+   "a": 0,
+   "e": "MCP 服务器是外部依赖，它的输出会进入智能体的推理，所以要像对待第三方依赖一样管住它。"
+  }
  ]
 };
   var CARDS = [
+ [
+  "fork / clone",
+  "在你的 GitHub 账号下生成副本 / 把仓库下载到电脑",
+  "a-00"
+ ],
+ [
+  "浅克隆 / 稀疏克隆",
+  "只下最新一次提交 / 只下选定的文件夹",
+  "a-00"
+ ],
+ [
+  "Microsoft Foundry 项目",
+  "运行示例需要的云端项目，里面部署一个模型",
+  "a-00"
+ ],
+ [
+  "az login",
+  "用 Azure CLI 登录，大多数笔记本靠它认证，不用密钥",
+  "a-00"
+ ],
+ [
+  ".env 文件",
+  "存项目端点和模型部署名称的本地配置文件",
+  "a-00"
+ ],
  [
   "AI 智能体",
   "让大模型借助工具和知识去“做事”的系统",
@@ -495,6 +2633,271 @@ claude</pre>
   "智能体框架",
   "现成的模板和基础设施：接工具、调试、多智能体协作",
   "a-01"
+ ],
+ [
+  "AI 智能体框架",
+  "提供现成组件和工具，简化智能体的创建、部署和管理",
+  "a-02"
+ ],
+ [
+  "Microsoft Agent Framework",
+  "构建智能体的 SDK：智能体、工具、多智能体协调、Azure 身份",
+  "a-02"
+ ],
+ [
+  "Foundry Agent Service",
+  "Foundry 里的智能体平台和部署服务，面向企业应用",
+  "a-02"
+ ],
+ [
+  "线程 / Session",
+  "保存一次对话的上下文，让智能体记得前面说过的话",
+  "a-02"
+ ],
+ [
+  "工具",
+  "智能体可以执行的代码：简单函数或第三方服务接口",
+  "a-04"
+ ],
+ [
+  "函数调用",
+  "模型返回函数名和参数，代码执行后把结果交回模型",
+  "a-04"
+ ],
+ [
+  "工具说明（schema）",
+  "函数名、用途、参数、输出，模型靠它选工具",
+  "a-04"
+ ],
+ [
+  "approval_mode",
+  "工具是否每次都要人批准；有副作用的用 always_require",
+  "a-04"
+ ],
+ [
+  "只读权限",
+  "让智能体只能查数据、不能改，防注入和误删",
+  "a-04"
+ ],
+ [
+  "Agentic RAG",
+  "大模型边查资料边自己规划下一步，循环到满意为止",
+  "a-05"
+ ],
+ [
+  "maker-checker",
+  "先做出来，再检查改进的迭代方式",
+  "a-05"
+ ],
+ [
+  "掌控推理过程",
+  "查什么、何时查、何时停，由模型决定而非人写死",
+  "a-05"
+ ],
+ [
+  "自我纠正",
+  "重新查询、用诊断工具、求助人工",
+  "a-05"
+ ],
+ [
+  "自主性的边界",
+  "只能用开发者给的工具、数据和规则",
+  "a-05"
+ ],
+ [
+  "安全",
+  "智能体按设计去做事",
+  "a-06"
+ ],
+ [
+  "元系统消息",
+  "交给大模型的模板，用来生成各个智能体的系统消息",
+  "a-06"
+ ],
+ [
+  "知识库投毒",
+  "篡改智能体要用的数据，让它给出错误回答",
+  "a-06"
+ ],
+ [
+  "人在回路中",
+  "运行中让人能批准或终止流程",
+  "a-06"
+ ],
+ [
+  "风险分级",
+  "低风险自动、中风险复核、高风险等人批准",
+  "a-06"
+ ],
+ [
+  "任务拆解",
+  "把大任务拆成各有目标的小任务，交给专门的智能体或流程",
+  "a-07"
+ ],
+ [
+  "结构化输出",
+  "让模型按固定格式（如 JSON）输出计划，方便下游解析执行",
+  "a-07"
+ ],
+ [
+  "智能体注册表",
+  "列出可用智能体及其工具，规划智能体据此派活",
+  "a-07"
+ ],
+ [
+  "迭代规划",
+  "根据子任务结果或用户反馈，带着旧计划局部重新规划",
+  "a-07"
+ ],
+ [
+  "多智能体模式",
+  "多个智能体一起工作，达成一个共同目标",
+  "a-08"
+ ],
+ [
+  "专业化 / 可扩展 / 容错",
+  "多智能体相比单个智能体的三个好处",
+  "a-08"
+ ],
+ [
+  "群聊 / 交接 / 协同过滤",
+  "三种具体模式：互相发消息 / 按规则接力 / 多专家合作推荐",
+  "a-08"
+ ],
+ [
+  "交互的可见性",
+  "用日志、可视化、性能指标看清智能体之间在做什么",
+  "a-08"
+ ],
+ [
+  "人在回路",
+  "提前定好什么时候要请人介入，比如预订前请用户确认",
+  "a-08"
+ ],
+ [
+  "跟踪 / 跨度",
+  "一个完整任务 / 任务里的单个步骤",
+  "a-10"
+ ],
+ [
+  "可观测性",
+  "让智能体从“黑盒子”变成“玻璃盒子”：能看见它每一步做了什么",
+  "a-10"
+ ],
+ [
+  "离线评估",
+  "用已知答案的测试集在受控环境里评估，可重复，上线前必做",
+  "a-10"
+ ],
+ [
+  "在线评估",
+  "在真实使用中持续监控，能抓到实验室想不到的情况",
+  "a-10"
+ ],
+ [
+  "OpenTelemetry",
+  "原课程说的大模型可观测性行业标准，MAF 原生集成",
+  "a-10"
+ ],
+ [
+  "MCP",
+  "开放标准，用统一方式给大模型提供工具和上下文，像万能转接头",
+  "a-11"
+ ],
+ [
+  "主机 / 客户端 / 服务器",
+  "发起连接的应用 / 主机里一对一连服务器的组件 / 提供能力的轻量程序",
+  "a-11"
+ ],
+ [
+  "A2A",
+  "智能体间协议：不同组织、技术栈的智能体通信协作",
+  "a-11"
+ ],
+ [
+  "智能体卡片",
+  "A2A 智能体的自我介绍：名称、任务、技能、端点、版本和能力",
+  "a-11"
+ ],
+ [
+  "NLWeb",
+  "给网站加自然语言界面，每个部署同时也是 MCP 服务器",
+  "a-11"
+ ],
+ [
+  "短期记忆",
+  "只在一次会话里有效；框架里对应 AgentSession",
+  "a-13"
+ ],
+ [
+  "长期记忆",
+  "跨会话保留的偏好和事实，放在数据库或向量索引里",
+  "a-13"
+ ],
+ [
+  "情景记忆",
+  "记住任务里走过的步骤，包括成功和失败",
+  "a-13"
+ ],
+ [
+  "Mem0",
+  "持久记忆层：先抽取新记忆，再决定新增、修改或删除",
+  "a-13"
+ ],
+ [
+  "知识智能体",
+  "旁观对话，把值得记的信息存下来，下次补充给主智能体",
+  "a-13"
+ ],
+ [
+  "Microsoft Agent Framework",
+  "微软构建 AI 智能体的统一框架，支持多种编排方式和生产功能",
+  "a-14"
+ ],
+ [
+  "执行器",
+  "工作流里的一步：收消息、做任务、出消息；可以是智能体或自定义逻辑",
+  "a-14"
+ ],
+ [
+  "边",
+  "执行器之间的连线：直接、条件、分支、扇出、扇入",
+  "a-14"
+ ],
+ [
+  "中间件",
+  "插在智能体和工具（函数中间件）或大模型（聊天中间件）之间的一层",
+  "a-14"
+ ],
+ [
+  "检查点",
+  "保存工作流状态，长流程可以暂停后续跑",
+  "a-14"
+ ],
+ [
+  "运营骨架",
+  "模型之外的托管、身份、状态、容错、成本、质量、信任，约占八成",
+  "a-16"
+ ],
+ [
+  "托管智能体",
+  "注册在 Foundry 里，由平台跑推理循环、存对话、管权限",
+  "a-16"
+ ],
+ [
+  "评估关卡",
+  "离线测试集通过率达到门槛才允许发布新版本",
+  "a-16"
+ ],
+ [
+  "模型路由",
+  "简单请求给小模型，复杂请求给大模型，控制延迟和成本",
+  "a-16"
+ ],
+ [
+  "冒烟测试",
+  "每次部署后快速检查智能体是否真的在回应",
+  "a-16"
  ]
 ];
 
